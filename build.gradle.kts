@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "org.openrewrite.recipe"
-description = "liberty Migration"
+description = "Open Liberty Migration"
 
 val rewriteVersion = rewriteRecipe.rewriteVersion.get()
 dependencies {
