@@ -1,0 +1,131 @@
+#
+# Copyright 2023 the original author or authors.
+# <p>
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# <p>
+# https://www.apache.org/licenses/LICENSE-2.0
+# <p>
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+########################################################################################################################
+# WebSphere traditional to Liberty
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.liberty
+displayName: Migrate from WebSphere traditional to Liberty
+description: >
+  Use this category of rules to identify code changes needed when migrating 
+  from WebSphere Application Server traditional to Liberty.
+recipeList:
+  - org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
+  - org.openrewrite.java.liberty.ServerName
+  - org.openrewrite.xml.liberty.AppDDNamespaceRule
+  - org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
+  - org.openrewrite.xml.liberty.EJBDDNamespaceRule
+  - org.openrewrite.xml.liberty.PersistenceXmlLocationRule
+  - org.openrewrite.xml.liberty.WebDDNamespaceRule
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
+recipeList:
+  - org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.liberty.ServerName
+recipeList:
+  - org.openrewrite.java.liberty.ChangeMethodInvocation:
+      methodPattern: com.ibm.websphere.runtime.ServerName getDisplayName()
+      newMethodPattern: java.lang.System getProperty("wlp.server.name")
+      performStaticCall: true
+  - org.openrewrite.java.liberty.ChangeMethodInvocation:
+      methodPattern: com.ibm.websphere.runtime.ServerName getFullName()
+      newMethodPattern: java.lang.System getProperty("wlp.server.name")
+      performStaticCall: true
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.xml.liberty.AppDDNamespaceRule
+recipeList:
+  - org.openrewrite.xml.liberty.ChangeNamespaceValue:
+      elementName: application
+      attributeName: xmlns
+      newValue: http://java.sun.com/xml/ns/j2ee
+      versionMatcher: 1.4
+  - org.openrewrite.xml.liberty.ChangeNamespaceValue:
+      elementName: application
+      attributeName: xmlns
+      newValue: http://java.sun.com/xml/ns/javaee
+      versionMatcher: 5,6
+  - org.openrewrite.xml.liberty.ChangeNamespaceValue:
+      elementName: application
+      attributeName: xmlns
+      newValue: http://xmlns.jcp.org/xml/ns/javaee
+      versionMatcher: 7+
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
+recipeList:
+  - org.openrewrite.xml.liberty.ChangeNamespaceValue:
+      elementName: connector
+      attributeName: xmlns
+      newValue: http://java.sun.com/xml/ns/j2ee
+      versionMatcher: 1.5
+  - org.openrewrite.xml.liberty.ChangeNamespaceValue:
+      elementName: connector
+      attributeName: xmlns
+      newValue: http://java.sun.com/xml/ns/javaee
+      versionMatcher: 1.6
+  - org.openrewrite.xml.liberty.ChangeNamespaceValue:
+      elementName: connector
+      attributeName: xmlns
+      newValue: http://xmlns.jcp.org/xml/ns/javaee
+      versionMatcher: 1.7+
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.xml.liberty.EJBDDNamespaceRule
+recipeList:
+  - org.openrewrite.xml.liberty.ChangeNamespaceValue:
+      elementName: ejb-jar
+      attributeName: xmlns
+      newValue: http://java.sun.com/xml/ns/j2ee
+      versionMatcher: 2.1
+  - org.openrewrite.xml.liberty.ChangeNamespaceValue:
+      elementName: ejb-jar
+      attributeName: xmlns
+      newValue: http://java.sun.com/xml/ns/javaee
+      versionMatcher: 3.0,3.1
+  - org.openrewrite.xml.liberty.ChangeNamespaceValue:
+      elementName: ejb-jar
+      attributeName: xmlns
+      newValue: http://xmlns.jcp.org/xml/ns/javaee
+      versionMatcher: 3.2+
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.xml.liberty.PersistenceXmlLocationRule
+recipeList:
+  - org.openrewrite.xml.liberty.PersistenceXmlLocationRule
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.xml.liberty.WebDDNamespaceRule
+recipeList:
+  - org.openrewrite.xml.liberty.ChangeNamespaceValue:
+      elementName: web-app
+      attributeName: xmlns
+      newValue: http://java.sun.com/xml/ns/j2ee
+      versionMatcher: 2.4
+  - org.openrewrite.xml.liberty.ChangeNamespaceValue:
+      elementName: web-app
+      attributeName: xmlns
+      newValue: http://java.sun.com/xml/ns/java
+      versionMatcher: 2.5,3.0
+  - org.openrewrite.xml.liberty.ChangeNamespaceValue:
+      elementName: web-app
+      attributeName: xmlns
+      newValue: http://xmlns.jcp.org/xml/ns/javaee
+      versionMatcher: 3.1+

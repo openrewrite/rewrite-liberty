@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "org.openrewrite.recipe"
-description = "Open Liberty Migration"
+description = "Recipes to migrate to the IBM WebSphere Liberty. Automatically."
 
 val rewriteVersion = rewriteRecipe.rewriteVersion.get()
 dependencies {
@@ -12,6 +12,9 @@ dependencies {
     implementation("org.openrewrite:rewrite-java")
     implementation("org.openrewrite.recipe:rewrite-java-dependencies")
     implementation("org.openrewrite.recipe:rewrite-migrate-java")
+    implementation("org.openrewrite.recipe:rewrite-static-analysis")
+    //implementation("org.openrewrite.recipe:rewrite-xml")
+    implementation("org.openrewrite.recipe:rewrite-static-analysis")
 
     testImplementation("org.openrewrite:rewrite-java-17")
     testImplementation("org.openrewrite:rewrite-test")

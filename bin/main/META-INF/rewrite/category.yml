@@ -15,3 +15,7 @@
 #
 
 ---
+type: specs.openrewrite.org/v1beta/category
+name: Open Liberty
+packageName: org.openrewrite.liberty
+description: Recipes to perform [Open Liberty](https://openliberty.io/) migration tasks.
