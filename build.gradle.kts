@@ -13,7 +13,7 @@ dependencies {
     implementation("org.openrewrite.recipe:rewrite-java-dependencies")
     implementation("org.openrewrite.recipe:rewrite-migrate-java")
     implementation("org.openrewrite.recipe:rewrite-static-analysis")
-    //implementation("org.openrewrite.recipe:rewrite-xml")
+    implementation("org.openrewrite.recipe:rewrite-xml")
     implementation("org.openrewrite.recipe:rewrite-static-analysis")
 
     testImplementation("org.openrewrite:rewrite-java-17")
