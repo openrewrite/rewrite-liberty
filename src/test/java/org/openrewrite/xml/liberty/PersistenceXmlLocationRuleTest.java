@@ -43,6 +43,7 @@ class PersistenceXmlLocationRuleTest implements RewriteTest {
     void movePersistenceXMLFileTest() {
         rewriteRun(
           text(
+            //language=xml
             """
               <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
                 <persistence-unit name="ejb">

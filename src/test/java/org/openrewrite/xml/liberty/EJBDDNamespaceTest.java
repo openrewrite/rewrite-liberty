@@ -39,8 +39,7 @@ class EJBDDNamespaceTest implements RewriteTest {
           //language=xml
           xml(
             """
-              <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_2_1.xsd">
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_2_1.xsd">
                   <display-name>
                   EchoEJBProject</display-name>
                   <enterprise-beans>
@@ -57,8 +56,7 @@ class EJBDDNamespaceTest implements RewriteTest {
               </ejb-jar>
               """,
             """
-              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_2_1.xsd">
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_2_1.xsd">
                   <display-name>
                   EchoEJBProject</display-name>
                   <enterprise-beans>
@@ -84,8 +82,7 @@ class EJBDDNamespaceTest implements RewriteTest {
           //language=xml
           xml(
             """
-              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd">
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd">
                   <enterprise-beans>
                       <session>
                       <ejb-name>TestBean</ejb-name>
@@ -112,8 +109,7 @@ class EJBDDNamespaceTest implements RewriteTest {
               </ejb-jar>
               """,
             """
-              <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd">
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd">
                   <enterprise-beans>
                       <session>
                       <ejb-name>TestBean</ejb-name>
@@ -149,8 +145,7 @@ class EJBDDNamespaceTest implements RewriteTest {
           //language=xml
           xml(
             """
-              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  version="3.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
                   <enterprise-beans>
                       <session>
                       <ejb-name>TestBean</ejb-name>
@@ -177,8 +172,7 @@ class EJBDDNamespaceTest implements RewriteTest {
               </ejb-jar>
               """,
             """
-              <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  version="3.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="3.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
                   <enterprise-beans>
                       <session>
                       <ejb-name>TestBean</ejb-name>
@@ -214,10 +208,7 @@ class EJBDDNamespaceTest implements RewriteTest {
           //language=xml
           xml(
             """
-              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-                                      http://java.sun.com/xml/ns/javaee/ejb-jar_3_2.xsd"
-                  version="3.2">
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_2.xsd" version="3.2">
                   <description>Enterprise JavaBeans 3.1</description>
                   <display-name>Enterprise JavaBeans 3.1</display-name>
                   <enterprise-beans>
@@ -239,10 +230,7 @@ class EJBDDNamespaceTest implements RewriteTest {
               </ejb-jar>
               """,
             """
-              <ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-                                      http://java.sun.com/xml/ns/javaee/ejb-jar_3_2.xsd"
-                  version="3.2">
+              <ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_2.xsd" version="3.2">
                   <description>Enterprise JavaBeans 3.1</description>
                   <display-name>Enterprise JavaBeans 3.1</display-name>
                   <enterprise-beans>
@@ -273,8 +261,7 @@ class EJBDDNamespaceTest implements RewriteTest {
           //language=xml
           xml(
             """
-              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee"
-                                                      version="3.3">
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" version="3.3">
                   <description>Enterprise JavaBeans 3.1</description>
                   <display-name>Enterprise JavaBeans 3.1</display-name>
                   <enterprise-beans>
@@ -296,10 +283,7 @@ class EJBDDNamespaceTest implements RewriteTest {
               </ejb-jar>
               """,
             """
-              <ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-                                      http://java.sun.com/xml/ns/javaee/ejb-jar_3_3.xsd"
-                  version="3.3">
+              <ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_3.xsd" version="3.3">
                   <description>Enterprise JavaBeans 3.1</description>
                   <display-name>Enterprise JavaBeans 3.1</display-name>
                   <enterprise-beans>

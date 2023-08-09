@@ -39,18 +39,12 @@ class WebDDNamespaceTest implements RewriteTest {
           //language=xml
           xml(
             """
-              <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.4"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
-                  id="WebApp_ID">
+              <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" id="WebApp_ID">
                   <display-name>testWebDDNamespace</display-name>
               </web-app>
               """,
             """
-              <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="2.4"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
-                  id="WebApp_ID">
+              <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="2.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" id="WebApp_ID">
                   <display-name>testWebDDNamespace</display-name>
               </web-app>
               """
@@ -64,18 +58,12 @@ class WebDDNamespaceTest implements RewriteTest {
           //language=xml
           xml(
             """
-              <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="2.5"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-                  id="WebApp_ID">
+              <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="2.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID">
                   <display-name>testWebDDNamespace</display-name>
               </web-app>
               """,
             """
-              <web-app xmlns="http://java.sun.com/xml/ns/java" version="2.5"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-                  id="WebApp_ID">
+              <web-app xmlns="http://java.sun.com/xml/ns/java" version="2.5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID">
                   <display-name>testWebDDNamespace</display-name>
               </web-app>
               """
@@ -90,18 +78,12 @@ class WebDDNamespaceTest implements RewriteTest {
           //language=xml
           xml(
             """
-              <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="3.0"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_0.xsd"
-                  id="WebApp_ID">
+              <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_0.xsd" id="WebApp_ID">
                   <display-name>testWebDDNamespace</display-name>
               </web-app>
               """,
             """
-              <web-app xmlns="http://java.sun.com/xml/ns/java" version="3.0"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_0.xsd"
-                  id="WebApp_ID">
+              <web-app xmlns="http://java.sun.com/xml/ns/java" version="3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_0.xsd" id="WebApp_ID">
                   <display-name>testWebDDNamespace</display-name>
               </web-app>
               """
@@ -115,18 +97,12 @@ class WebDDNamespaceTest implements RewriteTest {
           //language=xml
           xml(
             """
-              <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="3.1"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_1.xsd"
-                  id="WebApp_ID">
+              <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_1.xsd" id="WebApp_ID">
                   <display-name>testWebDDNamespace</display-name>
               </web-app>
               """,
             """
-              <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="3.1"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_1.xsd"
-                  id="WebApp_ID">
+              <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="3.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_1.xsd" id="WebApp_ID">
                   <display-name>testWebDDNamespace</display-name>
               </web-app>
               """
@@ -140,17 +116,12 @@ class WebDDNamespaceTest implements RewriteTest {
           //language=xml
           xml(
             """
-               <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="3.2"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_2.xsd"
-                   id="WebApp_ID">
+               <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_2.xsd" id="WebApp_ID">
                    <display-name>testWebDDNamespace</display-name>
                </web-app>
               """,
             """
-              <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="3.2"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                            id="WebApp_ID">
+              <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="WebApp_ID">
                   <display-name>testWebDDNamespace</display-name>
               </web-app>
               """

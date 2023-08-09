@@ -39,8 +39,7 @@ import static org.openrewrite.xml.Assertions.xml;
           //language=xml
           xml(
             """
-              <connector xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                                              version="1.5">
+              <connector xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.5">
                   <display-name>Generic JCA</display-name>
                   <vendor-name>adam-bien.com</vendor-name>
                   <eis-type>Generic JCA</eis-type>
@@ -65,10 +64,7 @@ import static org.openrewrite.xml.Assertions.xml;
               </connector>
               """,
             """
-              <connector xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-                      http://java.sun.com/xml/ns/j2ee/connector_1_5.xsd"
-                  version="1.5">
+              <connector xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/connector_1_5.xsd" version="1.5">
                   <display-name>Generic JCA</display-name>
                   <vendor-name>adam-bien.com</vendor-name>
                   <eis-type>Generic JCA</eis-type>
@@ -102,10 +98,7 @@ import static org.openrewrite.xml.Assertions.xml;
           //language=xml
           xml(
             """
-              <connector xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-                      http://java.sun.com/xml/ns/j2ee/connector_1_6.xsd"
-                  version="1.6">
+              <connector xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/connector_1_6.xsd" version="1.6">
                   <display-name>Generic JCA</display-name>
                   <vendor-name>adam-bien.com</vendor-name>
                   <eis-type>Generic JCA</eis-type>
@@ -130,10 +123,7 @@ import static org.openrewrite.xml.Assertions.xml;
               </connector>
               """,
             """
-              <connector xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-                      http://java.sun.com/xml/ns/j2ee/connector_1_6.xsd"
-                  version="1.6">
+              <connector xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/connector_1_6.xsd" version="1.6">
                   <display-name>Generic JCA</display-name>
                   <vendor-name>adam-bien.com</vendor-name>
                   <eis-type>Generic JCA</eis-type>
@@ -167,10 +157,7 @@ import static org.openrewrite.xml.Assertions.xml;
           //language=xml
           xml(
             """
-              <connector xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-                      http://java.sun.com/xml/ns/j2ee/connector_1_7.xsd"
-                  version="1.7">
+              <connector xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/connector_1_7.xsd" version="1.7">
                   <display-name>Generic JCA</display-name>
                   <vendor-name>adam-bien.com</vendor-name>
                   <eis-type>Generic JCA</eis-type>
@@ -195,10 +182,7 @@ import static org.openrewrite.xml.Assertions.xml;
               </connector>
               """,
             """
-              <connector xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-                      http://java.sun.com/xml/ns/j2ee/connector_1_7.xsd"
-                  version="1.7">
+              <connector xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/connector_1_7.xsd" version="1.7">
                   <display-name>Generic JCA</display-name>
                   <vendor-name>adam-bien.com</vendor-name>
                   <eis-type>Generic JCA</eis-type>
