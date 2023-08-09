@@ -63,8 +63,8 @@ public class ChangeMethodInvocation extends Recipe {
     Boolean performStaticCall;
 
     @JsonCreator
-    public ChangeMethodInvocation(@NonNull @JsonProperty("methodPattern") String methodPattern, 
-    @NonNull @JsonProperty("newMethodPattern") String newMethodPattern, @Nullable @JsonProperty("performStaticCall") Boolean performStaticCall) {
+    public ChangeMethodInvocation(@NonNull @JsonProperty("methodPattern") String methodPattern,
+                                  @NonNull @JsonProperty("newMethodPattern") String newMethodPattern, @Nullable @JsonProperty("performStaticCall") Boolean performStaticCall) {
         this.methodPattern = methodPattern;
         this.newMethodPattern = newMethodPattern;
         this.performStaticCall = performStaticCall;
@@ -95,7 +95,7 @@ public class ChangeMethodInvocation extends Recipe {
         private final MethodMatcher methodMatcher;
         private MethodMatcher methodReplacmentMatcher;
         private String oldMethodType;
-        
+
         private String newMethodType;
         private String newMethodOwnerName;
         private String newMethodName;
@@ -109,19 +109,19 @@ public class ChangeMethodInvocation extends Recipe {
 
             if (newMethodPattern != null) {
                 Matcher m = methodPatternMatcher.matcher(newMethodPattern);
-                if(m.find()) {
+                if (m.find()) {
                     this.newMethodType = m.group(1);
-                    if(this.newMethodType != null) {
+                    if (this.newMethodType != null) {
                         String[] parts = this.newMethodType.split("\\.");
-                        this.newMethodOwnerName = parts[parts.length-1];
+                        this.newMethodOwnerName = parts[parts.length - 1];
                     }
 
                     this.newMethodName = m.group(2);
                     this.newMethodsArgsStr = m.group(3);
-                    if(this.newMethodsArgsStr != null) {
+                    if (this.newMethodsArgsStr != null) {
                         StringBuilder newArgs = new StringBuilder();
                         int argSize = newMethodsArgsStr.split(",").length;
-                        for(int i=1; i <= argSize; i++) {
+                        for (int i = 1; i <= argSize; i++) {
                             newArgs.append("*");
                             if (i < argSize) {
                                 newArgs.append(",");
@@ -142,11 +142,11 @@ public class ChangeMethodInvocation extends Recipe {
 
             if (methodReplacmentMatcher != null && methodMatcher.matches(method) && !methodReplacmentMatcher.matches(method)) {
                 if (performStaticCall) {
-                    String temp = newMethodType+"."+newMethodName+"("+newMethodsArgsStr+");";
+                    String temp = newMethodType + "." + newMethodName + "(" + newMethodsArgsStr + ");";
                     JavaTemplate addArgTemplate = JavaTemplate.builder(temp).build();
                     J.MethodInvocation qualifiedInvocation = addArgTemplate.apply(getCursor(), m.getCoordinates().replace());
 
-                    temp = newMethodOwnerName+"."+newMethodName+"("+newMethodsArgsStr+");";
+                    temp = newMethodOwnerName + "." + newMethodName + "(" + newMethodsArgsStr + ");";
                     addArgTemplate = JavaTemplate.builder(temp).build();
                     J.MethodInvocation simpleInvocation = addArgTemplate.apply(getCursor(), m.getCoordinates().replace());
 
@@ -164,21 +164,21 @@ public class ChangeMethodInvocation extends Recipe {
                         String previousMethodType = declaringType.getFullyQualifiedName();
                         declaringType = declaringType.withFullyQualifiedName(newMethodType);
                         type = type.withDeclaringType(declaringType);
-                        
+
                         //add new import and remove old if no longer used
                         maybeAddImport(newMethodType);
                         maybeRemoveImport(previousMethodType);
                     }
                     m = m.withName(m.getName().withSimpleName(newMethodName))
                             .withMethodType(type);
-                    
-                    if(this.newMethodsArgsStr == null) {
+
+                    if (this.newMethodsArgsStr == null) {
                         // clear arguments
                         List<Expression> methodArgs = Collections.singletonList(new J.Empty(Tree.randomId(), Space.EMPTY, Markers.EMPTY));
                         m = m.withArguments(methodArgs);
                     } else {
                         // override arguments
-                        JavaTemplate addArgTemplate = JavaTemplate.builder( newMethodsArgsStr).build();
+                        JavaTemplate addArgTemplate = JavaTemplate.builder(newMethodsArgsStr).build();
                         m = addArgTemplate.apply(getCursor(), m.getCoordinates().replaceArguments());
                     }
                 }

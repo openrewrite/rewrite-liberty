@@ -67,7 +67,7 @@ public class ChangeStringLiteral extends Recipe {
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
-        return new ChangeStringLiteralVisitor<> (Pattern.compile(valuePattern), newValueTemplate);
+        return new ChangeStringLiteralVisitor<>(Pattern.compile(valuePattern), newValueTemplate);
     }
 
     @Value
@@ -81,7 +81,7 @@ public class ChangeStringLiteral extends Recipe {
             String literalValue = literal.getValue().toString();
             Matcher m = valuePattern.matcher(literalValue);
             if (m.find()) {
-                literalValue =  m.replaceFirst(newValueTemplate);
+                literalValue = m.replaceFirst(newValueTemplate);
                 literal = literal.withValue(literalValue).withValueSource(literalValue);
             }
             return literal;

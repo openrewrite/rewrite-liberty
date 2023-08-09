@@ -43,7 +43,7 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends Recipe {
     public TreeVisitor<?, ExecutionContext> getVisitor() {
         return new MethodInvocationVisitor();
     }
-    
+
     private class MethodInvocationVisitor extends JavaVisitor<ExecutionContext> {
         MethodMatcher methodMatcher = new MethodMatcher("java.util.Hashtable put(java.lang.Object, java.lang.Object)", false);
 
@@ -65,16 +65,16 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends Recipe {
                 return methodCall;
             }
             // Remove the method invocation when the argumentMatcherPredicate is true for all arguments
-            Expression firstArg = methodCall.getArguments().get(0);  
+            Expression firstArg = methodCall.getArguments().get(0);
             if (firstArg instanceof J.Literal) {
                 J.Literal literalExp = (J.Literal) firstArg;
                 Object value = literalExp.getValue();
-                if(!value.equals("java.naming.factory.initial") && !value.equals("java.naming.provider.url")) {
+                if (!value.equals("java.naming.factory.initial") && !value.equals("java.naming.provider.url")) {
                     return methodCall;
                 }
             } else {
                 return methodCall;
-            }     
+            }
 
             if (methodCall.getMethodType() != null) {
                 maybeRemoveImport(methodCall.getMethodType().getDeclaringType());

@@ -27,44 +27,44 @@ public class RemoveWas2LibertyNonPortableJndiLookupTest implements RewriteTest {
     @Test
     void removeInvalidPropertiesTest() {
         rewriteRun(
-            spec -> spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup")),      
-            java(
-                """
-                    package com.ibm;
+                spec -> spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup")),
+                java(
+                        """
+                                    package com.ibm;
 
-                    import java.util.Hashtable;
-                    import javax.naming.InitialContext;
+                                    import java.util.Hashtable;
+                                    import javax.naming.InitialContext;
 
-                    public class ServerNameUsage {
-                        
-                        public void doX() {
-                            Hashtable ht = new Hashtable();
-                            ht.put("java.naming.factory.initial", "com.ibm.websphere.naming.WsnInitialContextFactory");
-                            ht.put("java.naming.provider.url", "corbaloc:iiop:localhost:2809");
+                                    public class ServerNameUsage {
+                                        
+                                        public void doX() {
+                                            Hashtable ht = new Hashtable();
+                                            ht.put("java.naming.factory.initial", "com.ibm.websphere.naming.WsnInitialContextFactory");
+                                            ht.put("java.naming.provider.url", "corbaloc:iiop:localhost:2809");
 
-                            InitialContext ctx = new InitialContext(ht);
-                        }
+                                            InitialContext ctx = new InitialContext(ht);
+                                        }
 
-                    }
-                """,
-                """
-                    package com.ibm;
+                                    }
+                                """,
+                        """
+                                    package com.ibm;
 
-                    import java.util.Hashtable;
-                    import javax.naming.InitialContext;
+                                    import java.util.Hashtable;
+                                    import javax.naming.InitialContext;
 
-                    public class ServerNameUsage {
-                        
-                        public void doX() {
-                            Hashtable ht = new Hashtable();
+                                    public class ServerNameUsage {
+                                        
+                                        public void doX() {
+                                            Hashtable ht = new Hashtable();
 
-                            InitialContext ctx = new InitialContext(ht);
-                        }
+                                            InitialContext ctx = new InitialContext(ht);
+                                        }
 
-                    }
-                """
-            )
+                                    }
+                                """
+                )
         );
     }
-    
+
 }
