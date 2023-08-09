@@ -54,17 +54,14 @@ name: org.openrewrite.xml.liberty.AppDDNamespaceRule
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: application
-      attributeName: xmlns
       newValue: http://java.sun.com/xml/ns/j2ee
       versionMatcher: 1.4
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: application
-      attributeName: xmlns
       newValue: http://java.sun.com/xml/ns/javaee
       versionMatcher: 5,6
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: application
-      attributeName: xmlns
       newValue: http://xmlns.jcp.org/xml/ns/javaee
       versionMatcher: 7+
 ---
@@ -73,17 +70,14 @@ name: org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: connector
-      attributeName: xmlns
       newValue: http://java.sun.com/xml/ns/j2ee
       versionMatcher: 1.5
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: connector
-      attributeName: xmlns
       newValue: http://java.sun.com/xml/ns/javaee
       versionMatcher: 1.6
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: connector
-      attributeName: xmlns
       newValue: http://xmlns.jcp.org/xml/ns/javaee
       versionMatcher: 1.7+
 ---
@@ -92,17 +86,14 @@ name: org.openrewrite.xml.liberty.EJBDDNamespaceRule
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: ejb-jar
-      attributeName: xmlns
       newValue: http://java.sun.com/xml/ns/j2ee
       versionMatcher: 2.1
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: ejb-jar
-      attributeName: xmlns
       newValue: http://java.sun.com/xml/ns/javaee
       versionMatcher: 3.0,3.1
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: ejb-jar
-      attributeName: xmlns
       newValue: http://xmlns.jcp.org/xml/ns/javaee
       versionMatcher: 3.2+
 ---
@@ -116,16 +107,13 @@ name: org.openrewrite.xml.liberty.WebDDNamespaceRule
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: web-app
-      attributeName: xmlns
       newValue: http://java.sun.com/xml/ns/j2ee
       versionMatcher: 2.4
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: web-app
-      attributeName: xmlns
       newValue: http://java.sun.com/xml/ns/java
       versionMatcher: 2.5,3.0
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: web-app
-      attributeName: xmlns
       newValue: http://xmlns.jcp.org/xml/ns/javaee
       versionMatcher: 3.1+
