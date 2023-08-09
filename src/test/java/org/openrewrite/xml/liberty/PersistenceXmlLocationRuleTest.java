@@ -21,17 +21,21 @@ import org.openrewrite.DocumentExample;
 import org.openrewrite.config.Environment;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
+
 import java.nio.file.Paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.openrewrite.java.Assertions.project;
 import static org.openrewrite.test.SourceSpecs.text;
 
-import static org.openrewrite.java.Assertions.*;
-
-public class PersistenceXmlLocationRuleTest implements RewriteTest {
+class PersistenceXmlLocationRuleTest implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
-        spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.xml.liberty.PersistenceXmlLocationRule"));
+        spec.recipe(
+          Environment.builder()
+            .scanRuntimeClasspath("org.openrewrite.java.liberty")
+            .build()
+            .activateRecipes("org.openrewrite.xml.liberty.PersistenceXmlLocationRule"));
     }
 
     @DocumentExample
@@ -44,9 +48,9 @@ public class PersistenceXmlLocationRuleTest implements RewriteTest {
                 <persistence-unit name="ejb">
                 </persistence-unit>
               </persistence>
-            """,
+              """,
             spec -> project(spec, "testEjbWithJpa").path("testEjbWithJpa/notsrc/META-INF/persistence.xml")
-                  .afterRecipe(pt -> assertThat(pt.getSourcePath()).isEqualTo(Paths.get(System.getProperty("user.dir"), "testEjbWithJpa/src/META-INF/persistence.xml")))
+              .afterRecipe(pt -> assertThat(pt.getSourcePath()).isEqualTo(Paths.get(System.getProperty("user.dir"), "testEjbWithJpa/src/META-INF/persistence.xml")))
           )
         );
     }

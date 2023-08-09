@@ -23,297 +23,304 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.xml.Assertions.xml;
 
-public class EJBDDNamespaceTest implements RewriteTest {
+class EJBDDNamespaceTest implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
-        spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.xml.liberty.EJBDDNamespaceRule"));
+        spec.recipe(
+          Environment.builder()
+            .scanRuntimeClasspath("org.openrewrite.java.liberty")
+            .build()
+            .activateRecipes("org.openrewrite.xml.liberty.EJBDDNamespaceRule"));
     }
 
     @Test
     void replaceVersion21Test() {
         rewriteRun(
-            xml(
-                """
-                    <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_2_1.xsd">
-                        <display-name>
-                        EchoEJBProject</display-name>
-                        <enterprise-beans>
-                            <session id="EchoEJB">
-                                <ejb-name>EchoEJB</ejb-name>
-                                <home>test.EchoEJBHome</home>
-                                <remote>test.EchoEJB</remote>
-                                <service-endpoint>test.EchoEJB</service-endpoint>
-                                <ejb-class>test.EchoEJBBean</ejb-class>
-                                <session-type>Stateless</session-type>
-                                <transaction-type>Container</transaction-type>
-                            </session>
-                        </enterprise-beans>
-                    </ejb-jar>
-                """,
-                """
-                    <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_2_1.xsd">
-                        <display-name>
-                        EchoEJBProject</display-name>
-                        <enterprise-beans>
-                            <session id="EchoEJB">
-                                <ejb-name>EchoEJB</ejb-name>
-                                <home>test.EchoEJBHome</home>
-                                <remote>test.EchoEJB</remote>
-                                <service-endpoint>test.EchoEJB</service-endpoint>
-                                <ejb-class>test.EchoEJBBean</ejb-class>
-                                <session-type>Stateless</session-type>
-                                <transaction-type>Container</transaction-type>
-                            </session>
-                        </enterprise-beans>
-                    </ejb-jar>
-                """
-            )
+          //language=xml
+          xml(
+            """
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_2_1.xsd">
+                  <display-name>
+                  EchoEJBProject</display-name>
+                  <enterprise-beans>
+                      <session id="EchoEJB">
+                          <ejb-name>EchoEJB</ejb-name>
+                          <home>test.EchoEJBHome</home>
+                          <remote>test.EchoEJB</remote>
+                          <service-endpoint>test.EchoEJB</service-endpoint>
+                          <ejb-class>test.EchoEJBBean</ejb-class>
+                          <session-type>Stateless</session-type>
+                          <transaction-type>Container</transaction-type>
+                      </session>
+                  </enterprise-beans>
+              </ejb-jar>
+              """,
+            """
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_2_1.xsd">
+                  <display-name>
+                  EchoEJBProject</display-name>
+                  <enterprise-beans>
+                      <session id="EchoEJB">
+                          <ejb-name>EchoEJB</ejb-name>
+                          <home>test.EchoEJBHome</home>
+                          <remote>test.EchoEJB</remote>
+                          <service-endpoint>test.EchoEJB</service-endpoint>
+                          <ejb-class>test.EchoEJBBean</ejb-class>
+                          <session-type>Stateless</session-type>
+                          <transaction-type>Container</transaction-type>
+                      </session>
+                  </enterprise-beans>
+              </ejb-jar>
+              """
+          )
         );
     }
 
     @Test
     void replaceVersion30Test() {
         rewriteRun(
-            xml(
-                """
-                    <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd">
-                        <enterprise-beans>
-                            <session>
-                            <ejb-name>TestBean</ejb-name>
-                            <ejb-ref>
-                                <ejb-ref-name>ejb/fooremote</ejb-ref-name>
-                                <ejb-ref-type>Session</ejb-ref-type>
-                                <remote>test.FooRemoteIF</remote>
-                            </ejb-ref>
-                            </session>
-                        </enterprise-beans>
-                        
-                        <interceptors>
-                            <interceptor>
-                            <interceptor-class>test.Interceptor1</interceptor-class>
-                            </interceptor>
-                        </interceptors>
-                        
-                        <assembly-descriptor>
-                            <interceptor-binding>
-                            <ejb-name>*</ejb-name>
-                            <interceptor-class>test.Interceptor1</interceptor-class>
-                            </interceptor-binding>
-                        </assembly-descriptor>
-                    </ejb-jar>
-                """,
-                """
-                    <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd">
-                        <enterprise-beans>
-                            <session>
-                            <ejb-name>TestBean</ejb-name>
-                            <ejb-ref>
-                                <ejb-ref-name>ejb/fooremote</ejb-ref-name>
-                                <ejb-ref-type>Session</ejb-ref-type>
-                                <remote>test.FooRemoteIF</remote>
-                            </ejb-ref>
-                            </session>
-                        </enterprise-beans>
-                        
-                        <interceptors>
-                            <interceptor>
-                            <interceptor-class>test.Interceptor1</interceptor-class>
-                            </interceptor>
-                        </interceptors>
-                        
-                        <assembly-descriptor>
-                            <interceptor-binding>
-                            <ejb-name>*</ejb-name>
-                            <interceptor-class>test.Interceptor1</interceptor-class>
-                            </interceptor-binding>
-                        </assembly-descriptor>
-                    </ejb-jar>
-                """
-            )
+          //language=xml
+          xml(
+            """
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd">
+                  <enterprise-beans>
+                      <session>
+                      <ejb-name>TestBean</ejb-name>
+                      <ejb-ref>
+                          <ejb-ref-name>ejb/fooremote</ejb-ref-name>
+                          <ejb-ref-type>Session</ejb-ref-type>
+                          <remote>test.FooRemoteIF</remote>
+                      </ejb-ref>
+                      </session>
+                  </enterprise-beans>
+                  
+                  <interceptors>
+                      <interceptor>
+                      <interceptor-class>test.Interceptor1</interceptor-class>
+                      </interceptor>
+                  </interceptors>
+                  
+                  <assembly-descriptor>
+                      <interceptor-binding>
+                      <ejb-name>*</ejb-name>
+                      <interceptor-class>test.Interceptor1</interceptor-class>
+                      </interceptor-binding>
+                  </assembly-descriptor>
+              </ejb-jar>
+              """,
+            """
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  version="3.0" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_0.xsd">
+                  <enterprise-beans>
+                      <session>
+                      <ejb-name>TestBean</ejb-name>
+                      <ejb-ref>
+                          <ejb-ref-name>ejb/fooremote</ejb-ref-name>
+                          <ejb-ref-type>Session</ejb-ref-type>
+                          <remote>test.FooRemoteIF</remote>
+                      </ejb-ref>
+                      </session>
+                  </enterprise-beans>
+                  
+                  <interceptors>
+                      <interceptor>
+                      <interceptor-class>test.Interceptor1</interceptor-class>
+                      </interceptor>
+                  </interceptors>
+                  
+                  <assembly-descriptor>
+                      <interceptor-binding>
+                      <ejb-name>*</ejb-name>
+                      <interceptor-class>test.Interceptor1</interceptor-class>
+                      </interceptor-binding>
+                  </assembly-descriptor>
+              </ejb-jar>
+              """
+          )
         );
     }
 
     @Test
     void replaceVersion31Test() {
         rewriteRun(
-            xml(
-                """
-                    <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        version="3.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
-                        <enterprise-beans>
-                            <session>
-                            <ejb-name>TestBean</ejb-name>
-                            <ejb-ref>
-                                <ejb-ref-name>ejb/fooremote</ejb-ref-name>
-                                <ejb-ref-type>Session</ejb-ref-type>
-                                <remote>test.FooRemoteIF</remote>
-                            </ejb-ref>
-                            </session>
-                        </enterprise-beans>
-                        
-                        <interceptors>
-                            <interceptor>
-                            <interceptor-class>test.Interceptor1</interceptor-class>
-                            </interceptor>
-                        </interceptors>
-                        
-                        <assembly-descriptor>
-                            <interceptor-binding>
-                            <ejb-name>*</ejb-name>
-                            <interceptor-class>test.Interceptor1</interceptor-class>
-                            </interceptor-binding>
-                        </assembly-descriptor>
-                    </ejb-jar>
-                """,
-                """
-                    <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        version="3.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
-                        <enterprise-beans>
-                            <session>
-                            <ejb-name>TestBean</ejb-name>
-                            <ejb-ref>
-                                <ejb-ref-name>ejb/fooremote</ejb-ref-name>
-                                <ejb-ref-type>Session</ejb-ref-type>
-                                <remote>test.FooRemoteIF</remote>
-                            </ejb-ref>
-                            </session>
-                        </enterprise-beans>
-                        
-                        <interceptors>
-                            <interceptor>
-                            <interceptor-class>test.Interceptor1</interceptor-class>
-                            </interceptor>
-                        </interceptors>
-                        
-                        <assembly-descriptor>
-                            <interceptor-binding>
-                            <ejb-name>*</ejb-name>
-                            <interceptor-class>test.Interceptor1</interceptor-class>
-                            </interceptor-binding>
-                        </assembly-descriptor>
-                    </ejb-jar>
-                """
-            )
+          //language=xml
+          xml(
+            """
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  version="3.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
+                  <enterprise-beans>
+                      <session>
+                      <ejb-name>TestBean</ejb-name>
+                      <ejb-ref>
+                          <ejb-ref-name>ejb/fooremote</ejb-ref-name>
+                          <ejb-ref-type>Session</ejb-ref-type>
+                          <remote>test.FooRemoteIF</remote>
+                      </ejb-ref>
+                      </session>
+                  </enterprise-beans>
+                  
+                  <interceptors>
+                      <interceptor>
+                      <interceptor-class>test.Interceptor1</interceptor-class>
+                      </interceptor>
+                  </interceptors>
+                  
+                  <assembly-descriptor>
+                      <interceptor-binding>
+                      <ejb-name>*</ejb-name>
+                      <interceptor-class>test.Interceptor1</interceptor-class>
+                      </interceptor-binding>
+                  </assembly-descriptor>
+              </ejb-jar>
+              """,
+            """
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  version="3.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_1.xsd">
+                  <enterprise-beans>
+                      <session>
+                      <ejb-name>TestBean</ejb-name>
+                      <ejb-ref>
+                          <ejb-ref-name>ejb/fooremote</ejb-ref-name>
+                          <ejb-ref-type>Session</ejb-ref-type>
+                          <remote>test.FooRemoteIF</remote>
+                      </ejb-ref>
+                      </session>
+                  </enterprise-beans>
+                  
+                  <interceptors>
+                      <interceptor>
+                      <interceptor-class>test.Interceptor1</interceptor-class>
+                      </interceptor>
+                  </interceptors>
+                  
+                  <assembly-descriptor>
+                      <interceptor-binding>
+                      <ejb-name>*</ejb-name>
+                      <interceptor-class>test.Interceptor1</interceptor-class>
+                      </interceptor-binding>
+                  </assembly-descriptor>
+              </ejb-jar>
+              """
+          )
         );
     }
 
     @Test
     void replaceVersion32Test() {
         rewriteRun(
-            xml(
-                """
-                    <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-                                            http://java.sun.com/xml/ns/javaee/ejb-jar_3_2.xsd"
-                        version="3.2">
-                        <description>Enterprise JavaBeans 3.1</description>
-                        <display-name>Enterprise JavaBeans 3.1</display-name>
-                        <enterprise-beans>
-                                <session>
-                                        <ejb-name>WorkerBean</ejb-name>
-                                        <business-local>com.sample.ejb3.slsb.simple2.WorkerBusinessLocal</business-local>
-                                        <business-remote>com.sample.ejb3.slsb.simple2.WorkerBusinessRemote</business-remote>
-                                        <ejb-class>com.sample.ejb3.slsb.simple2.WorkerBase</ejb-class>
-                                        <session-type>Stateless</session-type>
-                                        <init-on-startup>true</init-on-startup>
-                                        <transaction-type>Container</transaction-type>
-                                        <env-entry>
-                                                <env-entry-name>FILTER</env-entry-name>
-                                                <env-entry-type>java.lang.Long</env-entry-type>
-                                                <env-entry-value>11011</env-entry-value>
-                                        </env-entry>
-                                </session>              
-                        </enterprise-beans>
-                    </ejb-jar>
-                """,
-                """
-                    <ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-                                            http://java.sun.com/xml/ns/javaee/ejb-jar_3_2.xsd"
-                        version="3.2">
-                        <description>Enterprise JavaBeans 3.1</description>
-                        <display-name>Enterprise JavaBeans 3.1</display-name>
-                        <enterprise-beans>
-                                <session>
-                                        <ejb-name>WorkerBean</ejb-name>
-                                        <business-local>com.sample.ejb3.slsb.simple2.WorkerBusinessLocal</business-local>
-                                        <business-remote>com.sample.ejb3.slsb.simple2.WorkerBusinessRemote</business-remote>
-                                        <ejb-class>com.sample.ejb3.slsb.simple2.WorkerBase</ejb-class>
-                                        <session-type>Stateless</session-type>
-                                        <init-on-startup>true</init-on-startup>
-                                        <transaction-type>Container</transaction-type>
-                                        <env-entry>
-                                                <env-entry-name>FILTER</env-entry-name>
-                                                <env-entry-type>java.lang.Long</env-entry-type>
-                                                <env-entry-value>11011</env-entry-value>
-                                        </env-entry>
-                                </session>              
-                        </enterprise-beans>
-                    </ejb-jar>
-                """
-            )
+          //language=xml
+          xml(
+            """
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                                      http://java.sun.com/xml/ns/javaee/ejb-jar_3_2.xsd"
+                  version="3.2">
+                  <description>Enterprise JavaBeans 3.1</description>
+                  <display-name>Enterprise JavaBeans 3.1</display-name>
+                  <enterprise-beans>
+                          <session>
+                                  <ejb-name>WorkerBean</ejb-name>
+                                  <business-local>com.sample.ejb3.slsb.simple2.WorkerBusinessLocal</business-local>
+                                  <business-remote>com.sample.ejb3.slsb.simple2.WorkerBusinessRemote</business-remote>
+                                  <ejb-class>com.sample.ejb3.slsb.simple2.WorkerBase</ejb-class>
+                                  <session-type>Stateless</session-type>
+                                  <init-on-startup>true</init-on-startup>
+                                  <transaction-type>Container</transaction-type>
+                                  <env-entry>
+                                          <env-entry-name>FILTER</env-entry-name>
+                                          <env-entry-type>java.lang.Long</env-entry-type>
+                                          <env-entry-value>11011</env-entry-value>
+                                  </env-entry>
+                          </session>              
+                  </enterprise-beans>
+              </ejb-jar>
+              """,
+            """
+              <ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                                      http://java.sun.com/xml/ns/javaee/ejb-jar_3_2.xsd"
+                  version="3.2">
+                  <description>Enterprise JavaBeans 3.1</description>
+                  <display-name>Enterprise JavaBeans 3.1</display-name>
+                  <enterprise-beans>
+                          <session>
+                                  <ejb-name>WorkerBean</ejb-name>
+                                  <business-local>com.sample.ejb3.slsb.simple2.WorkerBusinessLocal</business-local>
+                                  <business-remote>com.sample.ejb3.slsb.simple2.WorkerBusinessRemote</business-remote>
+                                  <ejb-class>com.sample.ejb3.slsb.simple2.WorkerBase</ejb-class>
+                                  <session-type>Stateless</session-type>
+                                  <init-on-startup>true</init-on-startup>
+                                  <transaction-type>Container</transaction-type>
+                                  <env-entry>
+                                          <env-entry-name>FILTER</env-entry-name>
+                                          <env-entry-type>java.lang.Long</env-entry-type>
+                                          <env-entry-value>11011</env-entry-value>
+                                  </env-entry>
+                          </session>              
+                  </enterprise-beans>
+              </ejb-jar>
+              """
+          )
         );
     }
 
     @Test
     void replaceVersion33Test() {
         rewriteRun(
-            xml(
-                """
-                    <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-                                            http://java.sun.com/xml/ns/javaee/ejb-jar_3_3.xsd"
-                        version="3.3">
-                        <description>Enterprise JavaBeans 3.1</description>
-                        <display-name>Enterprise JavaBeans 3.1</display-name>
-                        <enterprise-beans>
-                                <session>
-                                        <ejb-name>WorkerBean</ejb-name>
-                                        <business-local>com.sample.ejb3.slsb.simple2.WorkerBusinessLocal</business-local>
-                                        <business-remote>com.sample.ejb3.slsb.simple2.WorkerBusinessRemote</business-remote>
-                                        <ejb-class>com.sample.ejb3.slsb.simple2.WorkerBase</ejb-class>
-                                        <session-type>Stateless</session-type>
-                                        <init-on-startup>true</init-on-startup>
-                                        <transaction-type>Container</transaction-type>
-                                        <env-entry>
-                                                <env-entry-name>FILTER</env-entry-name>
-                                                <env-entry-type>java.lang.Long</env-entry-type>
-                                                <env-entry-value>11011</env-entry-value>
-                                        </env-entry>
-                                </session>              
-                        </enterprise-beans>
-                    </ejb-jar>
-                """,
-                """
-                    <ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
-                                            http://java.sun.com/xml/ns/javaee/ejb-jar_3_3.xsd"
-                        version="3.3">
-                        <description>Enterprise JavaBeans 3.1</description>
-                        <display-name>Enterprise JavaBeans 3.1</display-name>
-                        <enterprise-beans>
-                                <session>
-                                        <ejb-name>WorkerBean</ejb-name>
-                                        <business-local>com.sample.ejb3.slsb.simple2.WorkerBusinessLocal</business-local>
-                                        <business-remote>com.sample.ejb3.slsb.simple2.WorkerBusinessRemote</business-remote>
-                                        <ejb-class>com.sample.ejb3.slsb.simple2.WorkerBase</ejb-class>
-                                        <session-type>Stateless</session-type>
-                                        <init-on-startup>true</init-on-startup>
-                                        <transaction-type>Container</transaction-type>
-                                        <env-entry>
-                                                <env-entry-name>FILTER</env-entry-name>
-                                                <env-entry-type>java.lang.Long</env-entry-type>
-                                                <env-entry-value>11011</env-entry-value>
-                                        </env-entry>
-                                </session>              
-                        </enterprise-beans>
-                    </ejb-jar>
-                """
-            )
+          //language=xml
+          xml(
+            """
+              <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee"
+                                                      version="3.3">
+                  <description>Enterprise JavaBeans 3.1</description>
+                  <display-name>Enterprise JavaBeans 3.1</display-name>
+                  <enterprise-beans>
+                          <session>
+                                  <ejb-name>WorkerBean</ejb-name>
+                                  <business-local>com.sample.ejb3.slsb.simple2.WorkerBusinessLocal</business-local>
+                                  <business-remote>com.sample.ejb3.slsb.simple2.WorkerBusinessRemote</business-remote>
+                                  <ejb-class>com.sample.ejb3.slsb.simple2.WorkerBase</ejb-class>
+                                  <session-type>Stateless</session-type>
+                                  <init-on-startup>true</init-on-startup>
+                                  <transaction-type>Container</transaction-type>
+                                  <env-entry>
+                                          <env-entry-name>FILTER</env-entry-name>
+                                          <env-entry-type>java.lang.Long</env-entry-type>
+                                          <env-entry-value>11011</env-entry-value>
+                                  </env-entry>
+                          </session>              
+                  </enterprise-beans>
+              </ejb-jar>
+              """,
+            """
+              <ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+                                      http://java.sun.com/xml/ns/javaee/ejb-jar_3_3.xsd"
+                  version="3.3">
+                  <description>Enterprise JavaBeans 3.1</description>
+                  <display-name>Enterprise JavaBeans 3.1</display-name>
+                  <enterprise-beans>
+                          <session>
+                                  <ejb-name>WorkerBean</ejb-name>
+                                  <business-local>com.sample.ejb3.slsb.simple2.WorkerBusinessLocal</business-local>
+                                  <business-remote>com.sample.ejb3.slsb.simple2.WorkerBusinessRemote</business-remote>
+                                  <ejb-class>com.sample.ejb3.slsb.simple2.WorkerBase</ejb-class>
+                                  <session-type>Stateless</session-type>
+                                  <init-on-startup>true</init-on-startup>
+                                  <transaction-type>Container</transaction-type>
+                                  <env-entry>
+                                          <env-entry-name>FILTER</env-entry-name>
+                                          <env-entry-type>java.lang.Long</env-entry-type>
+                                          <env-entry-value>11011</env-entry-value>
+                                  </env-entry>
+                          </session>              
+                  </enterprise-beans>
+              </ejb-jar>
+              """
+          )
         );
     }
 }

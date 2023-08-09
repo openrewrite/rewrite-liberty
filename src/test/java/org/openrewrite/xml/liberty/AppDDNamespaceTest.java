@@ -23,269 +23,277 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.xml.Assertions.xml;
 
-public class AppDDNamespaceTest implements RewriteTest {
+class AppDDNamespaceTest implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
-        spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.xml.liberty.AppDDNamespaceRule"));
+        spec.recipe(
+          Environment.builder()
+            .scanRuntimeClasspath("org.openrewrite.java.liberty")
+            .build()
+            .activateRecipes("org.openrewrite.xml.liberty.AppDDNamespaceRule"));
     }
 
     @Test
     void replaceVersion14Test() {
         rewriteRun(
-            xml(
-                """
-                    <application xmlns="http://java.sun.com/xml/ns/javaee"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/application_1_4.xsd"
-                        version="1.4">
-                        <description> DayTrader Stock Trading Performance Benchmark Sample </description>
-                        <display-name>Trade</display-name>
-                        <module>
-                            <java>daytrader-streamer-1.0.jar</java>
-                        </module>
-                        <module>
-                            <java>daytrader-wsappclient-1.0.jar</java>
-                        </module>
-                        <module>
-                            <web>
-                                <web-uri>daytrader-web-1.0.war</web-uri>
-                                <context-root>/daytrader</context-root>
-                            </web>
-                        </module>
-                        <module>
-                            <ejb>daytrader-ejb-1.0.jar</ejb>
-                        </module>
-                    </application>
-                """,
-                """
-                    <application xmlns="http://java.sun.com/xml/ns/j2ee"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/application_1_4.xsd"
-                        version="1.4">
-                        <description> DayTrader Stock Trading Performance Benchmark Sample </description>
-                        <display-name>Trade</display-name>
-                        <module>
-                            <java>daytrader-streamer-1.0.jar</java>
-                        </module>
-                        <module>
-                            <java>daytrader-wsappclient-1.0.jar</java>
-                        </module>
-                        <module>
-                            <web>
-                                <web-uri>daytrader-web-1.0.war</web-uri>
-                                <context-root>/daytrader</context-root>
-                            </web>
-                        </module>
-                        <module>
-                            <ejb>daytrader-ejb-1.0.jar</ejb>
-                        </module>
-                    </application>
-                """
-            )
+          //language=xml
+          xml(
+            """
+              <application xmlns="http://java.sun.com/xml/ns/javaee"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                  version="1.4">
+                  <description> DayTrader Stock Trading Performance Benchmark Sample </description>
+                  <display-name>Trade</display-name>
+                  <module>
+                      <java>daytrader-streamer-1.0.jar</java>
+                  </module>
+                  <module>
+                      <java>daytrader-wsappclient-1.0.jar</java>
+                  </module>
+                  <module>
+                      <web>
+                          <web-uri>daytrader-web-1.0.war</web-uri>
+                          <context-root>/daytrader</context-root>
+                      </web>
+                  </module>
+                  <module>
+                      <ejb>daytrader-ejb-1.0.jar</ejb>
+                  </module>
+              </application>
+              """,
+            """
+              <application xmlns="http://java.sun.com/xml/ns/j2ee"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/application_1_4.xsd"
+                  version="1.4">
+                  <description> DayTrader Stock Trading Performance Benchmark Sample </description>
+                  <display-name>Trade</display-name>
+                  <module>
+                      <java>daytrader-streamer-1.0.jar</java>
+                  </module>
+                  <module>
+                      <java>daytrader-wsappclient-1.0.jar</java>
+                  </module>
+                  <module>
+                      <web>
+                          <web-uri>daytrader-web-1.0.war</web-uri>
+                          <context-root>/daytrader</context-root>
+                      </web>
+                  </module>
+                  <module>
+                      <ejb>daytrader-ejb-1.0.jar</ejb>
+                  </module>
+              </application>
+              """
+          )
         );
     }
 
     @Test
     void replaceVersion5Test() {
         rewriteRun(
-            xml(
-                """
-                    <application xmlns="http://java.sun.com/xml/ns/j2ee"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="5"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd">
+          //language=xml
+          xml(
+            """
+              <application xmlns="http://java.sun.com/xml/ns/j2ee"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="5"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd">
 
-                        <module>
-                            <java>test-client.jar</java>
-                        </module>
+                  <module>
+                      <java>test-client.jar</java>
+                  </module>
 
-                        <module>
-                            <ejb>test-ejb.jar</ejb>
-                        </module>
+                  <module>
+                      <ejb>test-ejb.jar</ejb>
+                  </module>
 
-                        <module>
-                            <web>
-                                <web-uri>test.war</web-uri>
-                                <context-root>test</context-root>
-                            </web>
-                        </module>
+                  <module>
+                      <web>
+                          <web-uri>test.war</web-uri>
+                          <context-root>test</context-root>
+                      </web>
+                  </module>
 
-                        <library-directory>lib</library-directory>
-                    </application>
-                """,
-                """
-                    <application xmlns="http://java.sun.com/xml/ns/javaee"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="5"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd">
+                  <library-directory>lib</library-directory>
+              </application>
+              """,
+            """
+              <application xmlns="http://java.sun.com/xml/ns/javaee"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="5"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_5.xsd">
 
-                        <module>
-                            <java>test-client.jar</java>
-                        </module>
+                  <module>
+                      <java>test-client.jar</java>
+                  </module>
 
-                        <module>
-                            <ejb>test-ejb.jar</ejb>
-                        </module>
+                  <module>
+                      <ejb>test-ejb.jar</ejb>
+                  </module>
 
-                        <module>
-                            <web>
-                                <web-uri>test.war</web-uri>
-                                <context-root>test</context-root>
-                            </web>
-                        </module>
+                  <module>
+                      <web>
+                          <web-uri>test.war</web-uri>
+                          <context-root>test</context-root>
+                      </web>
+                  </module>
 
-                        <library-directory>lib</library-directory>
-                    </application>
-                """
-            )
+                  <library-directory>lib</library-directory>
+              </application>
+              """
+          )
         );
     }
 
     @Test
     void replaceVersion6Test() {
         rewriteRun(
-            xml(
-                """
-                    <application xmlns="http://java.sun.com/xml/ns/j2ee"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="6"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd">
+          //language=xml
+          xml(
+            """
+              <application xmlns="http://java.sun.com/xml/ns/j2ee"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="6"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd">
 
-                        <module>
-                            <java>test-client.jar</java>
-                        </module>
+                  <module>
+                      <java>test-client.jar</java>
+                  </module>
 
-                        <module>
-                            <ejb>test-ejb.jar</ejb>
-                        </module>
+                  <module>
+                      <ejb>test-ejb.jar</ejb>
+                  </module>
 
-                        <module>
-                            <web>
-                                <web-uri>test.war</web-uri>
-                                <context-root>test</context-root>
-                            </web>
-                        </module>
+                  <module>
+                      <web>
+                          <web-uri>test.war</web-uri>
+                          <context-root>test</context-root>
+                      </web>
+                  </module>
 
-                        <library-directory>lib</library-directory>
-                    </application>
-                """,
-                """
-                    <application xmlns="http://java.sun.com/xml/ns/javaee"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="6"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd">
+                  <library-directory>lib</library-directory>
+              </application>
+              """,
+            """
+              <application xmlns="http://java.sun.com/xml/ns/javaee"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="6"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_6.xsd">
 
-                        <module>
-                            <java>test-client.jar</java>
-                        </module>
+                  <module>
+                      <java>test-client.jar</java>
+                  </module>
 
-                        <module>
-                            <ejb>test-ejb.jar</ejb>
-                        </module>
+                  <module>
+                      <ejb>test-ejb.jar</ejb>
+                  </module>
 
-                        <module>
-                            <web>
-                                <web-uri>test.war</web-uri>
-                                <context-root>test</context-root>
-                            </web>
-                        </module>
+                  <module>
+                      <web>
+                          <web-uri>test.war</web-uri>
+                          <context-root>test</context-root>
+                      </web>
+                  </module>
 
-                        <library-directory>lib</library-directory>
-                    </application>
-                """
-            )
+                  <library-directory>lib</library-directory>
+              </application>
+              """
+          )
         );
     }
 
     @Test
     void replaceVersion7Test() {
         rewriteRun(
-            xml(
-                """
-                    <application xmlns="http://java.sun.com/xml/ns/j2ee"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="7"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_7.xsd">
+          //language=xml
+          xml(
+            """
+              <application xmlns="http://java.sun.com/xml/ns/j2ee"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="7"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_7.xsd">
 
-                        <application-name>test-app</application-name>
-                        <initialize-in-order>true</initialize-in-order>
-                        <module>
-                            <web>
-                                <web-uri>test-web.war</web-uri>
-                                <context-root>test</context-root>
-                            </web>
-                        </module>
+                  <application-name>test-app</application-name>
+                  <initialize-in-order>true</initialize-in-order>
+                  <module>
+                      <web>
+                          <web-uri>test-web.war</web-uri>
+                          <context-root>test</context-root>
+                      </web>
+                  </module>
 
-                        <module>
-                            <ejb>test-ejb.jar</ejb>
-                        </module>
-                        <library-directory>lib</library-directory>
-                    </application>
-                """,
-                """
-                    <application xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="7"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_7.xsd">
+                  <module>
+                      <ejb>test-ejb.jar</ejb>
+                  </module>
+                  <library-directory>lib</library-directory>
+              </application>
+              """,
+            """
+              <application xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="7"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_7.xsd">
 
-                        <application-name>test-app</application-name>
-                        <initialize-in-order>true</initialize-in-order>
-                        <module>
-                            <web>
-                                <web-uri>test-web.war</web-uri>
-                                <context-root>test</context-root>
-                            </web>
-                        </module>
+                  <application-name>test-app</application-name>
+                  <initialize-in-order>true</initialize-in-order>
+                  <module>
+                      <web>
+                          <web-uri>test-web.war</web-uri>
+                          <context-root>test</context-root>
+                      </web>
+                  </module>
 
-                        <module>
-                            <ejb>test-ejb.jar</ejb>
-                        </module>
-                        <library-directory>lib</library-directory>
-                    </application>
-                """
-            )
+                  <module>
+                      <ejb>test-ejb.jar</ejb>
+                  </module>
+                  <library-directory>lib</library-directory>
+              </application>
+              """
+          )
         );
     }
 
     @Test
     void replaceVersion8Test() {
         rewriteRun(
-            xml(
-                """
-                    <application xmlns="http://java.sun.com/xml/ns/j2ee"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="8"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_8.xsd">
+          //language=xml
+          xml(
+            """
+              <application xmlns="http://java.sun.com/xml/ns/j2ee"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="8"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_8.xsd">
 
-                        <application-name>test-app</application-name>
-                        <initialize-in-order>true</initialize-in-order>
-                        <module>
-                            <web>
-                                <web-uri>test-web.war</web-uri>
-                                <context-root>test</context-root>
-                            </web>
-                        </module>
+                  <application-name>test-app</application-name>
+                  <initialize-in-order>true</initialize-in-order>
+                  <module>
+                      <web>
+                          <web-uri>test-web.war</web-uri>
+                          <context-root>test</context-root>
+                      </web>
+                  </module>
 
-                        <module>
-                            <ejb>test-ejb.jar</ejb>
-                        </module>
-                        <library-directory>lib</library-directory>
-                    </application>
-                """,
-                """
-                    <application xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="8"
-                        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_8.xsd">
+                  <module>
+                      <ejb>test-ejb.jar</ejb>
+                  </module>
+                  <library-directory>lib</library-directory>
+              </application>
+              """,
+            """
+              <application xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="8"
+                  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/application_8.xsd">
 
-                        <application-name>test-app</application-name>
-                        <initialize-in-order>true</initialize-in-order>
-                        <module>
-                            <web>
-                                <web-uri>test-web.war</web-uri>
-                                <context-root>test</context-root>
-                            </web>
-                        </module>
+                  <application-name>test-app</application-name>
+                  <initialize-in-order>true</initialize-in-order>
+                  <module>
+                      <web>
+                          <web-uri>test-web.war</web-uri>
+                          <context-root>test</context-root>
+                      </web>
+                  </module>
 
-                        <module>
-                            <ejb>test-ejb.jar</ejb>
-                        </module>
-                        <library-directory>lib</library-directory>
-                    </application>
-                """
-            )
+                  <module>
+                      <ejb>test-ejb.jar</ejb>
+                  </module>
+                  <library-directory>lib</library-directory>
+              </application>
+              """
+          )
         );
     }
 }
