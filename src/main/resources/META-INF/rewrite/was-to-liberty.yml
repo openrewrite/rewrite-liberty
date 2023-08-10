@@ -18,14 +18,24 @@
 # WebSphere traditional to Liberty
 ---
 type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.liberty
+displayName: Migrate from WebSphere traditional to Liberty
+description: >
+  Use this category of rules to identify code changes needed when migrating
+  from WebSphere Application Server traditional to Liberty.
+recipeList:
+ - org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
+ - org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
+recipeList:
+  - org.openrewrite.java.liberty.ChangeMethodObjectInvocation
+---
+type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
 recipeList:
   - org.openrewrite.java.liberty.ChangeMethodInvocation:
       methodPattern: com.ibm.websphere.security.WSSecurityHelper getLTPACookieFromSSOToken()
       newMethodPattern: com.ibm.websphere.security.web.WebSecurityHelper getSSOCookieFromSSOToken()
       performStaticCall: true
----
-type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
-recipeList:
-  - org.openrewrite.java.liberty.ChangeMethodObjectInvocation
