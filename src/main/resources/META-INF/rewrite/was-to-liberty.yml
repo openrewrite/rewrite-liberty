@@ -21,16 +21,40 @@ type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty
 displayName: Migrate from WebSphere traditional to Liberty
 description: >
-  Use this category of rules to identify code changes needed when migrating
+  Use this category of rules to identify code changes needed when migrating 
   from WebSphere Application Server traditional to Liberty.
 recipeList:
- - org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
- - org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
+  - org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
+  - org.openrewrite.java.liberty.ServerName
+  - org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
+  - org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
+  - org.openrewrite.xml.liberty.AppDDNamespaceRule
+  - org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
+  - org.openrewrite.xml.liberty.EJBDDNamespaceRule
+  - org.openrewrite.xml.liberty.PersistenceXmlLocationRule
+  - org.openrewrite.xml.liberty.WebDDNamespaceRule
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
+recipeList:
+  - org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.liberty.ServerName
+recipeList:
+  - org.openrewrite.java.liberty.ChangeMethodInvocation:
+      methodPattern: com.ibm.websphere.runtime.ServerName getDisplayName()
+      newMethodPattern: java.lang.System getProperty("wlp.server.name")
+      performStaticCall: true
+  - org.openrewrite.java.liberty.ChangeMethodInvocation:
+      methodPattern: com.ibm.websphere.runtime.ServerName getFullName()
+      newMethodPattern: java.lang.System getProperty("wlp.server.name")
+      performStaticCall: true
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
 recipeList:
-  - org.openrewrite.java.liberty.ChangeMethodObjectInvocation
+  - org.openrewrite.java.liberty.RevokeSSOCookiesToLogout
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
@@ -39,3 +63,84 @@ recipeList:
       methodPattern: com.ibm.websphere.security.WSSecurityHelper getLTPACookieFromSSOToken()
       newMethodPattern: com.ibm.websphere.security.web.WebSecurityHelper getSSOCookieFromSSOToken()
       performStaticCall: true
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.xml.liberty.AppDDNamespaceRule
+recipeList:
+  - org.openrewrite.xml.ChangeNamespaceValue:
+      elementName: application
+      newValue: http://java.sun.com/xml/ns/j2ee
+      versionMatcher: 1.4
+      searchAllNamespaces: false
+  - org.openrewrite.xml.ChangeNamespaceValue:
+      elementName: application
+      newValue: http://java.sun.com/xml/ns/javaee
+      versionMatcher: 5,6
+      searchAllNamespaces: false
+  - org.openrewrite.xml.ChangeNamespaceValue:
+      elementName: application
+      newValue: http://xmlns.jcp.org/xml/ns/javaee
+      versionMatcher: 7+
+      searchAllNamespaces: false
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
+recipeList:
+  - org.openrewrite.xml.ChangeNamespaceValue:
+      elementName: connector
+      newValue: http://java.sun.com/xml/ns/j2ee
+      versionMatcher: 1.5
+      searchAllNamespaces: false
+  - org.openrewrite.xml.ChangeNamespaceValue:
+      elementName: connector
+      newValue: http://java.sun.com/xml/ns/javaee
+      versionMatcher: 1.6
+      searchAllNamespaces: false
+  - org.openrewrite.xml.ChangeNamespaceValue:
+      elementName: connector
+      newValue: http://xmlns.jcp.org/xml/ns/javaee
+      versionMatcher: 1.7+
+      searchAllNamespaces: false
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.xml.liberty.EJBDDNamespaceRule
+recipeList:
+  - org.openrewrite.xml.ChangeNamespaceValue:
+      elementName: ejb-jar
+      newValue: http://java.sun.com/xml/ns/j2ee
+      versionMatcher: 2.1
+      searchAllNamespaces: false
+  - org.openrewrite.xml.ChangeNamespaceValue:
+      elementName: ejb-jar
+      newValue: http://java.sun.com/xml/ns/javaee
+      versionMatcher: 3.0,3.1
+      searchAllNamespaces: false
+  - org.openrewrite.xml.ChangeNamespaceValue:
+      elementName: ejb-jar
+      newValue: http://xmlns.jcp.org/xml/ns/javaee
+      versionMatcher: 3.2+
+      searchAllNamespaces: false
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.xml.liberty.PersistenceXmlLocationRule
+recipeList:
+  - org.openrewrite.xml.liberty.PersistenceXmlLocationRule
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.xml.liberty.WebDDNamespaceRule
+recipeList:
+  - org.openrewrite.xml.ChangeNamespaceValue:
+      elementName: web-app
+      newValue: http://java.sun.com/xml/ns/j2ee
+      versionMatcher: 2.4
+      searchAllNamespaces: false
+  - org.openrewrite.xml.ChangeNamespaceValue:
+      elementName: web-app
+      newValue: http://java.sun.com/xml/ns/java
+      versionMatcher: 2.5,3.0
+      searchAllNamespaces: false
+  - org.openrewrite.xml.ChangeNamespaceValue:
+      elementName: web-app
+      newValue: http://xmlns.jcp.org/xml/ns/javaee
+      versionMatcher: 3.1+
+      searchAllNamespaces: false
