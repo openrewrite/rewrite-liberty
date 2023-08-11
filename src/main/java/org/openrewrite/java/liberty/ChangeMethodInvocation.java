@@ -36,6 +36,8 @@ import org.openrewrite.marker.Markers;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.openrewrite.xml.ChangeNamespaceValue;
+
 /*
     Development in this class is not complete
 */

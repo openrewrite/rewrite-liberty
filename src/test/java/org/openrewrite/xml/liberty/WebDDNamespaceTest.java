@@ -116,7 +116,7 @@ class WebDDNamespaceTest implements RewriteTest {
           //language=xml
           xml(
             """
-               <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_2.xsd" id="WebApp_ID">
+               <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="3.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="WebApp_ID">
                    <display-name>testWebDDNamespace</display-name>
                </web-app>
               """,

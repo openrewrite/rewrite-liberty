@@ -283,7 +283,7 @@ class EJBDDNamespaceTest implements RewriteTest {
               </ejb-jar>
               """,
             """
-              <ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_3_3.xsd" version="3.3">
+              <ejb-jar xmlns="http://xmlns.jcp.org/xml/ns/javaee" version="3.3">
                   <description>Enterprise JavaBeans 3.1</description>
                   <display-name>Enterprise JavaBeans 3.1</display-name>
                   <enterprise-beans>
