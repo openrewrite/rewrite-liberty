@@ -54,15 +54,19 @@ recipeList:
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
 recipeList:
-  - org.openrewrite.java.liberty.RevokeSSOCookiesToLogout
+  - org.openrewrite.java.liberty.ChangeMethodObjectInvocation
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
 recipeList:
-  - org.openrewrite.java.liberty.ChangeMethodInvocation:
+  - org.openrewrite.java.ChangeMethodName:
       methodPattern: com.ibm.websphere.security.WSSecurityHelper getLTPACookieFromSSOToken()
-      newMethodPattern: com.ibm.websphere.security.web.WebSecurityHelper getSSOCookieFromSSOToken()
-      performStaticCall: true
+      newMethodName: getSSOCookieFromSSOToken 
+      ignoreDefinition: true
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.ibm.websphere.security.WSSecurityHelper
+      newFullyQualifiedTypeName: com.ibm.websphere.security.web.WSSecurityHelper
+      ignoreDefinition: true
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.AppDDNamespaceRule

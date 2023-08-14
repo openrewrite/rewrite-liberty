@@ -113,5 +113,4 @@ public class RevokeSSOTest implements RewriteTest {
                 )
         );
     }
-
 }

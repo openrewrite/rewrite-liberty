@@ -98,13 +98,14 @@ public class UnavailableSSOTokenTest implements RewriteTest {
                 """
                     package com.ibm;
 
+                    import com.ibm.websphere.security.web.WSSecurityHelper;
+                    
                     import javax.servlet.http.Cookie;
-                    import com.ibm.websphere.security.web.WebSecurityHelper; 
-
-                    public class Test{               
-
-                        public void doX() {                        
-                            Cookie ltpaCookie = WebSecurityHelper.getSSOCookieFromSSOToken();
+                    
+                    public class Test{
+                    
+                        public void doX() {
+                            Cookie ltpaCookie = WSSecurityHelper.getSSOCookieFromSSOToken();
                         }
                     }
                 """
