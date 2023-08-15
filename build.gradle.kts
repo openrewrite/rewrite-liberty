@@ -19,8 +19,5 @@ dependencies {
     testImplementation("org.openrewrite:rewrite-gradle")
     testImplementation("org.openrewrite:rewrite-maven")
 
-    // TODO replace with the last release that contained `WSSecurityHelper.revokeSSOCookies(req,res)`
-    testImplementation("com.ibm.websphere.appserver.api:com.ibm.websphere.appserver.api.basics:latest.release")
-
     testImplementation("org.junit.jupiter:junit-jupiter-engine:latest.release")
 }
