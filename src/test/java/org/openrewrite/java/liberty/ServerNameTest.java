@@ -22,7 +22,7 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.java.Assertions.java;
 
-public class ServerNameTest implements RewriteTest {
+class ServerNameTest implements RewriteTest {
 
     //language=java
     String serverNameClass = """
@@ -46,8 +46,8 @@ public class ServerNameTest implements RewriteTest {
         rewriteRun(
           spec -> spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.java.liberty.ServerName")),
           java(serverNameClass),
+          //language=java
           java(
-            //language=java
             """
               package com.ibm;
 
@@ -81,8 +81,8 @@ public class ServerNameTest implements RewriteTest {
         rewriteRun(
           spec -> spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.java.liberty.ServerName")),
           java(serverNameClass),
+          //language=java
           java(
-            //language=java
             """
               package com.ibm;
 
