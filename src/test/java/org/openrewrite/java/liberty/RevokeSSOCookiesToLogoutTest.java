@@ -16,6 +16,7 @@
 package org.openrewrite.java.liberty;
 
 import org.junit.jupiter.api.Test;
+import org.openrewrite.InMemoryExecutionContext;
 import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
@@ -27,7 +28,8 @@ class RevokeSSOCookiesToLogoutTest implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
         spec
-          .parser(JavaParser.fromJavaVersion().classpath("com.ibm.websphere.appserver.api.basics"))
+          .parser(JavaParser.fromJavaVersion()
+            .classpathFromResources(new InMemoryExecutionContext(), "websecurity_logout_test"))
           .recipe(new RevokeSSOCookiesToLogout());
     }
 
@@ -38,10 +40,10 @@ class RevokeSSOCookiesToLogoutTest implements RewriteTest {
           java(
             """
               import com.ibm.websphere.security.WSSecurityHelper;
-              
+                            
               import javax.servlet.http.HttpServletRequest;
               import javax.servlet.http.HttpServletResponse;
-              
+                            
               class Foo {
                   void revoke(HttpServletRequest req, HttpServletResponse res) {
                       WSSecurityHelper.revokeSSOCookies(req,res);
@@ -51,7 +53,7 @@ class RevokeSSOCookiesToLogoutTest implements RewriteTest {
             """
               import javax.servlet.http.HttpServletRequest;
               import javax.servlet.http.HttpServletResponse;
-              
+                            
               class Foo {
                   void revoke(HttpServletRequest req, HttpServletResponse res) {
                       req.logout();

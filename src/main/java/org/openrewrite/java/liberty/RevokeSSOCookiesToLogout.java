@@ -20,6 +20,7 @@ import lombok.Value;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
+import org.openrewrite.java.JavaParser;
 import org.openrewrite.java.JavaTemplate;
 import org.openrewrite.java.JavaVisitor;
 import org.openrewrite.java.MethodMatcher;
@@ -40,7 +41,7 @@ public class RevokeSSOCookiesToLogout extends Recipe {
     }
 
     private static final String WSSECURITY_HELPER = "com.ibm.websphere.security.WSSecurityHelper";
-    private static final MethodMatcher METHOD_PATTERN = new MethodMatcher(WSSECURITY_HELPER + " revokeSSOCookies(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)");
+    private static final MethodMatcher METHOD_PATTERN = new MethodMatcher(WSSECURITY_HELPER + " revokeSSOCookies(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)");
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
@@ -49,7 +50,9 @@ public class RevokeSSOCookiesToLogout extends Recipe {
             public J visitMethodInvocation(J.MethodInvocation method, ExecutionContext ctx) {
                 if (METHOD_PATTERN.matches(method)) {
                     maybeRemoveImport(WSSECURITY_HELPER);
-                    return JavaTemplate.builder("#{any()}.logout()").contextSensitive().build()
+                    return JavaTemplate.builder("#{any()}.logout()")
+                            .javaParser(JavaParser.fromJavaVersion().classpathFromResources(ctx, "websecurity_logout_test"))
+                            .build()
                             .apply(getCursor(), method.getCoordinates().replace(), method.getArguments().get(0));
                 }
                 return super.visitMethodInvocation(method, ctx);
