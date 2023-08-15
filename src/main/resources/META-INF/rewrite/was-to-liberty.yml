@@ -35,11 +35,6 @@ recipeList:
   - org.openrewrite.xml.liberty.WebDDNamespaceRule
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
-recipeList:
-  - org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
----
-type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.ServerName
 recipeList:
   - org.openrewrite.java.liberty.ChangeMethodInvocation:
@@ -53,6 +48,8 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
+displayName: Use `getSSOCookieFromSSOToken`
+description: This method  `LTPACookieFromSSOToken()` is deprecated in traditional WebSphere Application Server Version 8.5 and might be removed in a future release. It is not available on Liberty.
 recipeList:
   - org.openrewrite.java.ChangeMethodName:
       methodPattern: com.ibm.websphere.security.WSSecurityHelper getLTPACookieFromSSOToken()
@@ -119,11 +116,6 @@ recipeList:
       newValue: http://xmlns.jcp.org/xml/ns/javaee
       versionMatcher: 3.2+
       searchAllNamespaces: false
----
-type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.xml.liberty.PersistenceXmlLocationRule
-recipeList:
-  - org.openrewrite.xml.liberty.PersistenceXmlLocationRule
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.WebDDNamespaceRule

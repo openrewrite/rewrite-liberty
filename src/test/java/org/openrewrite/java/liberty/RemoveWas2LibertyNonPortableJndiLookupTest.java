@@ -17,18 +17,23 @@
 package org.openrewrite.java.liberty;
 
 import org.junit.jupiter.api.Test;
-import org.openrewrite.config.Environment;
+import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.java.Assertions.java;
 
 class RemoveWas2LibertyNonPortableJndiLookupTest implements RewriteTest {
+    
+  @Override
+    public void defaults(RecipeSpec spec) {
+        spec
+          .recipe(new RemoveWas2LibertyNonPortableJndiLookup());
+    }
+
 
     @Test
     void removeInvalidPropertiesTest() {
-        rewriteRun(
-          spec -> spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build()
-            .activateRecipes("org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup")),
+        rewriteRun(   
           //language=java
           java(
             """
