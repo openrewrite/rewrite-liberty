@@ -26,7 +26,7 @@ description: >
 recipeList:
   - org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
   - org.openrewrite.java.liberty.ServerName
-  - org.openrewrite.java.liberty.RevokeSSOCookiesToLogout
+  - org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
   - org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
   - org.openrewrite.xml.liberty.AppDDNamespaceRule
   - org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
@@ -50,6 +50,11 @@ recipeList:
       methodPattern: com.ibm.websphere.runtime.ServerName getFullName()
       newMethodPattern: java.lang.System getProperty("wlp.server.name")
       performStaticCall: true
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
+recipeList:
+  - org.openrewrite.java.RevokeSSOCookiesToLogout
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
