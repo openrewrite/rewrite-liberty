@@ -52,11 +52,6 @@ recipeList:
       performStaticCall: true
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
-recipeList:
-  - org.openrewrite.java.RevokeSSOCookiesToLogout
----
-type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
 recipeList:
   - org.openrewrite.java.ChangeMethodName:

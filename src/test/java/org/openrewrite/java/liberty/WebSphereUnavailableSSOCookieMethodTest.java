@@ -23,14 +23,14 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.java.Assertions.java;
 
-class RevokeSSOCookiesToLogoutTest implements RewriteTest {
+class WebSphereUnavailableSSOCookieMethodTest implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
         spec
           .parser(JavaParser.fromJavaVersion()
             .classpathFromResources(new InMemoryExecutionContext(), "websecurity_logout_test"))
-          .recipe(new RevokeSSOCookiesToLogout());
+          .recipe(new WebSphereUnavailableSSOCookieMethod());
     }
 
     @Test

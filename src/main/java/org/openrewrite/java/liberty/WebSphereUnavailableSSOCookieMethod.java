@@ -28,7 +28,7 @@ import org.openrewrite.java.tree.J;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
-public class RevokeSSOCookiesToLogout extends Recipe {
+public class WebSphereUnavailableSSOCookieMethod extends Recipe {
 
     @Override
     public String getDisplayName() {
