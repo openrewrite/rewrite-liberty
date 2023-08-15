@@ -1,4 +1,3 @@
-.DS_Store
 # Compiled class file
 *.class
 
@@ -50,6 +49,7 @@ gradle-app.setting
 out/
 bin/
 .vscode/
+.DS_Store
 
 # Allow adding classpath Jars to match method invocations
 !src/main/resources/META-INF/rewrite/classpath/*.jar
