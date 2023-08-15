@@ -24,87 +24,90 @@ import static org.openrewrite.java.Assertions.java;
 
 public class ServerNameTest implements RewriteTest {
 
+    //language=java
     String serverNameClass = """
-                package com.ibm.websphere.runtime;
+      package com.ibm.websphere.runtime;
 
-                public class ServerName {
+      public class ServerName {
 
-                    public static String getDisplayName() {
-                        return "";
-                    }
+          public static String getDisplayName() {
+              return "";
+          }
 
-                    public static String getFullName() {
-                        return "";
-                    }
+          public static String getFullName() {
+              return "";
+          }
 
-                }
-            """;
+      }
+      """;
 
     @Test
     void replaceGetFullNameTest() {
         rewriteRun(
-                spec -> spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.java.liberty.ServerName")),
-                java(serverNameClass),
-                java(
-                        """
-                                    package com.ibm;
+          spec -> spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.java.liberty.ServerName")),
+          java(serverNameClass),
+          java(
+            //language=java
+            """
+              package com.ibm;
 
-                                    import com.ibm.websphere.runtime.ServerName;
+              import com.ibm.websphere.runtime.ServerName;
 
-                                    public class ServerNameUsage {
-                                        
-                                        public void doX() {
-                                            ServerName.getFullName();
-                                        }
+              public class ServerNameUsage {
+                  
+                  public void doX() {
+                      ServerName.getFullName();
+                  }
 
-                                    }
-                                """,
-                        """
-                                    package com.ibm;
+              }
+              """,
+            """
+              package com.ibm;
 
-                                    public class ServerNameUsage {
-                                        
-                                        public void doX() {
-                                            System.getProperty("wlp.server.name");
-                                        }
+              public class ServerNameUsage {
+                  
+                  public void doX() {
+                      System.getProperty("wlp.server.name");
+                  }
 
-                                    }
-                                """
-                )
+              }
+              """
+          )
         );
     }
 
     @Test
     void replaceGetDisplayNameTest() {
         rewriteRun(
-                spec -> spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.java.liberty.ServerName")),
-                java(serverNameClass),
-                java(
-                        """
-                                    package com.ibm;
+          spec -> spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.java.liberty.ServerName")),
+          java(serverNameClass),
+          java(
+            //language=java
+            """
+              package com.ibm;
 
-                                    import com.ibm.websphere.runtime.ServerName;
+              import com.ibm.websphere.runtime.ServerName;
 
-                                    public class ServerNameUsage {
-                                        
-                                        public void doX() {
-                                            ServerName.getDisplayName();
-                                        }
+              public class ServerNameUsage {
+                  
+                  public void doX() {
+                      ServerName.getDisplayName();
+                  }
 
-                                    }
-                                """,
-                        """
-                                    package com.ibm;
+              }
+              """,
+            """
+              package com.ibm;
 
-                                    public class ServerNameUsage {
-                                        
-                                        public void doX() {
-                                            System.getProperty("wlp.server.name");
-                                        }
+              public class ServerNameUsage {
+                  
+                  public void doX() {
+                      System.getProperty("wlp.server.name");
+                  }
 
-                                    }
-                                """
-                )
+              }
+              """
+          )
         );
     }
 }
