@@ -17,12 +17,17 @@
 package org.openrewrite.java.liberty;
 
 import org.junit.jupiter.api.Test;
-import org.openrewrite.config.Environment;
+import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.java.Assertions.java;
 
 class ServerNameTest implements RewriteTest {
+
+    @Override
+    public void defaults(RecipeSpec spec) {
+        spec.recipe(new ServerName());
+    }
 
     //language=java
     String serverNameClass = """
@@ -44,7 +49,6 @@ class ServerNameTest implements RewriteTest {
     @Test
     void replaceGetFullNameTest() {
         rewriteRun(
-          spec -> spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.java.liberty.ServerName")),
           java(serverNameClass),
           //language=java
           java(
@@ -79,7 +83,6 @@ class ServerNameTest implements RewriteTest {
     @Test
     void replaceGetDisplayNameTest() {
         rewriteRun(
-          spec -> spec.recipe(Environment.builder().scanRuntimeClasspath("org.openrewrite.java.liberty").build().activateRecipes("org.openrewrite.java.liberty.ServerName")),
           java(serverNameClass),
           //language=java
           java(
