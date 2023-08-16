@@ -26,6 +26,8 @@ description: >
 recipeList:
   - org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
   - org.openrewrite.java.liberty.ServerName
+  - org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
+  - org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
   - org.openrewrite.xml.liberty.AppDDNamespaceRule
   - org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
   - org.openrewrite.xml.liberty.EJBDDNamespaceRule
@@ -33,12 +35,9 @@ recipeList:
   - org.openrewrite.xml.liberty.WebDDNamespaceRule
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
-recipeList:
-  - org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
----
-type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.ServerName
+displayName: Use `getProperty("wlp.server.name")`
+description: The `getDisplayName()` is not available in Liberty.
 recipeList:
   - org.openrewrite.java.liberty.ChangeMethodInvocation:
       methodPattern: com.ibm.websphere.runtime.ServerName getDisplayName()
@@ -50,7 +49,25 @@ recipeList:
       performStaticCall: true
 ---
 type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
+displayName: Use `getSSOCookieFromSSOToken`
+description: >
+  This method `LTPACookieFromSSOToken()` is deprecated in traditional WebSphere Application 
+  Server Version 8.5 and might be removed in a future release. It is not available on Liberty.
+recipeList:
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: com.ibm.websphere.security.WSSecurityHelper getLTPACookieFromSSOToken()
+      newMethodName: getSSOCookieFromSSOToken
+      ignoreDefinition: true
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.ibm.websphere.security.WSSecurityHelper
+      newFullyQualifiedTypeName: com.ibm.websphere.security.web.WSSecurityHelper
+      ignoreDefinition: true
+---
+type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.AppDDNamespaceRule
+displayName: Use correct application namespace values
+description: Namespace values in application.xml must be consistent with the descriptor version.
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: application
@@ -70,6 +87,8 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
+displayName: Use correct connector namespace values
+description: Namespace values in ra.xml must be consistent with the descriptor version.
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: connector
@@ -89,6 +108,8 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.EJBDDNamespaceRule
+displayName: Use correct ejb-jar namespace values
+description: Namespace values in ejb-jar.xml must be consistent with the descriptor version.
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: ejb-jar
@@ -107,12 +128,9 @@ recipeList:
       searchAllNamespaces: false
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.xml.liberty.PersistenceXmlLocationRule
-recipeList:
-  - org.openrewrite.xml.liberty.PersistenceXmlLocationRule
----
-type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.WebDDNamespaceRule
+displayName: Use correct web-app namespace values
+description: Namespace values in web.xml must be consistent with the descriptor version.
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: web-app

@@ -18,7 +18,6 @@ package org.openrewrite.xml.liberty;
 
 import org.junit.jupiter.api.Test;
 import org.openrewrite.DocumentExample;
-import org.openrewrite.config.Environment;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
@@ -31,11 +30,7 @@ import static org.openrewrite.test.SourceSpecs.text;
 class PersistenceXmlLocationRuleTest implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
-        spec.recipe(
-          Environment.builder()
-            .scanRuntimeClasspath("org.openrewrite.java.liberty")
-            .build()
-            .activateRecipes("org.openrewrite.xml.liberty.PersistenceXmlLocationRule"));
+        spec.recipe(new PersistenceXmlLocationRule());
     }
 
     @DocumentExample

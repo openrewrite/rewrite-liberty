@@ -15,7 +15,6 @@
  */
 package org.openrewrite.java.liberty;
 
-import java.util.function.Supplier;
 
 import org.openrewrite.internal.lang.Nullable;
 import org.openrewrite.ExecutionContext;

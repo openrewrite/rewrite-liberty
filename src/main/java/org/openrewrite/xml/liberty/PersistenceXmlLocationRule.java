@@ -33,7 +33,7 @@ public class PersistenceXmlLocationRule extends Recipe {
 
     @Override
     public String getDisplayName() {
-        return "Move persistence.xml file.";
+        return "Move persistence.xml file";
     }
 
     @Override

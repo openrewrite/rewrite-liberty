@@ -21,65 +21,67 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.java.Assertions.java;
 
-public class InvalidInitialContextTest implements RewriteTest {
+class InvalidInitialContextTest implements RewriteTest {
 
+    //language=java
     String initialContextClass = """
-                package javax.naming;
+          package javax.naming;
 
-                public class InitialContext {
+          public class InitialContext {
 
-                    public InitialContext() {
-                    }
+              public InitialContext() {
+              }
 
-                    public void lookup() {
-                    }
+              public void lookup() {
+              }
 
-                }
-            """;
+          }
+      """;
 
     @Test
     void replaceTimeoutTest() {
         rewriteRun(
-                spec -> spec.recipe(new ChangeStringLiteral("^java:/comp(.*)$", "java:comp$1")),
-                java(initialContextClass),
-                java(
-                        """
-                                    package com.test;
+          spec -> spec.recipe(new ChangeStringLiteral("^java:/comp(.*)$", "java:comp$1")),
+          java(initialContextClass),
+          //language=java
+          java(
+            """
+              package com.test;
 
-                                    import javax.naming.InitialContext;
-                                    import javax.naming.NamingException;
+              import javax.naming.InitialContext;
+              import javax.naming.NamingException;
 
-                                    public class TestDetectInvalidInitialContext {
-                                        public static final String BAD_ENV = "java:/comp";
-                                        public static final String GOOD_ENV = "java:comp";
-                                        
-                                        private void doX(){
-                                            InitialContext ic = new InitialContext();
-                                            ic.lookup("java:/comp");
-                                            ic.lookup("java:/comp/BadEntry");
-                                            ic.lookup("java:comp/GoodEntry");
-                                        }
-                                    }
-                                """,
-                        """
-                                    package com.test;
+              public class TestDetectInvalidInitialContext {
+                  public static final String BAD_ENV = "java:/comp";
+                  public static final String GOOD_ENV = "java:comp";
+                  
+                  private void doX(){
+                      InitialContext ic = new InitialContext();
+                      ic.lookup("java:/comp");
+                      ic.lookup("java:/comp/BadEntry");
+                      ic.lookup("java:comp/GoodEntry");
+                  }
+              }
+              """,
+            """
+              package com.test;
 
-                                    import javax.naming.InitialContext;
-                                    import javax.naming.NamingException;
+              import javax.naming.InitialContext;
+              import javax.naming.NamingException;
 
-                                    public class TestDetectInvalidInitialContext {
-                                        public static final String BAD_ENV = java:comp;
-                                        public static final String GOOD_ENV = "java:comp";
+              public class TestDetectInvalidInitialContext {
+                  public static final String BAD_ENV = java:comp;
+                  public static final String GOOD_ENV = "java:comp";
 
-                                        private void doX(){
-                                            InitialContext ic = new InitialContext();
-                                            ic.lookup(java:comp);
-                                            ic.lookup(java:comp/BadEntry);
-                                            ic.lookup("java:comp/GoodEntry");
-                                        }
-                                    }
-                                """
-                )
+                  private void doX(){
+                      InitialContext ic = new InitialContext();
+                      ic.lookup(java:comp);
+                      ic.lookup(java:comp/BadEntry);
+                      ic.lookup("java:comp/GoodEntry");
+                  }
+              }
+              """
+          )
         );
     }
 
