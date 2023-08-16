@@ -36,6 +36,8 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.ServerName
+displayName: Use `getProperty("wlp.server.name")`
+description: `getDisplayName()` is not available in Liberty.
 recipeList:
   - org.openrewrite.java.liberty.ChangeMethodInvocation:
       methodPattern: com.ibm.websphere.runtime.ServerName getDisplayName()
@@ -62,6 +64,8 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.AppDDNamespaceRule
+displayName: Use correct application namespace values
+description: Namespace values in application.xml must be consistent with the descriptor version.
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: application
@@ -81,6 +85,8 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
+displayName: Use correct connector namespace values
+description: Namespace values in ra.xml must be consistent with the descriptor version.
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: connector
@@ -100,6 +106,8 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.EJBDDNamespaceRule
+displayName: Use correct ejb-jar namespace values
+description: Namespace values in ejb-jar.xml must be consistent with the descriptor version.
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: ejb-jar
@@ -119,6 +127,8 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.WebDDNamespaceRule
+displayName: Use correct web-app namespace values
+description: Namespace values in web.xml must be consistent with the descriptor version.
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: web-app
