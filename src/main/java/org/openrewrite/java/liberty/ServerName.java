@@ -21,7 +21,6 @@ import org.openrewrite.TreeVisitor;
 import org.openrewrite.java.JavaTemplate;
 import org.openrewrite.java.JavaVisitor;
 import org.openrewrite.java.MethodMatcher;
-import org.openrewrite.java.ShortenFullyQualifiedTypeReferences;
 import org.openrewrite.java.tree.J;
 
 public class ServerName extends Recipe {
@@ -47,7 +46,6 @@ public class ServerName extends Recipe {
             public J visitMethodInvocation(J.MethodInvocation elem, ExecutionContext ctx) {
                 if (getDisplayName.matches(elem) || getFullName.matches(elem)) {
                     maybeRemoveImport(SERVER_NAME);
-                    doAfterVisit(new ShortenFullyQualifiedTypeReferences().getVisitor());
                     return JavaTemplate.builder("System.getProperty(\"wlp.server.name\")").build()
                             .apply(getCursor(), elem.getCoordinates().replace());
                 }
