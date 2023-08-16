@@ -35,20 +35,6 @@ recipeList:
   - org.openrewrite.xml.liberty.WebDDNamespaceRule
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.liberty.ServerName
-displayName: Use `getProperty("wlp.server.name")`
-description: The `getDisplayName()` is not available in Liberty.
-recipeList:
-  - org.openrewrite.java.liberty.ChangeMethodInvocation:
-      methodPattern: com.ibm.websphere.runtime.ServerName getDisplayName()
-      newMethodPattern: java.lang.System getProperty("wlp.server.name")
-      performStaticCall: true
-  - org.openrewrite.java.liberty.ChangeMethodInvocation:
-      methodPattern: com.ibm.websphere.runtime.ServerName getFullName()
-      newMethodPattern: java.lang.System getProperty("wlp.server.name")
-      performStaticCall: true
----
-type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
 displayName: Use `getSSOCookieFromSSOToken`
 description: >
