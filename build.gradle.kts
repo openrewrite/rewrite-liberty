@@ -14,6 +14,11 @@ dependencies {
     implementation("org.openrewrite.recipe:rewrite-migrate-java")
     implementation("org.openrewrite.recipe:rewrite-static-analysis")
 
+    annotationProcessor("org.openrewrite:rewrite-templating:latest.integration")
+    compileOnly("com.google.errorprone:error_prone_core:2.19.1:with-dependencies") {
+        exclude("com.google.auto.service", "auto-service-annotations")
+    }
+
     testImplementation("org.openrewrite:rewrite-java-17")
     testImplementation("org.openrewrite:rewrite-test")
     testImplementation("org.openrewrite:rewrite-gradle")
