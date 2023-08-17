@@ -47,7 +47,7 @@ recipeList:
       ignoreDefinition: true
   - org.openrewrite.java.ChangeType:
       oldFullyQualifiedTypeName: com.ibm.websphere.security.WSSecurityHelper
-      newFullyQualifiedTypeName: com.ibm.websphere.security.web.WSSecurityHelper
+      newFullyQualifiedTypeName: com.ibm.websphere.security.web.WebSecurityHelper
       ignoreDefinition: true
 ---
 type: specs.openrewrite.org/v1beta/recipe
