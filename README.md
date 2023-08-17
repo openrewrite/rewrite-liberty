@@ -14,7 +14,7 @@ Browse [a selection of recipes available through this module in the recipe catal
 
 ## How to use?
 
-To get a curated list of recipes based on the migration issues present in your applications, consider downloading the [Migration Toolkit for Application Binaries](https://www.ibm.com/support/pages/node/6250913) and then running an analysis scan against your applications. Documentation on how to run an analysis scan using the Migration Toolkit for Application Binaries can be found [here](https://www.ibm.com/docs/en/wamt?topic=binaries-detailed-migration-analysis-report)
+To get a curated list of recipes based on the migration issues present in your applications, consider downloading the [Migration Toolkit for Application Binaries](https://www.ibm.com/support/pages/node/6250913) and then running an analysis scan against your applications. Documentation on this scan and how to run it using the Migration Toolkit for Application Binaries can be found [here](https://www.ibm.com/docs/en/wamt?topic=binaries-detailed-migration-analysis-report). The report generated will contain the config needed to fix the issues in your application.
 
 For more info on using OpenRewrite, see the full documentation at [docs.openrewrite.org](https://docs.openrewrite.org/).
 
