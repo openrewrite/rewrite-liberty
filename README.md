@@ -10,7 +10,7 @@ Recipes to migrate to the IBM WebSphere Liberty. Automatically
 
 This project implements a [Rewrite module](https://github.com/openrewrite/rewrite) that performs common tasks when migrating to new version of [Open Liberty](https://openliberty.io/).
 
-Browse [a selection of recipes available through this module in the recipe catalog](https://docs.openrewrite.org/recipes/liberty).
+Browse [a selection of recipes available through this module in the recipe catalog](https://docs.openrewrite.org/recipes/java/liberty-1).
 
 ## How to use?
 
