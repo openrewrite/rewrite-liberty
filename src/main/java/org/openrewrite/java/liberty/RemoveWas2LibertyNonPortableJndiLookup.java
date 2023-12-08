@@ -49,7 +49,7 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends Recipe {
         @SuppressWarnings("NullableProblems")
         @Nullable
         @Override
-        public J.MethodInvocation visitMethodInvocation(J.MethodInvocation method, ExecutionContext ec) {
+        public J.MethodInvocation visitMethodInvocation(J.MethodInvocation method, ExecutionContext ctx) {
             return visitMethodCall(method);
         }
 
