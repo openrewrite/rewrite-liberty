@@ -51,7 +51,7 @@ public class PersistenceXmlLocationRule extends Recipe {
     }
 
     public List<File> getSrcDirectories(SourceFile sourceFile) {
-        List<File> srcDirs = new ArrayList<File>();
+        List<File> srcDirs = new ArrayList<>();
         Path sourcePath = sourceFile.getSourcePath();
 
         String projectName = sourceFile.getMarkers()
@@ -65,7 +65,7 @@ public class PersistenceXmlLocationRule extends Recipe {
             if (subDirs != null) {
                 for (File subDir : subDirs) {
                     String dirName = subDir.getName().toLowerCase();
-                    if (dirName.endsWith("src") || dirName.equals("source")) {
+                    if (dirName.endsWith("src") || "source".equals(dirName)) {
                         srcDirs.add(subDir);
                     }
                 }
@@ -82,10 +82,10 @@ public class PersistenceXmlLocationRule extends Recipe {
             @Override
             public Tree visit(@Nullable Tree tree, ExecutionContext ctx) {
                 if (tree instanceof SourceFile) {
-                    SourceFile sourceFile = ((SourceFile) tree);
+                    SourceFile sourceFile = (SourceFile) tree;
 
                     Path sourcePath = ((SourceFile) tree).getSourcePath();
-                    if (sourcePath.getFileName().toString().equals("persistence.xml")) {
+                    if ("persistence.xml".equals(sourcePath.getFileName().toString())) {
                         String projectName = sourceFile.getMarkers()
                                 .findFirst(JavaProject.class)
                                 .map(JavaProject::getProjectName)
