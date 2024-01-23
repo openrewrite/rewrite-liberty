@@ -31,6 +31,7 @@ class AppDDNamespaceTest implements RewriteTest {
             .scanRuntimeClasspath("org.openrewrite.java.liberty")
             .build()
             .activateRecipes("org.openrewrite.xml.liberty.AppDDNamespaceRule"));
+        spec.expectedCyclesThatMakeChanges(2);
     }
 
     @Test

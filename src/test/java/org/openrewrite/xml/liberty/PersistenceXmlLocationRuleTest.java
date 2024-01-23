@@ -37,6 +37,7 @@ class PersistenceXmlLocationRuleTest implements RewriteTest {
     @Test
     void movePersistenceXMLFileTest() {
         rewriteRun(
+          spec -> spec.expectedCyclesThatMakeChanges(1),
           text(
             //language=xml
             """

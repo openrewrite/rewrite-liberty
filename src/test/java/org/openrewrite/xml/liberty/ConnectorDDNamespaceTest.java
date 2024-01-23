@@ -31,6 +31,7 @@ import static org.openrewrite.xml.Assertions.xml;
             .scanRuntimeClasspath("org.openrewrite.java.liberty")
             .build()
             .activateRecipes("org.openrewrite.xml.liberty.ConnectorDDNamespaceRule"));
+        spec.expectedCyclesThatMakeChanges(2);
     }
 
     @Test

@@ -31,6 +31,7 @@ class WebDDNamespaceTest implements RewriteTest {
             .scanRuntimeClasspath("org.openrewrite.java.liberty")
             .build()
             .activateRecipes("org.openrewrite.xml.liberty.WebDDNamespaceRule"));
+        spec.expectedCyclesThatMakeChanges(2);
     }
 
     @Test
