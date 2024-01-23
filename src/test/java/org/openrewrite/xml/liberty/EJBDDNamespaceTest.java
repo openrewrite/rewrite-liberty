@@ -31,6 +31,7 @@ class EJBDDNamespaceTest implements RewriteTest {
             .scanRuntimeClasspath("org.openrewrite.java.liberty")
             .build()
             .activateRecipes("org.openrewrite.xml.liberty.EJBDDNamespaceRule"));
+        spec.expectedCyclesThatMakeChanges(2);
     }
 
     @Test
