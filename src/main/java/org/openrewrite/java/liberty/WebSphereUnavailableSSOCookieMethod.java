@@ -27,7 +27,7 @@ import org.openrewrite.java.MethodMatcher;
 import org.openrewrite.java.tree.J;
 
 @Value
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class WebSphereUnavailableSSOCookieMethod extends Recipe {
 
     @Override
