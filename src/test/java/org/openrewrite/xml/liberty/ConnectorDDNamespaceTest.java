@@ -17,13 +17,14 @@
 package org.openrewrite.xml.liberty;
 
 import org.junit.jupiter.api.Test;
+import org.openrewrite.DocumentExample;
 import org.openrewrite.config.Environment;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.xml.Assertions.xml;
 
- class ConnectorDDNamespaceTest implements RewriteTest {
+class ConnectorDDNamespaceTest implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
         spec.recipe(
@@ -34,8 +35,9 @@ import static org.openrewrite.xml.Assertions.xml;
         spec.expectedCyclesThatMakeChanges(2);
     }
 
-    @Test
-    void replaceVersion15Test() {
+     @DocumentExample
+     @Test
+     void replaceVersion15Test() {
         rewriteRun(
           //language=xml
           xml(

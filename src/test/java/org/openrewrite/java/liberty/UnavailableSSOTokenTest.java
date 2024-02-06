@@ -16,6 +16,7 @@
 package org.openrewrite.java.liberty;
 
 import org.junit.jupiter.api.Test;
+import org.openrewrite.DocumentExample;
 import org.openrewrite.InMemoryExecutionContext;
 import org.openrewrite.config.Environment;
 import org.openrewrite.java.JavaParser;
@@ -36,6 +37,7 @@ class UnavailableSSOTokenTest implements RewriteTest {
     }
 
 
+    @DocumentExample
     @Test
     void updatesLPTACookieToSSO() {
         rewriteRun(
