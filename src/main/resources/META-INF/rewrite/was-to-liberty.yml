@@ -38,7 +38,7 @@ type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOMethods
 displayName: Use `getSSOCookieFromSSOToken` and `logout`
 description: >
-  This recipe replaces`LTPACookieFromSSOToken()` with  `getSSOCookieFromSSOToken`  and `revokeSSOCookies` with `logout`. The two methods are  deprecated in traditional WebSphere Application 
+  This recipe replaces `LTPACookieFromSSOToken()` with  `getSSOCookieFromSSOToken`  and `revokeSSOCookies` with `logout`. The two methods are  deprecated in traditional WebSphere Application 
   Server Version 8.5 and might be removed in a future release. They are not available on Liberty.
 recipeList:
   - org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
