@@ -26,13 +26,30 @@ description: >
 recipeList:
   - org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
   - org.openrewrite.java.liberty.ServerName
-  - org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
-  - org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
+  - org.openrewrite.java.liberty.WebSphereUnavailableSSOMethods
   - org.openrewrite.xml.liberty.AppDDNamespaceRule
   - org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
   - org.openrewrite.xml.liberty.EJBDDNamespaceRule
   - org.openrewrite.xml.liberty.PersistenceXmlLocationRule
   - org.openrewrite.xml.liberty.WebDDNamespaceRule
+  - org.openrewrite.xml.liberty.DetectUnsupportedJSF
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.java.liberty.WebSphereUnavailableSSOMethods
+displayName: Use `getSSOCookieFromSSOToken` and `logout`
+description: >
+  This recipe replaces`LTPACookieFromSSOToken()` with  `getSSOCookieFromSSOToken`  and `revokeSSOCookies` with `logout`. The two methods are  deprecated in traditional WebSphere Application 
+  Server Version 8.5 and might be removed in a future release. They are not available on Liberty.
+recipeList:
+  - org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
+  - org.openrewrite.java.ChangeMethodName:
+      methodPattern: com.ibm.websphere.security.WSSecurityHelper getLTPACookieFromSSOToken()
+      newMethodName: getSSOCookieFromSSOToken
+      ignoreDefinition: true
+  - org.openrewrite.java.ChangeType:
+      oldFullyQualifiedTypeName: com.ibm.websphere.security.WSSecurityHelper
+      newFullyQualifiedTypeName: com.ibm.websphere.security.web.WebSecurityHelper
+      ignoreDefinition: true
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOTokenMethod
