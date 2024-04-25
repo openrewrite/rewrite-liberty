@@ -25,7 +25,7 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.java.Assertions.java;
 
-public class WebSphereUnavailableSSOMethodsTest implements RewriteTest {
+class WebSphereUnavailableSSOMethodsTest implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
