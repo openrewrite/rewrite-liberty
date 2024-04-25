@@ -40,7 +40,8 @@ class WebSphereUnavailableSSOMethodsTest implements RewriteTest {
     void updatesLPTACookieTokenSSO() {
         rewriteRun(
           //language=java
-          java("""                  
+          java(
+                """                  
             import com.ibm.websphere.security.WSSecurityHelper;
                               
             import javax.servlet.http.Cookie;
