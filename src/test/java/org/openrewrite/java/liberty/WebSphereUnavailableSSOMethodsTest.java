@@ -25,7 +25,7 @@ import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.java.Assertions.java;
 
-public class WebSphereUnavailableSSOMethodsTest implements RewriteTest {
+class WebSphereUnavailableSSOMethodsTest implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
@@ -40,7 +40,8 @@ public class WebSphereUnavailableSSOMethodsTest implements RewriteTest {
     void updatesLPTACookieTokenSSO() {
         rewriteRun(
           //language=java
-          java("""                  
+          java(
+                """                  
             import com.ibm.websphere.security.WSSecurityHelper;
                               
             import javax.servlet.http.Cookie;
