@@ -132,4 +132,3 @@ class WebDDNamespaceTest implements RewriteTest {
         );
     }
 }
-

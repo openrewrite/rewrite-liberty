@@ -213,4 +213,3 @@ class ConnectorDDNamespaceTest implements RewriteTest {
         );
     }
 }
-

@@ -295,4 +295,3 @@ class AppDDNamespaceTest implements RewriteTest {
         );
     }
 }
-

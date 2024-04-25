@@ -311,4 +311,3 @@ class EJBDDNamespaceTest implements RewriteTest {
         );
     }
 }
-

@@ -54,4 +54,3 @@ public class ServerName extends Recipe {
         };
     }
 }
-
