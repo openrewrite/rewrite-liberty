@@ -18,7 +18,7 @@
 # WebSphere traditional to Liberty
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.java.liberty
+name: org.openrewrite.java.liberty.MigrateFromWebSphereToLiberty
 displayName: Migrate from WebSphere traditional to Liberty
 description: >
   Use this category of rules to identify code changes needed when migrating 
