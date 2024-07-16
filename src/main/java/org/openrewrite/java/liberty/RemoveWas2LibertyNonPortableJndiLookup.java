@@ -47,14 +47,12 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends Recipe {
         MethodMatcher methodMatcher = new MethodMatcher("java.util.Hashtable put(java.lang.Object, java.lang.Object)", false);
 
         @SuppressWarnings("NullableProblems")
-        @Nullable
         @Override
-        public J.MethodInvocation visitMethodInvocation(J.MethodInvocation method, ExecutionContext ctx) {
+        public @Nullable J.MethodInvocation visitMethodInvocation(J.MethodInvocation method, ExecutionContext ctx) {
             return visitMethodCall(method);
         }
 
-        @Nullable
-        private <M extends MethodCall> M visitMethodCall(M methodCall) {
+        private <M extends MethodCall> @Nullable M visitMethodCall(M methodCall) {
             if (!methodMatcher.matches(methodCall)) {
                 return methodCall;
             }
