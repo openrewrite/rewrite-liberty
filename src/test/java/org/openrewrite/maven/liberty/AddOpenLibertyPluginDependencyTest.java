@@ -62,4 +62,32 @@ class AddOpenLibertyPluginDependencyTest implements RewriteTest {
           )
         );
     }
+    @Test
+    void testExistingLibertyPlugin() {
+        rewriteRun(
+          spec -> spec.recipeFromResources("org.openrewrite.maven.liberty.AddOpenLibertyPluginDependency"),
+          mavenProject(
+            "project",
+            srcMainJava(
+              java(sampleClass)
+            ),
+            pomXml(
+              """
+                     <project>
+                        <groupId>com.mycompany.app</groupId>
+                        <artifactId>my-app</artifactId>
+                        <version>1</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>io.openliberty.tools</groupId>
+                                <artifactId>liberty-maven-plugin</artifactId>
+                                <version>3.10.3</version>
+                            </dependency>
+                        </dependencies>
+                    </project>
+                """
+            )
+          )
+        );
+    }
 }
