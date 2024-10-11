@@ -43,7 +43,7 @@ class AddOpenLibertyPluginDependencyTest implements RewriteTest {
     }
 
     @Test
-    void testAddLibertyPlugin() {
+    void addLibertyPlugin() {
         rewriteRun(
           spec -> spec.recipeFromResources("org.openrewrite.maven.liberty.AddOpenLibertyPluginDependency"),
           mavenProject(
