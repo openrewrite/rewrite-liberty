@@ -9,12 +9,7 @@ import org.openrewrite.test.RewriteTest;
 import static org.openrewrite.java.Assertions.*;
 import static org.openrewrite.maven.Assertions.pomXml;
 
-public class AddOpenLibertyPluginDependencyTest  implements RewriteTest {
-    @Override
-    public void defaults(RecipeSpec spec) {
-        spec.parser(JavaParser.fromJavaVersion());
-    }
-
+class AddOpenLibertyPluginDependencyTest implements RewriteTest {
     @Language("java")
     private final String sampleClass = """
          package com.test;
@@ -26,10 +21,16 @@ public class AddOpenLibertyPluginDependencyTest  implements RewriteTest {
                }
          }     
       """;
+
+    @Override
+    public void defaults(RecipeSpec spec) {
+        spec.parser(JavaParser.fromJavaVersion());
+    }
+
     @Test
     void testAddLibertyPlugin() {
         rewriteRun(
-          spec ->  spec.recipeFromResources("org.openrewrite.maven.liberty.AddOpenLibertyPluginDependency"),
+          spec -> spec.recipeFromResources("org.openrewrite.maven.liberty.AddOpenLibertyPluginDependency"),
           mavenProject(
             "project",
             srcMainJava(
