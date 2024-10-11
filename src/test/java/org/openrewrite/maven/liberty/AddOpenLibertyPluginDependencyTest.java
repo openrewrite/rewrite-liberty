@@ -58,7 +58,7 @@ class AddOpenLibertyPluginDependencyTest implements RewriteTest {
                         <artifactId>my-app</artifactId>
                         <version>1</version>
                     </project>
-                """,
+                    """,
               """
                     <project>
                         <groupId>com.mycompany.app</groupId>
@@ -72,7 +72,7 @@ class AddOpenLibertyPluginDependencyTest implements RewriteTest {
                             </dependency>
                         </dependencies>
                     </project>
-                """
+                    """
             )
           )
         );
@@ -100,7 +100,7 @@ class AddOpenLibertyPluginDependencyTest implements RewriteTest {
                             </dependency>
                         </dependencies>
                     </project>
-                """
+                    """
             )
           )
         );
