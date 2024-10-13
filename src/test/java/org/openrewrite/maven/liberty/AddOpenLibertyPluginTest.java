@@ -24,7 +24,7 @@ import org.openrewrite.test.RewriteTest;
 import static org.openrewrite.java.Assertions.*;
 import static org.openrewrite.maven.Assertions.pomXml;
 
-class AddOpenLibertyPluginDependencyTest implements RewriteTest {
+class AddOpenLibertyPluginTest implements RewriteTest {
     @Language("java")
     private final String sampleClass = """
          package com.test;
@@ -45,7 +45,7 @@ class AddOpenLibertyPluginDependencyTest implements RewriteTest {
     @Test
     void addLibertyPlugin() {
         rewriteRun(
-          spec -> spec.recipeFromResources("org.openrewrite.maven.liberty.AddOpenLibertyPluginDependency"),
+          spec -> spec.recipeFromResources("org.openrewrite.maven.liberty.AddOpenLibertyPlugin"),
           mavenProject(
             "project",
             srcMainJava(
@@ -134,7 +134,7 @@ class AddOpenLibertyPluginDependencyTest implements RewriteTest {
     @Test
     void existingLibertyPlugin() {
         rewriteRun(
-          spec -> spec.recipeFromResources("org.openrewrite.maven.liberty.AddOpenLibertyPluginDependency"),
+          spec -> spec.recipeFromResources("org.openrewrite.maven.liberty.AddOpenLibertyPlugin"),
           mavenProject(
             "project",
             srcMainJava(

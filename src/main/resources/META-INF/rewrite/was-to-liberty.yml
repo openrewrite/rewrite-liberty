@@ -33,7 +33,7 @@ recipeList:
   - org.openrewrite.xml.liberty.PersistenceXmlLocationRule
   - org.openrewrite.xml.liberty.WebDDNamespaceRule
   - org.openrewrite.xml.liberty.DetectUnsupportedJSF
-  - org.openrewrite.maven.liberty.AddOpenLibertyPluginDependency
+  - org.openrewrite.maven.liberty.AddOpenLibertyPlugin
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOMethods
@@ -137,8 +137,8 @@ recipeList:
       searchAllNamespaces: false
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name:  org.openrewrite.maven.liberty.AddOpenLibertyPluginDependency
-displayName: Add Liberty Maven plugin dependencies
+name:  org.openrewrite.maven.liberty.AddOpenLibertyPlugin
+displayName: Add Liberty Maven plugin 
 description: This recipe adds  Open liberty plugin  to the pom.xml file.
 recipeList:
   - org.openrewrite.maven.AddPlugin:
