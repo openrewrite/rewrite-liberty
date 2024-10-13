@@ -141,7 +141,7 @@ name:  org.openrewrite.maven.liberty.AddOpenLibertyPluginDependency
 displayName: Add Liberty Maven plugin dependencies
 description: This recipe adds required Open liberty plugin dependencies to the pom.xml file.
 recipeList:
-  - org.openrewrite.maven.AddDependency:
+  - org.openrewrite.maven.AddPlugin:
       groupId: io.openliberty.tools
       artifactId: liberty-maven-plugin
       version: 3.10.3
