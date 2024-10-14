@@ -33,6 +33,7 @@ recipeList:
   - org.openrewrite.xml.liberty.PersistenceXmlLocationRule
   - org.openrewrite.xml.liberty.WebDDNamespaceRule
   - org.openrewrite.xml.liberty.DetectUnsupportedJSF
+  - org.openrewrite.maven.liberty.AddOpenLibertyPlugin
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOMethods
@@ -134,3 +135,13 @@ recipeList:
       newValue: http://xmlns.jcp.org/xml/ns/javaee
       versionMatcher: 3.1+
       searchAllNamespaces: false
+---
+type: specs.openrewrite.org/v1beta/recipe
+name:  org.openrewrite.maven.liberty.AddOpenLibertyPlugin
+displayName: Add Liberty Maven plugin
+description: This recipe adds the Liberty Maven plugin, which provides several goals for managing a Liberty server and applications.
+recipeList:
+  - org.openrewrite.maven.AddPlugin:
+      groupId: io.openliberty.tools
+      artifactId: liberty-maven-plugin
+      version: 3.10.3
