@@ -138,8 +138,8 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name:  org.openrewrite.maven.liberty.AddOpenLibertyPlugin
-displayName: Add Liberty Maven plugin 
-description: This recipe adds  Open liberty plugin  to the pom.xml file.
+displayName: Add Liberty Maven plugin
+description: This recipe adds  Open liberty plugin to the pom.xml file.
 recipeList:
   - org.openrewrite.maven.AddPlugin:
       groupId: io.openliberty.tools
