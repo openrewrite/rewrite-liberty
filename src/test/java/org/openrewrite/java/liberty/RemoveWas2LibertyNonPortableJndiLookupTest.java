@@ -24,7 +24,7 @@ import org.openrewrite.test.RewriteTest;
 import static org.openrewrite.java.Assertions.java;
 
 class RemoveWas2LibertyNonPortableJndiLookupTest implements RewriteTest {
-    
+
   @Override
     public void defaults(RecipeSpec spec) {
         spec
@@ -35,7 +35,7 @@ class RemoveWas2LibertyNonPortableJndiLookupTest implements RewriteTest {
     @DocumentExample
     @Test
     void removeInvalidPropertiesTest() {
-        rewriteRun(   
+        rewriteRun(
           //language=java
           java(
             """
