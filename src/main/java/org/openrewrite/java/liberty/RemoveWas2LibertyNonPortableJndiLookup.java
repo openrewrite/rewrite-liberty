@@ -16,17 +16,23 @@
 package org.openrewrite.java.liberty;
 
 
-import org.jspecify.annotations.Nullable;
 import org.openrewrite.ExecutionContext;
-import org.openrewrite.Recipe;
+import org.openrewrite.ScanningRecipe;
 import org.openrewrite.TreeVisitor;
-import org.openrewrite.java.JavaVisitor;
+import org.openrewrite.java.JavaIsoVisitor;
 import org.openrewrite.java.MethodMatcher;
 import org.openrewrite.java.tree.Expression;
 import org.openrewrite.java.tree.J;
-import org.openrewrite.java.tree.MethodCall;
+import org.openrewrite.java.tree.JavaType;
+import org.openrewrite.staticanalysis.RemoveUnusedLocalVariables;
+import org.openrewrite.staticanalysis.RemoveUnusedPrivateFields;
 
-public class RemoveWas2LibertyNonPortableJndiLookup extends Recipe {
+import java.util.HashSet;
+import java.util.Set;
+
+public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<JavaType.Variable>> {
+    final private String INITIAL_PROPERTY = "java.naming.factory.initial";
+    final private String URL_PROPERTY = "java.naming.provider.url";
 
     @Override
     public String getDisplayName() {
@@ -39,45 +45,81 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends Recipe {
     }
 
     @Override
-    public TreeVisitor<?, ExecutionContext> getVisitor() {
-        return new MethodInvocationVisitor();
+    public Set<JavaType.Variable> getInitialValue(ExecutionContext ctx) {
+        return new HashSet<>();
     }
 
-    private class MethodInvocationVisitor extends JavaVisitor<ExecutionContext> {
-        MethodMatcher methodMatcher = new MethodMatcher("java.util.Hashtable put(java.lang.Object, java.lang.Object)", false);
+    @Override
+    public TreeVisitor<?, ExecutionContext> getScanner(Set<JavaType.Variable> acc) {
 
-        @SuppressWarnings("NullableProblems")
-        @Override
-        public J.@Nullable MethodInvocation visitMethodInvocation(J.MethodInvocation method, ExecutionContext ctx) {
-            return visitMethodCall(method);
-        }
+        return new JavaIsoVisitor<ExecutionContext>() {
 
-        private <M extends MethodCall> @Nullable M visitMethodCall(M methodCall) {
-            if (!methodMatcher.matches(methodCall)) {
-                return methodCall;
-            }
-            J.Block parentBlock = getCursor().firstEnclosing(J.Block.class);
-            //noinspection SuspiciousMethodCalls
-            if (parentBlock != null && !parentBlock.getStatements().contains(methodCall)) {
-                return methodCall;
-            }
-            // Remove the method invocation when the argumentMatcherPredicate is true for all arguments
-            Expression firstArg = methodCall.getArguments().get(0);
-            if (firstArg instanceof J.Literal) {
-                J.Literal literalExp = (J.Literal) firstArg;
-                Object value = literalExp.getValue();
-                if (!value.equals("java.naming.factory.initial") && !value.equals("java.naming.provider.url")) {
-                    return methodCall;
+            @Override
+            public J.VariableDeclarations visitVariableDeclarations(J.VariableDeclarations vd, ExecutionContext ctx) {
+                for (J.VariableDeclarations.NamedVariable variable : vd.getVariables()) {
+                    checkForPropertiesVariable(variable.getVariableType(), variable.getInitializer());
                 }
-            } else {
-                return methodCall;
+                return vd;
             }
 
-            if (methodCall.getMethodType() != null) {
-                maybeRemoveImport(methodCall.getMethodType().getDeclaringType());
+            @Override
+            public J.Assignment visitAssignment(J.Assignment assignment, ExecutionContext ctx) {
+                JavaType.Variable variable = ((J.Identifier) assignment.getVariable()).getFieldType();
+                if (!checkForPropertiesVariable(variable, assignment.getAssignment())) {
+                    // If present, remove the variable from the accumulator since it was reassigned to an unrelated value
+                    acc.remove(variable);
+                }
+                return assignment;
             }
-            return null;
-        }
+
+            // Add a variable to the accumulator if it matches either property
+            private boolean checkForPropertiesVariable(JavaType.Variable variable, Expression value) {
+                if (value instanceof J.Literal) {
+                    String stringValue = ((J.Literal) value).toString();
+                    if (stringValue.equals(INITIAL_PROPERTY) || stringValue.equals(URL_PROPERTY)) {
+                        acc.add(variable);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
     }
 
+    @Override
+    public TreeVisitor<?, ExecutionContext> getVisitor(Set<JavaType.Variable> acc) {
+        MethodMatcher methodMatcher = new MethodMatcher("java.util.Hashtable put(..)", false);
+
+
+        return new JavaIsoVisitor<ExecutionContext>() {
+
+            @Override
+            public J.MethodInvocation visitMethodInvocation(J.MethodInvocation mi, ExecutionContext ctx) {
+                // Return if this method does not match Hashtable.put()
+                if (!methodMatcher.matches(mi)) {
+                    return mi;
+                }
+
+                Expression firstArgument = mi.getArguments().get(0);
+                if (firstArgument instanceof J.Literal) {
+                    // Return if the first argument is a literal and does not match either property
+                    String stringValue = ((J.Literal) firstArgument).toString();
+                    if (!stringValue.equals(INITIAL_PROPERTY) && !stringValue.equals(URL_PROPERTY)) {
+                        return mi;
+                    }
+                } else if (firstArgument instanceof J.Identifier) {
+                    // Return if the first argument is a variable and does not match the type of any collected variables
+                    if (!acc.contains(((J.Identifier) firstArgument).getFieldType())) {
+                        return mi;
+                    } else {
+                        // Remove the variable if this was the only use
+                        doAfterVisit(new RemoveUnusedLocalVariables(null, null).getVisitor());
+                        doAfterVisit(new RemoveUnusedPrivateFields().getVisitor());
+                    }
+                }
+
+                return null;
+            }
+        };
+    }
 }

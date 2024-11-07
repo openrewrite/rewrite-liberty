@@ -25,16 +25,15 @@ import static org.openrewrite.java.Assertions.java;
 
 class RemoveWas2LibertyNonPortableJndiLookupTest implements RewriteTest {
 
-  @Override
+    @Override
     public void defaults(RecipeSpec spec) {
-        spec
-          .recipe(new RemoveWas2LibertyNonPortableJndiLookup());
+        spec.recipe(new RemoveWas2LibertyNonPortableJndiLookup());
     }
 
 
     @DocumentExample
     @Test
-    void removeInvalidPropertiesTest() {
+    void literalTest() {
         rewriteRun(
           //language=java
           java(
@@ -45,11 +44,12 @@ class RemoveWas2LibertyNonPortableJndiLookupTest implements RewriteTest {
               import javax.naming.InitialContext;
 
               public class ServerNameUsage {
-                  
+
                   public void doX() {
                       Hashtable ht = new Hashtable();
                       ht.put("java.naming.factory.initial", "com.ibm.websphere.naming.WsnInitialContextFactory");
                       ht.put("java.naming.provider.url", "corbaloc:iiop:localhost:2809");
+                      ht.put("valid", "valid");
 
                       InitialContext ctx = new InitialContext(ht);
                   }
@@ -63,11 +63,240 @@ class RemoveWas2LibertyNonPortableJndiLookupTest implements RewriteTest {
               import javax.naming.InitialContext;
 
               public class ServerNameUsage {
-                  
+
                   public void doX() {
                       Hashtable ht = new Hashtable();
+                      ht.put("valid", "valid");
 
                       InitialContext ctx = new InitialContext(ht);
+                  }
+
+              }
+              """
+          )
+        );
+    }
+
+    @Test
+    void variableTest() {
+        rewriteRun(
+          //language=java
+          java(
+            """
+              package com.ibm;
+
+              import java.util.Hashtable;
+              import javax.naming.InitialContext;
+
+              public class ServerNameUsage {
+
+                  public void doX() {
+                      Hashtable<String, String> env = new Hashtable<String, String>();
+                      String initial = "java.naming.factory.initial";
+                      String url = "java.naming.provider.url";
+                      env.put(initial, "com.ibm.websphere.naming.WsnInitialContextFactory");
+                      env.put(url, "corbaloc:iiop:localhost:2809");
+                      env.put("valid", "valid");
+
+                      InitialContext ctx = new InitialContext(env);
+                  }
+
+              }
+              """,
+            """
+              package com.ibm;
+
+              import java.util.Hashtable;
+              import javax.naming.InitialContext;
+
+              public class ServerNameUsage {
+
+                  public void doX() {
+                      Hashtable<String, String> env = new Hashtable<String, String>();
+                      env.put("valid", "valid");
+
+                      InitialContext ctx = new InitialContext(env);
+                  }
+
+              }
+              """
+          )
+        );
+    }
+
+    @Test
+    void variableAssignmentTest() {
+        rewriteRun(
+          //language=java
+          java(
+            """
+              package com.ibm;
+
+              import java.util.Hashtable;
+              import javax.naming.InitialContext;
+
+              public class ServerNameUsage {
+
+                  public void doX() {
+                      Hashtable<String, String> env = new Hashtable<String, String>();
+                      String initial = "";
+                      String url = "";
+                      initial = "java.naming.factory.initial";
+                      url = "java.naming.provider.url";
+                      env.put(initial, "com.ibm.websphere.naming.WsnInitialContextFactory");
+                      env.put(url, "corbaloc:iiop:localhost:2809");
+                      env.put("valid", "valid");
+
+                      InitialContext ctx = new InitialContext(env);
+                  }
+
+              }
+              """,
+            """
+              package com.ibm;
+
+              import java.util.Hashtable;
+              import javax.naming.InitialContext;
+
+              public class ServerNameUsage {
+
+                  public void doX() {
+                      Hashtable<String, String> env = new Hashtable<String, String>();
+                      env.put("valid", "valid");
+
+                      InitialContext ctx = new InitialContext(env);
+                  }
+
+              }
+              """
+          )
+        );
+    }
+
+    @Test
+    void variableUnrelatedReassignmentTest() {
+        rewriteRun(
+          //language=java
+          java(
+            """
+              package com.ibm;
+
+              import java.util.Hashtable;
+              import javax.naming.InitialContext;
+
+              public class ServerNameUsage {
+
+                  public void doX() {
+                      Hashtable<String, String> env = new Hashtable<String, String>();
+                      String initial = "java.naming.factory.initial";
+                      String url = "java.naming.provider.url";
+                      initial = "valid";
+                      url = "valid";
+                      env.put(initial, "com.ibm.websphere.naming.WsnInitialContextFactory");
+                      env.put(url, "corbaloc:iiop:localhost:2809");
+                      env.put("valid", "valid");
+
+                      InitialContext ctx = new InitialContext(env);
+                  }
+
+              }
+              """
+          )
+        );
+    }
+
+    @Test
+    void fieldTest() {
+        rewriteRun(
+          //language=java
+          java(
+            """
+              package com.ibm;
+
+              import java.util.Hashtable;
+              import javax.naming.InitialContext;
+
+              public class ServerNameUsage {
+                  private String initial = "java.naming.factory.initial";
+                  private String url = "java.naming.provider.url";
+
+                  public void doX() {
+                      Hashtable<String, String> env = new Hashtable<String, String>();
+                      env.put(initial, "com.ibm.websphere.naming.WsnInitialContextFactory");
+                      env.put(url, "corbaloc:iiop:localhost:2809");
+                      env.put("valid", "valid");
+
+                      InitialContext ctx = new InitialContext(env);
+                  }
+
+              }
+              """,
+            """
+              package com.ibm;
+
+              import java.util.Hashtable;
+              import javax.naming.InitialContext;
+
+              public class ServerNameUsage {
+
+                  public void doX() {
+                      Hashtable<String, String> env = new Hashtable<String, String>();
+                      env.put("valid", "valid");
+
+                      InitialContext ctx = new InitialContext(env);
+                  }
+
+              }
+              """
+          )
+        );
+    }
+
+    @Test
+    void fieldReassignmentTest() {
+        rewriteRun(
+          //language=java
+          java(
+            """
+              package com.ibm;
+
+              import java.util.Hashtable;
+              import javax.naming.InitialContext;
+
+              public class ServerNameUsage {
+                  private String initial = "";
+                  private String url = "";
+
+                  public void doX() {
+                      Hashtable<String, String> env = new Hashtable<String, String>();
+                      initial = "java.naming.factory.initial";
+                      url = "java.naming.provider.url";
+                      env.put(initial, "com.ibm.websphere.naming.WsnInitialContextFactory");
+                      env.put(url, "corbaloc:iiop:localhost:2809");
+                      env.put("valid", "valid");
+
+                      InitialContext ctx = new InitialContext(env);
+                  }
+
+              }
+              """,
+            """
+              package com.ibm;
+
+              import java.util.Hashtable;
+              import javax.naming.InitialContext;
+
+              public class ServerNameUsage {
+                  private String initial = "";
+                  private String url = "";
+
+                  public void doX() {
+                      Hashtable<String, String> env = new Hashtable<String, String>();
+                      initial = "java.naming.factory.initial";
+                      url = "java.naming.provider.url";
+                      env.put("valid", "valid");
+
+                      InitialContext ctx = new InitialContext(env);
                   }
 
               }
