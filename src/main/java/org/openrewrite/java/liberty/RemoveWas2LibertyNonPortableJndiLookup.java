@@ -26,7 +26,6 @@ import org.openrewrite.java.tree.J;
 import org.openrewrite.java.tree.JavaType;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<JavaType.Variable>> {
@@ -102,9 +101,8 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<J
                 Expression firstArgument = mi.getArguments().get(0);
                 if (firstArgument instanceof J.Literal) {
                     // Return if the first argument is a literal and does not match either property
-                    J.Literal literalExp = (J.Literal) firstArgument;
-                    Object value = literalExp.getValue();
-                    if (!value.equals(INITIAL_PROPERTY) && !value.equals(URL_PROPERTY)) {
+                    String stringValue = ((J.Literal) firstArgument).toString();
+                    if (!stringValue.equals(INITIAL_PROPERTY) && !stringValue.equals(URL_PROPERTY)) {
                         return mi;
                     }
                 } else if (firstArgument instanceof J.Identifier) {
