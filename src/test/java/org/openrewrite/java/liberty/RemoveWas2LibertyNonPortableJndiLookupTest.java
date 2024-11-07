@@ -113,8 +113,6 @@ class RemoveWas2LibertyNonPortableJndiLookupTest implements RewriteTest {
 
                   public void doX() {
                       Hashtable<String, String> env = new Hashtable<String, String>();
-                      String initial = "java.naming.factory.initial";
-                      String url = "java.naming.provider.url";
                       env.put("valid", "valid");
 
                       InitialContext ctx = new InitialContext(env);
@@ -164,10 +162,6 @@ class RemoveWas2LibertyNonPortableJndiLookupTest implements RewriteTest {
 
                   public void doX() {
                       Hashtable<String, String> env = new Hashtable<String, String>();
-                      String initial = "";
-                      String url = "";
-                      initial = "java.naming.factory.initial";
-                      url = "java.naming.provider.url";
                       env.put("valid", "valid");
 
                       InitialContext ctx = new InitialContext(env);
@@ -244,8 +238,6 @@ class RemoveWas2LibertyNonPortableJndiLookupTest implements RewriteTest {
               import javax.naming.InitialContext;
 
               public class ServerNameUsage {
-                  private String initial = "java.naming.factory.initial";
-                  private String url = "java.naming.provider.url";
 
                   public void doX() {
                       Hashtable<String, String> env = new Hashtable<String, String>();

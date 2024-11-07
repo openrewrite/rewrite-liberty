@@ -24,6 +24,8 @@ import org.openrewrite.java.MethodMatcher;
 import org.openrewrite.java.tree.Expression;
 import org.openrewrite.java.tree.J;
 import org.openrewrite.java.tree.JavaType;
+import org.openrewrite.staticanalysis.RemoveUnusedLocalVariables;
+import org.openrewrite.staticanalysis.RemoveUnusedPrivateFields;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -109,6 +111,10 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<J
                     // Return if the first argument is a variable and does not match the type of any collected variables
                     if (!acc.contains(((J.Identifier) firstArgument).getFieldType())) {
                         return mi;
+                    } else {
+                        // Remove the variable if this was the only use
+                        doAfterVisit(new RemoveUnusedLocalVariables(null, null).getVisitor());
+                        doAfterVisit(new RemoveUnusedPrivateFields().getVisitor());
                     }
                 }
 
