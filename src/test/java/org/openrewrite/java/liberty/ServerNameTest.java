@@ -46,6 +46,30 @@ class ServerNameTest implements RewriteTest {
       }
       """;
 
+    String adminServiceClass = """
+      package com.ibm.websphere.management;
+
+      public class AdminService {
+
+          public static String getProcessName() {
+              return "";
+          }
+
+      }
+      """;
+
+    String rasHelper = """
+      package com.ibm.ejs.ras;
+
+      public class RasHelper {
+
+          public static String getServerName() {
+              return "";
+          }
+
+      }
+      """;
+
     @Test
     void replaceGetFullNameTest() {
         rewriteRun(
@@ -58,7 +82,7 @@ class ServerNameTest implements RewriteTest {
               import com.ibm.websphere.runtime.ServerName;
 
               public class ServerNameUsage {
-                  
+
                   public void doX() {
                       ServerName.getFullName();
                   }
@@ -69,7 +93,7 @@ class ServerNameTest implements RewriteTest {
               package com.ibm;
 
               public class ServerNameUsage {
-                  
+
                   public void doX() {
                       System.getProperty("wlp.server.name");
                   }
@@ -92,7 +116,7 @@ class ServerNameTest implements RewriteTest {
               import com.ibm.websphere.runtime.ServerName;
 
               public class ServerNameUsage {
-                  
+
                   public void doX() {
                       ServerName.getDisplayName();
                   }
@@ -103,7 +127,75 @@ class ServerNameTest implements RewriteTest {
               package com.ibm;
 
               public class ServerNameUsage {
-                  
+
+                  public void doX() {
+                      System.getProperty("wlp.server.name");
+                  }
+
+              }
+              """
+          )
+        );
+    }
+
+    @Test
+    void replaceGetProcessNameTest() {
+        rewriteRun(
+          java(adminServiceClass),
+          //language=java
+          java(
+            """
+              package com.ibm;
+
+              import com.ibm.websphere.management.AdminService;
+
+              public class ServerNameUsage {
+
+                  public void doX() {
+                      AdminService.getProcessName();
+                  }
+
+              }
+              """,
+            """
+              package com.ibm;
+
+              public class ServerNameUsage {
+
+                  public void doX() {
+                      System.getProperty("wlp.server.name");
+                  }
+
+              }
+              """
+          )
+        );
+    }
+
+    @Test
+    void replaceGetServerNameTest() {
+        rewriteRun(
+          java(rasHelper),
+          //language=java
+          java(
+            """
+              package com.ibm;
+
+              import com.ibm.ejs.ras.RasHelper;
+
+              public class ServerNameUsage {
+
+                  public void doX() {
+                      RasHelper.getServerName();
+                  }
+
+              }
+              """,
+            """
+              package com.ibm;
+
+              public class ServerNameUsage {
+
                   public void doX() {
                       System.getProperty("wlp.server.name");
                   }

@@ -19,7 +19,7 @@ import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
 import org.openrewrite.java.JavaTemplate;
-import org.openrewrite.java.JavaVisitor;
+import org.openrewrite.java.JavaIsoVisitor;
 import org.openrewrite.java.MethodMatcher;
 import org.openrewrite.java.tree.J;
 
@@ -36,16 +36,24 @@ public class ServerName extends Recipe {
     }
 
     private static final String SERVER_NAME = "com.ibm.websphere.runtime.ServerName";
-    private static final MethodMatcher getDisplayName = new MethodMatcher(SERVER_NAME + " getDisplayName()");
-    private static final MethodMatcher getFullName = new MethodMatcher(SERVER_NAME + " getFullName()");
+    private static final MethodMatcher GET_DISPLAY_NAME = new MethodMatcher(SERVER_NAME + " getDisplayName()");
+    private static final MethodMatcher GET_FULL_NAME = new MethodMatcher(SERVER_NAME + " getFullName()");
+
+    private static final String ADMIN_SERVICE = "com.ibm.websphere.management.AdminService";
+    private static final MethodMatcher GET_PROCESS_NAME = new MethodMatcher(ADMIN_SERVICE + " getProcessName()");
+
+    private static final String RAS_HELPER = "com.ibm.ejs.ras.RasHelper";
+    private static final MethodMatcher GET_SERVER_NAME = new MethodMatcher(RAS_HELPER + " getServerName()");
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
-        return new JavaVisitor<ExecutionContext>() {
+        return new JavaIsoVisitor<ExecutionContext>() {
             @Override
-            public J visitMethodInvocation(J.MethodInvocation elem, ExecutionContext ctx) {
-                if (getDisplayName.matches(elem) || getFullName.matches(elem)) {
+            public J.MethodInvocation visitMethodInvocation(J.MethodInvocation elem, ExecutionContext ctx) {
+                if (GET_DISPLAY_NAME.matches(elem) || GET_FULL_NAME.matches(elem) || GET_PROCESS_NAME.matches(elem) || GET_SERVER_NAME.matches(elem)) {
                     maybeRemoveImport(SERVER_NAME);
+                    maybeRemoveImport(ADMIN_SERVICE);
+                    maybeRemoveImport(RAS_HELPER);
                     return JavaTemplate.builder("System.getProperty(\"wlp.server.name\")").build()
                             .apply(getCursor(), elem.getCoordinates().replace());
                 }
