@@ -96,13 +96,13 @@ class EJBDDNamespaceTest implements RewriteTest {
                       </ejb-ref>
                       </session>
                   </enterprise-beans>
-                  
+
                   <interceptors>
                       <interceptor>
                       <interceptor-class>test.Interceptor1</interceptor-class>
                       </interceptor>
                   </interceptors>
-                  
+
                   <assembly-descriptor>
                       <interceptor-binding>
                       <ejb-name>*</ejb-name>
@@ -123,13 +123,13 @@ class EJBDDNamespaceTest implements RewriteTest {
                       </ejb-ref>
                       </session>
                   </enterprise-beans>
-                  
+
                   <interceptors>
                       <interceptor>
                       <interceptor-class>test.Interceptor1</interceptor-class>
                       </interceptor>
                   </interceptors>
-                  
+
                   <assembly-descriptor>
                       <interceptor-binding>
                       <ejb-name>*</ejb-name>
@@ -159,13 +159,13 @@ class EJBDDNamespaceTest implements RewriteTest {
                       </ejb-ref>
                       </session>
                   </enterprise-beans>
-                  
+
                   <interceptors>
                       <interceptor>
                       <interceptor-class>test.Interceptor1</interceptor-class>
                       </interceptor>
                   </interceptors>
-                  
+
                   <assembly-descriptor>
                       <interceptor-binding>
                       <ejb-name>*</ejb-name>
@@ -186,13 +186,13 @@ class EJBDDNamespaceTest implements RewriteTest {
                       </ejb-ref>
                       </session>
                   </enterprise-beans>
-                  
+
                   <interceptors>
                       <interceptor>
                       <interceptor-class>test.Interceptor1</interceptor-class>
                       </interceptor>
                   </interceptors>
-                  
+
                   <assembly-descriptor>
                       <interceptor-binding>
                       <ejb-name>*</ejb-name>
@@ -228,7 +228,7 @@ class EJBDDNamespaceTest implements RewriteTest {
                                           <env-entry-type>java.lang.Long</env-entry-type>
                                           <env-entry-value>11011</env-entry-value>
                                   </env-entry>
-                          </session>              
+                          </session>
                   </enterprise-beans>
               </ejb-jar>
               """,
@@ -250,7 +250,7 @@ class EJBDDNamespaceTest implements RewriteTest {
                                           <env-entry-type>java.lang.Long</env-entry-type>
                                           <env-entry-value>11011</env-entry-value>
                                   </env-entry>
-                          </session>              
+                          </session>
                   </enterprise-beans>
               </ejb-jar>
               """
@@ -281,7 +281,7 @@ class EJBDDNamespaceTest implements RewriteTest {
                                           <env-entry-type>java.lang.Long</env-entry-type>
                                           <env-entry-value>11011</env-entry-value>
                                   </env-entry>
-                          </session>              
+                          </session>
                   </enterprise-beans>
               </ejb-jar>
               """,
@@ -303,7 +303,7 @@ class EJBDDNamespaceTest implements RewriteTest {
                                           <env-entry-type>java.lang.Long</env-entry-type>
                                           <env-entry-value>11011</env-entry-value>
                                   </env-entry>
-                          </session>              
+                          </session>
                   </enterprise-beans>
               </ejb-jar>
               """

@@ -32,41 +32,33 @@ class ServerNameTest implements RewriteTest {
     //language=java
     String serverNameClass = """
       package com.ibm.websphere.runtime;
-
       public class ServerName {
-
           public static String getDisplayName() {
               return "";
           }
-
           public static String getFullName() {
               return "";
           }
-
       }
       """;
 
+    //language=java
     String adminServiceClass = """
       package com.ibm.websphere.management;
-
       public class AdminService {
-
           public static String getProcessName() {
               return "";
           }
-
       }
       """;
 
+    //language=java
     String rasHelper = """
       package com.ibm.ejs.ras;
-
       public class RasHelper {
-
           public static String getServerName() {
               return "";
           }
-
       }
       """;
 
@@ -77,27 +69,19 @@ class ServerNameTest implements RewriteTest {
           //language=java
           java(
             """
-              package com.ibm;
-
               import com.ibm.websphere.runtime.ServerName;
 
-              public class ServerNameUsage {
-
-                  public void doX() {
+              class ServerNameUsage {
+                  void doX() {
                       ServerName.getFullName();
                   }
-
               }
               """,
             """
-              package com.ibm;
-
-              public class ServerNameUsage {
-
-                  public void doX() {
+              class ServerNameUsage {
+                  void doX() {
                       System.getProperty("wlp.server.name");
                   }
-
               }
               """
           )
@@ -111,27 +95,19 @@ class ServerNameTest implements RewriteTest {
           //language=java
           java(
             """
-              package com.ibm;
-
               import com.ibm.websphere.runtime.ServerName;
 
-              public class ServerNameUsage {
-
-                  public void doX() {
+              class ServerNameUsage {
+                  void doX() {
                       ServerName.getDisplayName();
                   }
-
               }
               """,
             """
-              package com.ibm;
-
-              public class ServerNameUsage {
-
-                  public void doX() {
+              class ServerNameUsage {
+                  void doX() {
                       System.getProperty("wlp.server.name");
                   }
-
               }
               """
           )
@@ -145,27 +121,19 @@ class ServerNameTest implements RewriteTest {
           //language=java
           java(
             """
-              package com.ibm;
-
               import com.ibm.websphere.management.AdminService;
 
-              public class ServerNameUsage {
-
-                  public void doX() {
+              class ServerNameUsage {
+                  void doX() {
                       AdminService.getProcessName();
                   }
-
               }
               """,
             """
-              package com.ibm;
-
-              public class ServerNameUsage {
-
-                  public void doX() {
+              class ServerNameUsage {
+                  void doX() {
                       System.getProperty("wlp.server.name");
                   }
-
               }
               """
           )
@@ -179,27 +147,19 @@ class ServerNameTest implements RewriteTest {
           //language=java
           java(
             """
-              package com.ibm;
-
               import com.ibm.ejs.ras.RasHelper;
 
-              public class ServerNameUsage {
-
-                  public void doX() {
+              class ServerNameUsage {
+                  void doX() {
                       RasHelper.getServerName();
                   }
-
               }
               """,
             """
-              package com.ibm;
-
-              public class ServerNameUsage {
-
-                  public void doX() {
+              class ServerNameUsage {
+                  void doX() {
                       System.getProperty("wlp.server.name");
                   }
-
               }
               """
           )

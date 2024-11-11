@@ -16,11 +16,7 @@
 package org.openrewrite.xml.liberty;
 
 import org.jspecify.annotations.Nullable;
-import org.openrewrite.ExecutionContext;
-import org.openrewrite.Recipe;
-import org.openrewrite.SourceFile;
-import org.openrewrite.Tree;
-import org.openrewrite.TreeVisitor;
+import org.openrewrite.*;
 import org.openrewrite.java.marker.JavaProject;
 
 import java.io.File;
@@ -40,7 +36,7 @@ public class PersistenceXmlLocationRule extends Recipe {
         return "This recipes moves persistence.xml files into the root META-INF directory in source folder.";
     }
 
-    public File getProjectDirectory(File sourceFile, String projectName) {
+    private @Nullable File getProjectDirectory(File sourceFile, String projectName) {
         File parent = sourceFile.getParentFile();
         while (parent != null && !parent.getName().equals(projectName)) {
             parent = parent.getParentFile();
@@ -49,7 +45,7 @@ public class PersistenceXmlLocationRule extends Recipe {
         return parent;
     }
 
-    public List<File> getSrcDirectories(SourceFile sourceFile) {
+    private List<File> getSrcDirectories(SourceFile sourceFile) {
         List<File> srcDirs = new ArrayList<>();
         Path sourcePath = sourceFile.getSourcePath();
 

@@ -21,7 +21,7 @@ type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.MigrateFromWebSphereToLiberty
 displayName: Migrate from WebSphere traditional to Liberty
 description: >-
-  Use this category of rules to identify code changes needed when migrating 
+  Use this category of rules to identify code changes needed when migrating
   from WebSphere Application Server traditional to Liberty.
 recipeList:
   - org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
@@ -39,7 +39,7 @@ type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOMethods
 displayName: Use `getSSOCookieFromSSOToken` and `logout`
 description: >-
-  This recipe replaces `LTPACookieFromSSOToken()` with  `getSSOCookieFromSSOToken`  and `revokeSSOCookies` with `logout`. The two methods are  deprecated in traditional WebSphere Application 
+  This recipe replaces `LTPACookieFromSSOToken()` with  `getSSOCookieFromSSOToken`  and `revokeSSOCookies` with `logout`. The two methods are  deprecated in traditional WebSphere Application
   Server Version 8.5 and might be removed in a future release. They are not available on Liberty.
 recipeList:
   - org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
@@ -137,7 +137,7 @@ recipeList:
       searchAllNamespaces: false
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name:  org.openrewrite.maven.liberty.AddOpenLibertyPlugin
+name: org.openrewrite.maven.liberty.AddOpenLibertyPlugin
 displayName: Add Liberty Maven plugin
 description: This recipe adds the Liberty Maven plugin, which provides several goals for managing a Liberty server and applications.
 recipeList:
