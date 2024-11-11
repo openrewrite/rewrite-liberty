@@ -41,37 +41,39 @@ class WebSphereUnavailableSSOMethodsTest implements RewriteTest {
         rewriteRun(
           //language=java
           java(
-                """                  
-            import com.ibm.websphere.security.WSSecurityHelper;
-                              
-            import javax.servlet.http.Cookie;
-            import javax.servlet.http.HttpServletRequest;
-            import javax.servlet.http.HttpServletResponse;
+            """
+              import com.ibm.websphere.security.WSSecurityHelper;
 
-            public class Test {
-                public void doX() {
-                    Cookie ltpaCookie = WSSecurityHelper.getLTPACookieFromSSOToken();
-                }
-                void revoke(HttpServletRequest req, HttpServletResponse res) {
-                    WSSecurityHelper.revokeSSOCookies(req,res);
-                }        
-            }
-            """, """
-            import com.ibm.websphere.security.web.WebSecurityHelper;
-                              
-            import javax.servlet.http.Cookie;
-            import javax.servlet.http.HttpServletRequest;
-            import javax.servlet.http.HttpServletResponse;
-                              
-            public class Test {
-                public void doX() {
-                    Cookie ltpaCookie = WebSecurityHelper.getSSOCookieFromSSOToken();
-                }
-                void revoke(HttpServletRequest req, HttpServletResponse res) {
-                    req.logout();
-                }
-            }
-            """));
+              import javax.servlet.http.Cookie;
+              import javax.servlet.http.HttpServletRequest;
+              import javax.servlet.http.HttpServletResponse;
+
+              public class Test {
+                  public void doX() {
+                      Cookie ltpaCookie = WSSecurityHelper.getLTPACookieFromSSOToken();
+                  }
+                  void revoke(HttpServletRequest req, HttpServletResponse res) {
+                      WSSecurityHelper.revokeSSOCookies(req,res);
+                  }
+              }
+              """, """
+              import com.ibm.websphere.security.web.WebSecurityHelper;
+
+              import javax.servlet.http.Cookie;
+              import javax.servlet.http.HttpServletRequest;
+              import javax.servlet.http.HttpServletResponse;
+
+              public class Test {
+                  public void doX() {
+                      Cookie ltpaCookie = WebSecurityHelper.getSSOCookieFromSSOToken();
+                  }
+                  void revoke(HttpServletRequest req, HttpServletResponse res) {
+                      req.logout();
+                  }
+              }
+              """
+          )
+        );
     }
 
 }

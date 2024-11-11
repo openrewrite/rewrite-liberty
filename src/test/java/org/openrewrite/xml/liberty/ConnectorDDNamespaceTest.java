@@ -35,9 +35,9 @@ class ConnectorDDNamespaceTest implements RewriteTest {
         spec.expectedCyclesThatMakeChanges(2);
     }
 
-     @DocumentExample
-     @Test
-     void replaceVersion15Test() {
+    @DocumentExample
+    @Test
+    void replaceVersion15Test() {
         rewriteRun(
           //language=xml
           xml(
