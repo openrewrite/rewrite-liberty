@@ -16,6 +16,7 @@
 package org.openrewrite.java.liberty;
 
 
+import org.jspecify.annotations.Nullable;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.ScanningRecipe;
 import org.openrewrite.TreeVisitor;
@@ -94,7 +95,7 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<J
         return new JavaIsoVisitor<ExecutionContext>() {
 
             @Override
-            public J.MethodInvocation visitMethodInvocation(J.MethodInvocation mi, ExecutionContext ctx) {
+            public @Nullable J.MethodInvocation visitMethodInvocation(J.MethodInvocation mi, ExecutionContext ctx) {
                 // Return if this method does not match Hashtable.put()
                 if (!methodMatcher.matches(mi)) {
                     return mi;
