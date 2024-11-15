@@ -58,14 +58,20 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<J
             @Override
             public J.VariableDeclarations visitVariableDeclarations(J.VariableDeclarations vd, ExecutionContext ctx) {
                 for (J.VariableDeclarations.NamedVariable variable : vd.getVariables()) {
-                    checkForPropertiesVariable(variable.getVariableType(), variable.getInitializer());
+                    Expression initializer = variable.getInitializer();
+                    if (initializer != null) {
+                        checkForPropertiesVariable(variable.getVariableType(), initializer);
+                    }
                 }
                 return vd;
             }
 
             @Override
             public J.Assignment visitAssignment(J.Assignment assignment, ExecutionContext ctx) {
-                JavaType.Variable variable = ((J.Identifier) assignment.getVariable()).getFieldType();
+                Expression assignmentVariable = assignment.getVariable();
+                if (!(assignmentVariable instanceof J.Identifier)) return assignment;
+                J.Identifier assignmentVariableIdentifier = (J.Identifier) assignmentVariable;
+                JavaType.Variable variable = assignmentVariableIdentifier.getFieldType();
                 if (!checkForPropertiesVariable(variable, assignment.getAssignment())) {
                     // If present, remove the variable from the accumulator since it was reassigned to an unrelated value
                     acc.remove(variable);
