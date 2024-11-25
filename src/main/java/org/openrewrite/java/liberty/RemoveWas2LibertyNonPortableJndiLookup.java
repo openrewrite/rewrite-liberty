@@ -69,7 +69,9 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<J
             @Override
             public J.Assignment visitAssignment(J.Assignment assignment, ExecutionContext ctx) {
                 Expression assignmentVariable = assignment.getVariable();
-                if (!(assignmentVariable instanceof J.Identifier)) return assignment;
+                if (!(assignmentVariable instanceof J.Identifier)) {
+                    return assignment;
+                }
                 J.Identifier assignmentVariableIdentifier = (J.Identifier) assignmentVariable;
                 JavaType.Variable variable = assignmentVariableIdentifier.getFieldType();
                 if (!checkForPropertiesVariable(variable, assignment.getAssignment())) {
