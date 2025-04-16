@@ -68,7 +68,7 @@ class ServerNameTest implements RewriteTest {
           java(serverNameClass),
           //language=java
           java(
-            """
+                """
               import com.ibm.websphere.runtime.ServerName;
 
               class ServerNameUsage {
@@ -77,7 +77,7 @@ class ServerNameTest implements RewriteTest {
                   }
               }
               """,
-            """
+                """
               class ServerNameUsage {
                   void doX() {
                       System.getProperty("wlp.server.name");
@@ -94,7 +94,7 @@ class ServerNameTest implements RewriteTest {
           java(serverNameClass),
           //language=java
           java(
-            """
+                """
               import com.ibm.websphere.runtime.ServerName;
 
               class ServerNameUsage {
@@ -103,7 +103,7 @@ class ServerNameTest implements RewriteTest {
                   }
               }
               """,
-            """
+                """
               class ServerNameUsage {
                   void doX() {
                       System.getProperty("wlp.server.name");
@@ -120,7 +120,7 @@ class ServerNameTest implements RewriteTest {
           java(adminServiceClass),
           //language=java
           java(
-            """
+                """
               import com.ibm.websphere.management.AdminService;
 
               class ServerNameUsage {
@@ -129,7 +129,7 @@ class ServerNameTest implements RewriteTest {
                   }
               }
               """,
-            """
+                """
               class ServerNameUsage {
                   void doX() {
                       System.getProperty("wlp.server.name");
@@ -146,7 +146,7 @@ class ServerNameTest implements RewriteTest {
           java(rasHelper),
           //language=java
           java(
-            """
+                """
               import com.ibm.ejs.ras.RasHelper;
 
               class ServerNameUsage {
@@ -155,7 +155,7 @@ class ServerNameTest implements RewriteTest {
                   }
               }
               """,
-            """
+                """
               class ServerNameUsage {
                   void doX() {
                       System.getProperty("wlp.server.name");

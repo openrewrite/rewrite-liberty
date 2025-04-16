@@ -56,7 +56,8 @@ class WebSphereUnavailableSSOMethodsTest implements RewriteTest {
                       WSSecurityHelper.revokeSSOCookies(req,res);
                   }
               }
-              """, """
+              """,
+                """
               import com.ibm.websphere.security.web.WebSecurityHelper;
 
               import javax.servlet.http.Cookie;
