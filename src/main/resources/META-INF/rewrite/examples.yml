@@ -1,0 +1,336 @@
+# Copyright 2025 the original author or authors.
+# <p>
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# <p>
+# https://www.apache.org/licenses/LICENSE-2.0
+# <p>
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+type: specs.openrewrite.org/v1beta/example
+recipeName: org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
+examples:
+- description: ''
+  sources:
+  - before: |
+      package com.ibm;
+
+      import java.util.Hashtable;
+      import javax.naming.InitialContext;
+
+      public class ServerNameUsage {
+
+          public void doX() {
+              Hashtable ht = new Hashtable();
+              ht.put("java.naming.factory.initial", "com.ibm.websphere.naming.WsnInitialContextFactory");
+              ht.put("java.naming.provider.url", "corbaloc:iiop:localhost:2809");
+              ht.put("valid", "valid");
+
+              InitialContext ctx = new InitialContext(ht);
+          }
+
+      }
+    after: |
+      package com.ibm;
+
+      import java.util.Hashtable;
+      import javax.naming.InitialContext;
+
+      public class ServerNameUsage {
+
+          public void doX() {
+              Hashtable ht = new Hashtable();
+              ht.put("valid", "valid");
+
+              InitialContext ctx = new InitialContext(ht);
+          }
+
+      }
+    language: java
+---
+type: specs.openrewrite.org/v1beta/example
+recipeName: org.openrewrite.java.liberty.WebSphereUnavailableSSOMethods
+examples:
+- description: ''
+  sources:
+  - before: |
+      import com.ibm.websphere.security.WSSecurityHelper;
+
+      import javax.servlet.http.Cookie;
+      import javax.servlet.http.HttpServletRequest;
+      import javax.servlet.http.HttpServletResponse;
+
+      public class Test {
+          public void doX() {
+              Cookie ltpaCookie = WSSecurityHelper.getLTPACookieFromSSOToken();
+          }
+          void revoke(HttpServletRequest req, HttpServletResponse res) {
+              WSSecurityHelper.revokeSSOCookies(req,res);
+          }
+      }
+    after: |
+      import com.ibm.websphere.security.web.WebSecurityHelper;
+
+      import javax.servlet.http.Cookie;
+      import javax.servlet.http.HttpServletRequest;
+      import javax.servlet.http.HttpServletResponse;
+
+      public class Test {
+          public void doX() {
+              Cookie ltpaCookie = WebSecurityHelper.getSSOCookieFromSSOToken();
+          }
+          void revoke(HttpServletRequest req, HttpServletResponse res) {
+              req.logout();
+          }
+      }
+    language: java
+---
+type: specs.openrewrite.org/v1beta/example
+recipeName: org.openrewrite.maven.liberty.AddOpenLibertyPlugin
+examples:
+- description: ''
+  sources:
+  - before: |
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <project xmlns="http://maven.apache.org/POM/4.0.0"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+          <modelVersion>4.0.0</modelVersion>
+          <groupId>com.demo</groupId>
+          <artifactId>app-name</artifactId>
+          <version>1.0-SNAPSHOT</version>
+          <packaging>war</packaging>
+          <properties>
+              <maven.compiler.source>21</maven.compiler.source>
+              <maven.compiler.target>21</maven.compiler.target>
+              <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+          </properties>
+          <dependencies>
+              <dependency>
+                  <groupId>org.eclipse.microprofile</groupId>
+                  <artifactId>microprofile</artifactId>
+                  <version>6.1</version>
+                  <type>pom</type>
+                  <scope>provided</scope>
+              </dependency>
+          </dependencies>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-war-plugin</artifactId>
+                      <version>3.3.2</version>
+                  </plugin>
+              </plugins>
+          </build>
+      </project>
+    after: |
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <project xmlns="http://maven.apache.org/POM/4.0.0"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+          <modelVersion>4.0.0</modelVersion>
+          <groupId>com.demo</groupId>
+          <artifactId>app-name</artifactId>
+          <version>1.0-SNAPSHOT</version>
+          <packaging>war</packaging>
+          <properties>
+              <maven.compiler.source>21</maven.compiler.source>
+              <maven.compiler.target>21</maven.compiler.target>
+              <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+          </properties>
+          <dependencies>
+              <dependency>
+                  <groupId>org.eclipse.microprofile</groupId>
+                  <artifactId>microprofile</artifactId>
+                  <version>6.1</version>
+                  <type>pom</type>
+                  <scope>provided</scope>
+              </dependency>
+          </dependencies>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-war-plugin</artifactId>
+                      <version>3.3.2</version>
+                  </plugin>
+                  <plugin>
+                      <groupId>io.openliberty.tools</groupId>
+                      <artifactId>liberty-maven-plugin</artifactId>
+                      <version>3.10.3</version>
+                  </plugin>
+              </plugins>
+          </build>
+      </project>
+    path: pom.xml
+    language: xml
+---
+type: specs.openrewrite.org/v1beta/example
+recipeName: org.openrewrite.xml.liberty.AppDDNamespaceRule
+examples:
+- description: ''
+  sources:
+  - before: |
+      <application xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.4">
+          <description> DayTrader Stock Trading Performance Benchmark Sample </description>
+          <display-name>Trade</display-name>
+          <module>
+              <java>daytrader-streamer-1.0.jar</java>
+          </module>
+          <module>
+              <java>daytrader-wsappclient-1.0.jar</java>
+          </module>
+          <module>
+              <web>
+                  <web-uri>daytrader-web-1.0.war</web-uri>
+                  <context-root>/daytrader</context-root>
+              </web>
+          </module>
+          <module>
+              <ejb>daytrader-ejb-1.0.jar</ejb>
+          </module>
+      </application>
+    after: |
+      <application xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.4">
+          <description> DayTrader Stock Trading Performance Benchmark Sample </description>
+          <display-name>Trade</display-name>
+          <module>
+              <java>daytrader-streamer-1.0.jar</java>
+          </module>
+          <module>
+              <java>daytrader-wsappclient-1.0.jar</java>
+          </module>
+          <module>
+              <web>
+                  <web-uri>daytrader-web-1.0.war</web-uri>
+                  <context-root>/daytrader</context-root>
+              </web>
+          </module>
+          <module>
+              <ejb>daytrader-ejb-1.0.jar</ejb>
+          </module>
+      </application>
+    language: xml
+---
+type: specs.openrewrite.org/v1beta/example
+recipeName: org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
+examples:
+- description: ''
+  sources:
+  - before: |
+      <connector xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.5">
+          <display-name>Generic JCA</display-name>
+          <vendor-name>adam-bien.com</vendor-name>
+          <eis-type>Generic JCA</eis-type>
+          <resourceadapter-version>1.0</resourceadapter-version>
+          <resourceadapter>
+              <outbound-resourceadapter>
+                  <connection-definition>
+                      <managedconnectionfactory-class>...genericjca.GenericManagedConnectionFactory</managedconnectionfactory-class>
+                      <connectionfactory-interface>...genericjca.DataSource</connectionfactory-interface>
+                      <connectionfactory-impl-class>...genericjca.FileDataSource</connectionfactory-impl-class>
+                      <connection-interface>...genericjca.Connection</connection-interface>
+                      <connection-impl-class>...genericjca.FileConnection</connection-impl-class>
+                  </connection-definition>
+                  <transaction-support>LocalTransaction</transaction-support>
+                  <authentication-mechanism>
+                      <authentication-mechanism-type>BasicPassword</authentication-mechanism-type>
+                      <credential-interface>javax.resource.spi.security.PasswordCredential</credential-interface>
+                  </authentication-mechanism>
+                  <reauthentication-support>false</reauthentication-support>
+              </outbound-resourceadapter>
+          </resourceadapter>
+      </connector>
+    after: |
+      <connector xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.5">
+          <display-name>Generic JCA</display-name>
+          <vendor-name>adam-bien.com</vendor-name>
+          <eis-type>Generic JCA</eis-type>
+          <resourceadapter-version>1.0</resourceadapter-version>
+          <resourceadapter>
+              <outbound-resourceadapter>
+                  <connection-definition>
+                      <managedconnectionfactory-class>...genericjca.GenericManagedConnectionFactory</managedconnectionfactory-class>
+                      <connectionfactory-interface>...genericjca.DataSource</connectionfactory-interface>
+                      <connectionfactory-impl-class>...genericjca.FileDataSource</connectionfactory-impl-class>
+                      <connection-interface>...genericjca.Connection</connection-interface>
+                      <connection-impl-class>...genericjca.FileConnection</connection-impl-class>
+                  </connection-definition>
+                  <transaction-support>LocalTransaction</transaction-support>
+                  <authentication-mechanism>
+                      <authentication-mechanism-type>BasicPassword</authentication-mechanism-type>
+                      <credential-interface>javax.resource.spi.security.PasswordCredential</credential-interface>
+                  </authentication-mechanism>
+                  <reauthentication-support>false</reauthentication-support>
+              </outbound-resourceadapter>
+          </resourceadapter>
+      </connector>
+    language: xml
+---
+type: specs.openrewrite.org/v1beta/example
+recipeName: org.openrewrite.xml.liberty.EJBDDNamespaceRule
+examples:
+- description: ''
+  sources:
+  - before: |
+      <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_2_1.xsd">
+          <display-name>
+          EchoEJBProject</display-name>
+          <enterprise-beans>
+              <session id="EchoEJB">
+                  <ejb-name>EchoEJB</ejb-name>
+                  <home>test.EchoEJBHome</home>
+                  <remote>test.EchoEJB</remote>
+                  <service-endpoint>test.EchoEJB</service-endpoint>
+                  <ejb-class>test.EchoEJBBean</ejb-class>
+                  <session-type>Stateless</session-type>
+                  <transaction-type>Container</transaction-type>
+              </session>
+          </enterprise-beans>
+      </ejb-jar>
+    after: |
+      <ejb-jar xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_2_1.xsd">
+          <display-name>
+          EchoEJBProject</display-name>
+          <enterprise-beans>
+              <session id="EchoEJB">
+                  <ejb-name>EchoEJB</ejb-name>
+                  <home>test.EchoEJBHome</home>
+                  <remote>test.EchoEJB</remote>
+                  <service-endpoint>test.EchoEJB</service-endpoint>
+                  <ejb-class>test.EchoEJBBean</ejb-class>
+                  <session-type>Stateless</session-type>
+                  <transaction-type>Container</transaction-type>
+              </session>
+          </enterprise-beans>
+      </ejb-jar>
+    language: xml
+---
+type: specs.openrewrite.org/v1beta/example
+recipeName: org.openrewrite.xml.liberty.PersistenceXmlLocationRule
+examples:
+- description: ''
+  sources:
+  - after: testEjbWithJpa
+    language: project
+---
+type: specs.openrewrite.org/v1beta/example
+recipeName: org.openrewrite.xml.liberty.WebDDNamespaceRule
+examples:
+- description: ''
+  sources:
+  - before: |
+      <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" id="WebApp_ID">
+          <display-name>testWebDDNamespace</display-name>
+      </web-app>
+    after: |
+      <web-app xmlns="http://java.sun.com/xml/ns/j2ee" version="2.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" id="WebApp_ID">
+          <display-name>testWebDDNamespace</display-name>
+      </web-app>
+    language: xml
