@@ -137,7 +137,7 @@ recipeList:
       searchAllNamespaces: false
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.xml.liberty.OpenWebBeansSchemaMigrator
+name: org.openrewrite.xml.liberty.WebBeansXmlRule
 displayName: Replace OpenWebBeans schema in beans.xml
 description: |
   1. Rename `<WebBeans>` → `<beans>`

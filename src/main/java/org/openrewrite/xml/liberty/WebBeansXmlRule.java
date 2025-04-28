@@ -40,7 +40,7 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.toMap;
 
-public class OpenWebBeansSchemaMigrator extends Recipe {
+public class WebBeansXmlRule extends Recipe {
 
     @Override
     public String getDisplayName() {
