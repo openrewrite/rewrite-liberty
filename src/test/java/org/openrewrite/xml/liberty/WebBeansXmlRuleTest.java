@@ -24,7 +24,7 @@ import org.openrewrite.test.RewriteTest;
 import static org.openrewrite.xml.Assertions.xml;
 
 
-class OpenWebBeansSchemaMigratorTest implements RewriteTest {
+class WebBeansXmlRuleTest implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
