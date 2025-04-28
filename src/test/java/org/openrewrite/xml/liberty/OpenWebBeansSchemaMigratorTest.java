@@ -16,6 +16,7 @@
 package org.openrewrite.xml.liberty;
 
 import org.junit.jupiter.api.Test;
+import org.openrewrite.DocumentExample;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
@@ -23,13 +24,14 @@ import org.openrewrite.test.RewriteTest;
 import static org.openrewrite.xml.Assertions.xml;
 
 
-public class OpenWebBeansSchemaMigratorTest implements RewriteTest {
+class OpenWebBeansSchemaMigratorTest implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
         spec.recipe(new OpenWebBeansSchemaMigrator());
     }
 
+    @DocumentExample
     @Test
     void replaceWebBeansRootAndAttributes() {
         rewriteRun(
