@@ -139,20 +139,15 @@ recipeList:
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.WebBeansXmlRule
 displayName: Replace OpenWebBeans schema in beans.xml
-description: |
-  1. Rename `<WebBeans>` → `<beans>`
-  2. Update the default xmlns to the CDI namespace
-  3. Fix up xsi:schemaLocation to the 1.1 XSD
+description: This recipe renames <WebBeans> to <beans>, switches to the CDI namespace and updates xsi:schemaLocation to the 1.1 XSD. They are not available in Liberty.
 recipeList:
   - org.openrewrite.xml.ChangeTagName:
       elementName: WebBeans
       newTagName: beans
-
   - org.openrewrite.xml.ChangeTagAttribute:
       elementName: beans
       attributeName: xmlns
       newValue: http://xmlns.jcp.org/xml/ns/javaee
-
   - org.openrewrite.xml.ChangeTagAttribute:
       elementName: beans
       attributeName: xsi:schemaLocation
