@@ -19,8 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.openrewrite.DocumentExample;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
-import static org.openrewrite.xml.Assertions.xml;
 
+import static org.openrewrite.xml.Assertions.xml;
 
 class WebBeansXmlRuleTest implements RewriteTest {
 
@@ -35,20 +35,20 @@ class WebBeansXmlRuleTest implements RewriteTest {
         rewriteRun(
           xml(
             """
-            <WebBeans xmlns="urn:java:ee"
-                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                      xsi:schemaLocation="
-                          urn:java:ee http://java.sun.com/jee/beans-1.0.xsd">
-              <!-- some beans here -->
-            </WebBeans>
-            """,
+              <WebBeans xmlns="urn:java:ee"
+                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        xsi:schemaLocation="
+                            urn:java:ee http://java.sun.com/jee/beans-1.0.xsd">
+                <!-- some beans here -->
+              </WebBeans>
+              """,
             """
-            <beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                      xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd">
-              <!-- some beans here -->
-            </beans>
-            """,
+              <beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd">
+                <!-- some beans here -->
+              </beans>
+              """,
             spec -> spec.path("src/main/resources/META-INF/beans.xml")
           )
         );
@@ -60,14 +60,14 @@ class WebBeansXmlRuleTest implements RewriteTest {
         rewriteRun(
           xml(
             """
-            <beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="
-                       http://xmlns.jcp.org/xml/ns/javaee
-                       http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd">
-              <!-- already up-to-date -->
-            </beans>
-            """,
+              <beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="
+                         http://xmlns.jcp.org/xml/ns/javaee
+                         http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd">
+                <!-- already up-to-date -->
+              </beans>
+              """,
             // still beans.xml so recipe will run, but should make zero edits
             spec -> spec.path("beans.xml")
           )
