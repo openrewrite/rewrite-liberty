@@ -139,7 +139,7 @@ recipeList:
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.WebBeansXmlRule
 displayName: Replace OpenWebBeans schema in beans.xml
-description: This recipe is specific to Java EE 7, renames `<WebBeans>` to `<beans>`, switches to the CDI namespace, and updates `xsi:schemaLocation` to the 1.1 XSD. It is not supported in Liberty.
+description: The OpenWebBeans schema for beans.xml files is not supported in the Liberty CDI 1.2 implementation. This recipe updates beans.xml files using the OpenWebBeans schema to instead use the Weld implementation supported in Liberty CDI 1.2.
 recipeList:
   - org.openrewrite.xml.ChangeTagName:
       elementName: WebBeans
