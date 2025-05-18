@@ -21,7 +21,7 @@ import org.openrewrite.DocumentExample;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.openrewrite.java.Assertions.project;
@@ -47,7 +47,7 @@ class PersistenceXmlLocationRuleTest implements RewriteTest {
               </persistence>
               """,
             spec -> project(spec, "testEjbWithJpa").path("testEjbWithJpa/notsrc/META-INF/persistence.xml")
-              .afterRecipe(pt -> assertThat(pt.getSourcePath()).isEqualTo(Paths.get(System.getProperty("user.dir"), "testEjbWithJpa/src/META-INF/persistence.xml")))
+              .afterRecipe(pt -> assertThat(pt.getSourcePath()).isEqualTo(Path.of(System.getProperty("user.dir"), "testEjbWithJpa/src/META-INF/persistence.xml")))
           )
         );
     }
