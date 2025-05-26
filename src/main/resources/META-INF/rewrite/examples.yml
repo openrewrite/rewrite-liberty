@@ -321,6 +321,26 @@ examples:
     language: project
 ---
 type: specs.openrewrite.org/v1beta/example
+recipeName: org.openrewrite.xml.liberty.WebBeansXmlRule
+examples:
+- description: ''
+  sources:
+  - before: |
+      <WebBeans xmlns="urn:java:ee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="
+                    urn:java:ee http://java.sun.com/jee/beans-1.0.xsd">
+        <!-- some beans here -->
+      </WebBeans>
+    after: |
+      <beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd">
+        <!-- some beans here -->
+      </beans>
+    language: xml
+---
+type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.xml.liberty.WebDDNamespaceRule
 examples:
 - description: ''
