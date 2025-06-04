@@ -164,3 +164,15 @@ recipeList:
       groupId: io.openliberty.tools
       artifactId: liberty-maven-plugin
       version: 3.10.3
+---
+type: specs.openrewrite.org/v1beta/recipe
+name: org.openrewrite.maven.WasDevMvnChangeParentArtifactId
+displayName: Update Maven `<parent>` coordinates
+description: This recipe changes the artifactId of the `<parent>` tag in the `pom.xml` from `java8-parent` to `parent`.
+recipeList:
+  - org.openrewrite.maven.ChangeParentPom:
+      oldGroupId: net.wasdev.maven.parent
+      oldArtifactId: java8-parent
+      newArtifactId: parent
+      newVersion: 1.4
+
