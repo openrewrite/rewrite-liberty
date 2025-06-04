@@ -21,7 +21,6 @@ import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
-import static org.openrewrite.java.Assertions.mavenProject;
 import static org.openrewrite.maven.Assertions.pomXml;
 
 class WasDevMvnChangeParentArtifactIdTest implements RewriteTest {
@@ -39,10 +38,7 @@ class WasDevMvnChangeParentArtifactIdTest implements RewriteTest {
           //language=XML
           pomXml(
             """
-              <project xmlns="http://maven.apache.org/POM/4.0.0"
-                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                       xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                                           http://maven.apache.org/xsd/maven-4.0.0.xsd">
+              <project>
                   <modelVersion>4.0.0</modelVersion>
                    <parent>
                         <groupId>net.wasdev.maven.parent</groupId>
@@ -53,10 +49,7 @@ class WasDevMvnChangeParentArtifactIdTest implements RewriteTest {
               </project>
               """,
             """
-              <project xmlns="http://maven.apache.org/POM/4.0.0"
-                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                       xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                                           http://maven.apache.org/xsd/maven-4.0.0.xsd">
+              <project>
                   <modelVersion>4.0.0</modelVersion>
                    <parent>
                         <groupId>net.wasdev.maven.parent</groupId>
@@ -77,10 +70,7 @@ class WasDevMvnChangeParentArtifactIdTest implements RewriteTest {
           //language=XML
           pomXml(
             """
-              <project xmlns="http://maven.apache.org/POM/4.0.0"
-                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                       xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                                           http://maven.apache.org/xsd/maven-4.0.0.xsd">
+              <project>
                   <modelVersion>4.0.0</modelVersion>
                    <parent>
                         <groupId>net.wasdev.maven.parent</groupId>
