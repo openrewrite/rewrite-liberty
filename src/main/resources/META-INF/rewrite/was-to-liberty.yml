@@ -34,6 +34,7 @@ recipeList:
   - org.openrewrite.xml.liberty.WebDDNamespaceRule
   - org.openrewrite.xml.liberty.DetectUnsupportedJSF
   - org.openrewrite.maven.liberty.AddOpenLibertyPlugin
+  - org.openrewrite.maven.WasDevMvnChangeParentArtifactId
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOMethods
@@ -167,7 +168,7 @@ recipeList:
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.maven.WasDevMvnChangeParentArtifactId
-displayName: Update Maven `<parent>` coordinates
+displayName: Change `net.wasdev.maven.parent:java8-parent` to `:parent`
 description: This recipe changes the artifactId of the `<parent>` tag in the `pom.xml` from `java8-parent` to `parent`.
 recipeList:
   - org.openrewrite.maven.ChangeParentPom:
