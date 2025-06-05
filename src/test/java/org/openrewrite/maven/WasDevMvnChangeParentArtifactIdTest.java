@@ -27,7 +27,7 @@ class WasDevMvnChangeParentArtifactIdTest implements RewriteTest {
     @Test
     void mvnChangeParentArtifactId() {
         rewriteRun(
-          spec -> spec.recipeFromResources("org.openrewrite.maven.WasDevMvnChangeParentArtifactId"),
+          spec -> spec.recipeFromResources("org.openrewrite.maven.liberty.WasDevMvnChangeParentArtifactId"),
           //language=XML
           pomXml(
             """
@@ -59,7 +59,7 @@ class WasDevMvnChangeParentArtifactIdTest implements RewriteTest {
     @Test
     void noChangeParentArtifactId() {
         rewriteRun(
-          spec -> spec.recipeFromResources("org.openrewrite.maven.WasDevMvnChangeParentArtifactId"),
+          spec -> spec.recipeFromResources("org.openrewrite.maven.liberty.WasDevMvnChangeParentArtifactId"),
           //language=XML
           pomXml(
             """
