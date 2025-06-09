@@ -1,127 +1,97 @@
-/*
- * Copyright 2025 the original author or authors.
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * https://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.openrewrite.java.liberty;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 
-import org.intellij.lang.annotations.Language;
 import org.openrewrite.ExecutionContext;
+import org.openrewrite.Preconditions;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
 
-import org.openrewrite.java.JavaIsoVisitor;
-import org.openrewrite.java.JavaParser;
+import org.openrewrite.java.*;
+import org.openrewrite.java.search.UsesMethod;
 import org.openrewrite.java.tree.J;
-import org.openrewrite.SourceFile;
+import org.openrewrite.staticanalysis.RemoveUnneededBlock;
 
+@Value
+@EqualsAndHashCode(callSuper = false)
 public class ReplaceWSPrincipalGetCredential extends Recipe {
+
+    private static final MethodMatcher GET_CREDENTIAL =
+            new MethodMatcher(
+                    "com.ibm.websphere.security.auth.WSPrincipal getCredential()", true);
 
     @Override
     public String getDisplayName() {
-        return "Replace WSPrincipal.getCredential() implementation";
+        return "Replace WSPrincipal.getCredential() with WSSubject lookup";
     }
 
     @Override
     public String getDescription() {
-        return "Replace a public zero-arg `WSCredential getCredential()` with WSSubject.getCallerSubject() logic.";
+        return "Replaces `WSCredential credential = WSPrincipal.getCredential();` with a null-init + try/catch lookup.";
     }
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
-        return new JavaIsoVisitor<ExecutionContext>() {
+        return Preconditions.check(
+                new UsesMethod<>(GET_CREDENTIAL),
+                new JavaVisitor<ExecutionContext>() {
+                    private static final String TEMPLATE = ""
+                            + "{\n"
+                            + "    WSCredential credential = null;\n"
+                            + "    try {\n"
+                            + "        javax.security.auth.Subject subject = WSSubject.getCallerSubject();\n"
+                            + "        if (subject != null) {\n"
+                            + "            credential = subject.getPublicCredentials(WSCredential.class)\n"
+                            + "                                 .iterator().next();\n"
+                            + "        }\n"
+                            + "    } catch (Exception e) {\n"
+                            + "        e.printStackTrace();\n"
+                            + "    }\n"
+                            + "}";
 
-            private final JavaParser parser = JavaParser.fromJavaVersion().build();
+                    private final JavaTemplate blockTemplate = JavaTemplate.builder(TEMPLATE)
+                            .contextSensitive()
+                            .imports(
 
-            @Override
-            public J.MethodDeclaration visitMethodDeclaration(J.MethodDeclaration md, ExecutionContext ctx) {
-                md = super.visitMethodDeclaration(md, ctx);
+                                    "com.ibm.websphere.security.cred.WSCredential"
+                            )
+                            .build();
 
-                if (!"getCredential".equals(md.getSimpleName())) {
-                    return md;
-                }
-
-                boolean isPublic = md.getModifiers().stream()
-                        .anyMatch(m -> m.getType().equals(J.Modifier.Type.Public));
-                if (!isPublic) {
-                    return md;
-                }
-
-                if (md.getReturnTypeExpression() == null) {
-                    return md;
-                }
-                String returnType = md.getReturnTypeExpression().printTrimmed();
-                if (!returnType.endsWith("WSCredential")) {
-                    return md;
-                }
-
-                @Language("java")
-                String dummy =
-                        "class Dummy {\n" +
-                                "    public com.ibm.websphere.security.cred.WSCredential getCredential() {\n" +
-                                "        com.ibm.websphere.security.cred.WSCredential credential = null;\n" +
-                                "        try {\n" +
-                                "            javax.security.auth.Subject subject =\n" +
-                                "                com.ibm.websphere.security.auth.WSSubject.getCallerSubject();\n" +
-                                "            if (subject != null) {\n" +
-                                "                credential = subject.getPublicCredentials(\n" +
-                                "                    com.ibm.websphere.security.cred.WSCredential.class\n" +
-                                "                ).iterator().next();\n" +
-                                "            }\n" +
-                                "        } catch (Exception e) {\n" +
-                                "            e.printStackTrace();\n" +
-                                "        }\n" +
-                                "        return credential;\n" +
-                                "    }\n" +
-                                "}";
-
-                List<SourceFile> parsed = parser.parse(dummy).collect(Collectors.toList());
-                J.Block newBody = null;
-                for (SourceFile sf : parsed) {
-                    if (!(sf instanceof J.CompilationUnit)) {
-                        continue;
-                    }
-                    J.CompilationUnit cu = (J.CompilationUnit) sf;
-                    for (J.ClassDeclaration cd : cu.getClasses()) {
-                        if (!"Dummy".equals(cd.getSimpleName())) {
-                            continue;
+                    @Override
+                    public J visitVariableDeclarations(J.VariableDeclarations multi, ExecutionContext ctx) {
+                        J after = super.visitVariableDeclarations(multi, ctx);
+                        if (!(after instanceof J.VariableDeclarations)) {
+                            return after;
                         }
-                        for (Object stmt : cd.getBody().getStatements()) {
-                            if (stmt instanceof J.MethodDeclaration) {
-                                J.MethodDeclaration dmd = (J.MethodDeclaration) stmt;
-                                if ("getCredential".equals(dmd.getSimpleName()) && dmd.getBody() != null) {
-                                    newBody = dmd.getBody();
-                                    break;
-                                }
-                            }
+                        J.VariableDeclarations vd = (J.VariableDeclarations) after;
+                        if (vd.getVariables().size() != 1) {
+                            return vd;
                         }
-                        if (newBody != null) {
-                            break;
+                        J.VariableDeclarations.NamedVariable nv = vd.getVariables().get(0);
+                        if (!(nv.getInitializer() instanceof J.MethodInvocation)) {
+                            return vd;
                         }
-                    }
-                    if (newBody != null) {
-                        break;
+                        J.MethodInvocation mi = (J.MethodInvocation) nv.getInitializer();
+                        if (!GET_CREDENTIAL.matches(mi)) {
+                            return vd;
+                        }
+
+                        // 1) Replace the one declaration with our single-block template
+                        J replaced = blockTemplate.apply(
+                                getCursor(),
+                                vd.getCoordinates().replace()
+                        );
+
+                        doAfterVisit(new RemoveUnneededBlock().getVisitor());
+                        doAfterVisit(new AddImport<>("com.ibm.websphere.security.auth.WSSubject",null,false));
+                        doAfterVisit(new RemoveImport<>("com.ibm.websphere.security.auth.WSPrincipal"));
+                        doAfterVisit(
+                                ShortenFullyQualifiedTypeReferences.modifyOnly(replaced)
+                        );
+                        return replaced;
                     }
                 }
-                if (newBody == null) {
-                    return md;
-                }
-
-                return md.withBody(newBody);
-            }
-        };
+        );
     }
 }
