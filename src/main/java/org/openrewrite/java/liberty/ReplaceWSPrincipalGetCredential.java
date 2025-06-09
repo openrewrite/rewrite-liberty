@@ -70,7 +70,7 @@ public class ReplaceWSPrincipalGetCredential extends Recipe {
                         J replaced = JavaTemplate.builder("{\n" +
                                         "    WSCredential credential = null;\n" +
                                         "    try {\n" +
-                                        "        javax.security.auth.Subject subject = WSSubject.getCallerSubject();\n" +
+                                        "        Subject subject = WSSubject.getCallerSubject();\n" +
                                         "        if (subject != null) {\n" +
                                         "            credential = subject.getPublicCredentials(WSCredential.class)\n" +
                                         "                                 .iterator().next();\n" +
@@ -81,19 +81,32 @@ public class ReplaceWSPrincipalGetCredential extends Recipe {
                                         "}")
                                 .imports(
                                         "com.ibm.websphere.security.cred.WSCredential",
-                                        "com.ibm.websphere.security.auth.WSSubject")
+                                        "com.ibm.websphere.security.auth.WSSubject",
+                                        "javax.security.auth.Subject")
                                 .javaParser(JavaParser.fromJavaVersion().dependsOn(
+                                        // Define the WSSubject class
                                         "package com.ibm.websphere.security.auth;\n" +
                                                 "import javax.security.auth.Subject;\n" +
                                                 "public class WSSubject {\n" +
                                                 "    public static Subject getCallerSubject() { return null; }\n" +
-                                                "}"))
+                                                "}",
+                                        // Define the WSCredential class
+                                        "package com.ibm.websphere.security.cred;\n" +
+                                                "public class WSCredential {}",
+                                        // Define the Subject class
+                                        "package javax.security.auth;\n" +
+                                                "public class Subject {\n" +
+                                                "    public <T> Set<T> getPublicCredentials(Class<T> c){ return null;}\n" +
+                                                "}"
+
+                                ))
                                 .build()
                                 .apply(getCursor(), vd.getCoordinates().replace());
 
                         doAfterVisit(new RemoveUnneededBlock().getVisitor());
                         maybeRemoveImport("com.ibm.websphere.security.auth.WSPrincipal");
                         maybeAddImport("com.ibm.websphere.security.auth.WSSubject");
+                        maybeAddImport("javax.security.auth.Subject");
                         doAfterVisit(ShortenFullyQualifiedTypeReferences.modifyOnly(replaced));
                         return replaced;
                     }

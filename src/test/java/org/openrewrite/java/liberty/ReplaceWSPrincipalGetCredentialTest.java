@@ -27,9 +27,7 @@ class ReplaceWSPrincipalGetCredentialTest implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
-        spec.recipe(new ReplaceWSPrincipalGetCredential())
-          // disable all type checks so our stubs + injected code don’t produce LST errors
-          .typeValidationOptions(TypeValidation.none());
+        spec.recipe(new ReplaceWSPrincipalGetCredential());
     }
 
     @DocumentExample
@@ -85,11 +83,13 @@ class ReplaceWSPrincipalGetCredentialTest implements RewriteTest {
               import com.ibm.websphere.security.auth.WSSubject;
               import com.ibm.websphere.security.cred.WSCredential;
 
+              import javax.security.auth.Subject;
+
               class A {
                   void fetchCredential() {
                       WSCredential credential = null;
                       try {
-                          javax.security.auth.Subject subject = WSSubject.getCallerSubject();
+                          Subject subject = WSSubject.getCallerSubject();
                           if (subject != null) {
                               credential = subject.getPublicCredentials(WSCredential.class)
                                       .iterator().next();
