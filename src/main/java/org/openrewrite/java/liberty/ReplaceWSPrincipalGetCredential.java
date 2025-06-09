@@ -51,19 +51,19 @@ public class ReplaceWSPrincipalGetCredential extends Recipe {
         return Preconditions.check(
                 new UsesMethod<>(GET_CREDENTIAL),
                 new JavaVisitor<ExecutionContext>() {
-                    private static final String TEMPLATE = ""
-                            + "{\n"
-                            + "    WSCredential credential = null;\n"
-                            + "    try {\n"
-                            + "        javax.security.auth.Subject subject = WSSubject.getCallerSubject();\n"
-                            + "        if (subject != null) {\n"
-                            + "            credential = subject.getPublicCredentials(WSCredential.class)\n"
-                            + "                                 .iterator().next();\n"
-                            + "        }\n"
-                            + "    } catch (Exception e) {\n"
-                            + "        e.printStackTrace();\n"
-                            + "    }\n"
-                            + "}";
+                    private static final String TEMPLATE = "" +
+                            "{\n" +
+                            "    WSCredential credential = null;\n" +
+                            "    try {\n" +
+                            "        javax.security.auth.Subject subject = WSSubject.getCallerSubject();\n" +
+                            "        if (subject != null) {\n" +
+                            "            credential = subject.getPublicCredentials(WSCredential.class)\n" +
+                            "                                 .iterator().next();\n" +
+                            "        }\n" +
+                            "    } catch (Exception e) {\n" +
+                            "        e.printStackTrace();\n" +
+                            "    }\n" +
+                            "}";
 
                     private final JavaTemplate blockTemplate = JavaTemplate.builder(TEMPLATE)
                             .contextSensitive()
