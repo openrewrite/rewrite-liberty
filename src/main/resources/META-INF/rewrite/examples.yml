@@ -96,10 +96,7 @@ examples:
 - description: ''
   sources:
   - before: |
-      <?xml version="1.0" encoding="UTF-8" ?>
-      <project xmlns="http://maven.apache.org/POM/4.0.0"
-               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+      <project>
           <modelVersion>4.0.0</modelVersion>
           <groupId>com.demo</groupId>
           <artifactId>app-name</artifactId>
@@ -130,10 +127,7 @@ examples:
           </build>
       </project>
     after: |
-      <?xml version="1.0" encoding="UTF-8" ?>
-      <project xmlns="http://maven.apache.org/POM/4.0.0"
-               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+      <project>
           <modelVersion>4.0.0</modelVersion>
           <groupId>com.demo</groupId>
           <artifactId>app-name</artifactId>
@@ -167,6 +161,34 @@ examples:
                   </plugin>
               </plugins>
           </build>
+      </project>
+    path: pom.xml
+    language: xml
+---
+type: specs.openrewrite.org/v1beta/example
+recipeName: org.openrewrite.maven.liberty.WasDevMvnChangeParentArtifactId
+examples:
+- description: ''
+  sources:
+  - before: |
+      <project>
+          <modelVersion>4.0.0</modelVersion>
+           <parent>
+                <groupId>net.wasdev.maven.parent</groupId>
+                 <artifactId>java8-parent</artifactId>
+                 <version>1.4</version>
+           </parent>
+           <artifactId>my-artifact</artifactId>
+      </project>
+    after: |
+      <project>
+          <modelVersion>4.0.0</modelVersion>
+           <parent>
+                <groupId>net.wasdev.maven.parent</groupId>
+                 <artifactId>parent</artifactId>
+                 <version>1.4</version>
+           </parent>
+           <artifactId>my-artifact</artifactId>
       </project>
     path: pom.xml
     language: xml
