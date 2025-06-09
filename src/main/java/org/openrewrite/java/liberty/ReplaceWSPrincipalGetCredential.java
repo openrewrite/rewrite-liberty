@@ -17,12 +17,10 @@ package org.openrewrite.java.liberty;
 
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Preconditions;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
-
 import org.openrewrite.java.*;
 import org.openrewrite.java.search.UsesMethod;
 import org.openrewrite.java.tree.J;
@@ -48,31 +46,7 @@ public class ReplaceWSPrincipalGetCredential extends Recipe {
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
-        return Preconditions.check(
-                new UsesMethod<>(GET_CREDENTIAL),
-                new JavaVisitor<ExecutionContext>() {
-                    private static final String TEMPLATE = "" +
-                            "{\n" +
-                            "    WSCredential credential = null;\n" +
-                            "    try {\n" +
-                            "        javax.security.auth.Subject subject = WSSubject.getCallerSubject();\n" +
-                            "        if (subject != null) {\n" +
-                            "            credential = subject.getPublicCredentials(WSCredential.class)\n" +
-                            "                                 .iterator().next();\n" +
-                            "        }\n" +
-                            "    } catch (Exception e) {\n" +
-                            "        e.printStackTrace();\n" +
-                            "    }\n" +
-                            "}";
-
-                    private final JavaTemplate blockTemplate = JavaTemplate.builder(TEMPLATE)
-                            .contextSensitive()
-                            .imports(
-
-                                    "com.ibm.websphere.security.cred.WSCredential"
-                            )
-                            .build();
-
+        return Preconditions.check(new UsesMethod<>(GET_CREDENTIAL), new JavaVisitor<ExecutionContext>() {
                     @Override
                     public J visitVariableDeclarations(J.VariableDeclarations multi, ExecutionContext ctx) {
                         J after = super.visitVariableDeclarations(multi, ctx);
@@ -93,17 +67,34 @@ public class ReplaceWSPrincipalGetCredential extends Recipe {
                         }
 
                         // 1) Replace the one declaration with our single-block template
-                        J replaced = blockTemplate.apply(
-                                getCursor(),
-                                vd.getCoordinates().replace()
-                        );
+                        J replaced = JavaTemplate.builder("{\n" +
+                                        "    WSCredential credential = null;\n" +
+                                        "    try {\n" +
+                                        "        javax.security.auth.Subject subject = WSSubject.getCallerSubject();\n" +
+                                        "        if (subject != null) {\n" +
+                                        "            credential = subject.getPublicCredentials(WSCredential.class)\n" +
+                                        "                                 .iterator().next();\n" +
+                                        "        }\n" +
+                                        "    } catch (Exception e) {\n" +
+                                        "        e.printStackTrace();\n" +
+                                        "    }\n" +
+                                        "}")
+                                .imports(
+                                        "com.ibm.websphere.security.cred.WSCredential",
+                                        "com.ibm.websphere.security.auth.WSSubject")
+                                .javaParser(JavaParser.fromJavaVersion().dependsOn(
+                                        "package com.ibm.websphere.security.auth;\n" +
+                                                "import javax.security.auth.Subject;\n" +
+                                                "public class WSSubject {\n" +
+                                                "    public static Subject getCallerSubject() { return null; }\n" +
+                                                "}"))
+                                .build()
+                                .apply(getCursor(), vd.getCoordinates().replace());
 
                         doAfterVisit(new RemoveUnneededBlock().getVisitor());
-                        doAfterVisit(new AddImport<>("com.ibm.websphere.security.auth.WSSubject",null,false));
-                        doAfterVisit(new RemoveImport<>("com.ibm.websphere.security.auth.WSPrincipal"));
-                        doAfterVisit(
-                                ShortenFullyQualifiedTypeReferences.modifyOnly(replaced)
-                        );
+                        maybeRemoveImport("com.ibm.websphere.security.auth.WSPrincipal");
+                        maybeAddImport("com.ibm.websphere.security.auth.WSSubject");
+                        doAfterVisit(ShortenFullyQualifiedTypeReferences.modifyOnly(replaced));
                         return replaced;
                     }
                 }
