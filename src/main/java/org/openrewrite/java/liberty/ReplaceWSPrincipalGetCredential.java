@@ -65,14 +65,14 @@ public class ReplaceWSPrincipalGetCredential extends Recipe {
                         if (!GET_CREDENTIAL.matches(mi)) {
                             return vd;
                         }
-
+                        String credential = vd.getVariables().get(0).getSimpleName();
                         // 1) Replace the one declaration with our single-block template
                         J replaced = JavaTemplate.builder("{\n" +
-                                        "    WSCredential credential = null;\n" +
+                                        "    WSCredential " + credential + " = null;\n" +
                                         "    try {\n" +
                                         "        Subject subject = WSSubject.getCallerSubject();\n" +
                                         "        if (subject != null) {\n" +
-                                        "            credential = subject.getPublicCredentials(WSCredential.class)\n" +
+                                        "            " + credential + " = subject.getPublicCredentials(WSCredential.class)\n" +
                                         "                                 .iterator().next();\n" +
                                         "        }\n" +
                                         "    } catch (Exception e) {\n" +
