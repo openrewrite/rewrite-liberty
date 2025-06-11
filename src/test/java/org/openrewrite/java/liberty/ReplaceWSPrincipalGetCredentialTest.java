@@ -15,8 +15,10 @@
  */
 package org.openrewrite.java.liberty;
 
+import org.intellij.lang.annotations.Language;
 import org.junit.jupiter.api.Test;
 import org.openrewrite.DocumentExample;
+import org.openrewrite.java.JavaParser;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
@@ -26,41 +28,37 @@ class ReplaceWSPrincipalGetCredentialTest implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
-        spec.recipe(new ReplaceWSPrincipalGetCredential());
+        spec.parser(JavaParser.fromJavaVersion().dependsOn(wsPrincipal, wsSubject, wsCredential))
+          .recipe(new ReplaceWSPrincipalGetCredential());
     }
+
+    @Language("java")
+    String wsPrincipal = """
+      package com.ibm.websphere.security.auth;
+      import com.ibm.websphere.security.cred.WSCredential;
+      public class WSPrincipal {
+          public static WSCredential getCredential() { return null; }
+      }
+      """;
+    @Language("java")
+    String wsSubject = """
+      package com.ibm.websphere.security.auth;
+      import javax.security.auth.Subject;
+      public class WSSubject {
+          public static Subject getCallerSubject() { return null; }
+      }
+      """;
+    @Language("java")
+    String wsCredential = """
+      package com.ibm.websphere.security.cred;
+      public class WSCredential {}
+      """;
 
     @DocumentExample
     @Test
     void assignmentRewrite() {
         rewriteRun(
-          // stub WSPrincipal
-          java(
-            """
-              package com.ibm.websphere.security.auth;
-              import com.ibm.websphere.security.cred.WSCredential;
-              public class WSPrincipal {
-                  public static WSCredential getCredential() { return null; }
-              }
-              """
-          ),
-          // stub WSSubject
-          java(
-            """
-              package com.ibm.websphere.security.auth;
-              import javax.security.auth.Subject;
-              public class WSSubject {
-                  public static Subject getCallerSubject() { return null; }
-              }
-              """
-          ),
-          // stub WSCredential
-          java(
-            """
-              package com.ibm.websphere.security.cred;
-              public class WSCredential {}
-              """
-          ),
-          // before → after
+          //language=java
           java(
             // before
             """

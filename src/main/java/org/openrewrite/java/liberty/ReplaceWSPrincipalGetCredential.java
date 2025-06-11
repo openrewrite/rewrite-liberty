@@ -65,20 +65,20 @@ public class ReplaceWSPrincipalGetCredential extends Recipe {
                         if (!GET_CREDENTIAL.matches(mi)) {
                             return vd;
                         }
-                        String credential = vd.getVariables().get(0).getSimpleName();
+                        String credential = nv.getSimpleName();
                         // 1) Replace the one declaration with our single-block template
                         J replaced = JavaTemplate.builder("{\n" +
-                                        "    WSCredential " + credential + " = null;\n" +
-                                        "    try {\n" +
-                                        "        Subject subject = WSSubject.getCallerSubject();\n" +
-                                        "        if (subject != null) {\n" +
-                                        "            " + credential + " = subject.getPublicCredentials(WSCredential.class)\n" +
-                                        "                                 .iterator().next();\n" +
-                                        "        }\n" +
-                                        "    } catch (Exception e) {\n" +
-                                        "        e.printStackTrace();\n" +
-                                        "    }\n" +
-                                        "}")
+                                                          "    WSCredential " + credential + " = null;\n" +
+                                                          "    try {\n" +
+                                                          "        Subject subject = WSSubject.getCallerSubject();\n" +
+                                                          "        if (subject != null) {\n" +
+                                                          "            " + credential + " = subject.getPublicCredentials(WSCredential.class)\n" +
+                                                          "                                 .iterator().next();\n" +
+                                                          "        }\n" +
+                                                          "    } catch (Exception e) {\n" +
+                                                          "        e.printStackTrace();\n" +
+                                                          "    }\n" +
+                                                          "}")
                                 .imports(
                                         "com.ibm.websphere.security.cred.WSCredential",
                                         "com.ibm.websphere.security.auth.WSSubject",
@@ -86,18 +86,18 @@ public class ReplaceWSPrincipalGetCredential extends Recipe {
                                 .javaParser(JavaParser.fromJavaVersion().dependsOn(
                                         // Define the WSSubject class
                                         "package com.ibm.websphere.security.auth;\n" +
-                                                "import javax.security.auth.Subject;\n" +
-                                                "public class WSSubject {\n" +
-                                                "    public static Subject getCallerSubject() { return null; }\n" +
-                                                "}",
+                                        "import javax.security.auth.Subject;\n" +
+                                        "public class WSSubject {\n" +
+                                        "    public static Subject getCallerSubject() { return null; }\n" +
+                                        "}",
                                         // Define the WSCredential class
                                         "package com.ibm.websphere.security.cred;\n" +
-                                                "public class WSCredential {}",
+                                        "public class WSCredential {}",
                                         // Define the Subject class
                                         "package javax.security.auth;\n" +
-                                                "public class Subject {\n" +
-                                                "    public <T> Set<T> getPublicCredentials(Class<T> c){ return null;}\n" +
-                                                "}"
+                                        "public class Subject {\n" +
+                                        "    public <T> Set<T> getPublicCredentials(Class<T> c){ return null;}\n" +
+                                        "}"
 
                                 ))
                                 .build()
