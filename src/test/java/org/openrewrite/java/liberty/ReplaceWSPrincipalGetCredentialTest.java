@@ -40,6 +40,7 @@ class ReplaceWSPrincipalGetCredentialTest implements RewriteTest {
           public static WSCredential getCredential() { return null; }
       }
       """;
+
     @Language("java")
     String wsSubject = """
       package com.ibm.websphere.security.auth;
@@ -48,6 +49,7 @@ class ReplaceWSPrincipalGetCredentialTest implements RewriteTest {
           public static Subject getCallerSubject() { return null; }
       }
       """;
+
     @Language("java")
     String wsCredential = """
       package com.ibm.websphere.security.cred;
