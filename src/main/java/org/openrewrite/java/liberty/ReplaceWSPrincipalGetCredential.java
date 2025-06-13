@@ -33,18 +33,16 @@ import org.openrewrite.staticanalysis.RemoveUnneededBlock;
 @EqualsAndHashCode(callSuper = false)
 public class ReplaceWSPrincipalGetCredential extends Recipe {
 
-    private static final MethodMatcher GET_CREDENTIAL =
-            new MethodMatcher(
-                    "com.ibm.websphere.security.auth.WSPrincipal getCredential()", true);
+    private static final MethodMatcher GET_CREDENTIAL = new MethodMatcher("com.ibm.websphere.security.auth.WSPrincipal getCredential()", true);
 
     @Override
     public String getDisplayName() {
-        return "Replace WSPrincipal.getCredential() with WSSubject lookup";
+        return "Replace `WSPrincipal.getCredential()` with `WSSubject` lookup";
     }
 
     @Override
     public String getDescription() {
-        return "Replaces `WSCredential credential = WSPrincipal.getCredential();` with a null-init + try/catch lookup.";
+        return "Replaces `WSCredential credential = WSPrincipal.getCredential();` with a `null` initializer + `try/catch` lookup.";
     }
 
     @Override
