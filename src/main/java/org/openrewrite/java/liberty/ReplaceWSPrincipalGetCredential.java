@@ -21,7 +21,10 @@ import org.openrewrite.ExecutionContext;
 import org.openrewrite.Preconditions;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
-import org.openrewrite.java.*;
+import org.openrewrite.java.JavaParser;
+import org.openrewrite.java.JavaTemplate;
+import org.openrewrite.java.JavaVisitor;
+import org.openrewrite.java.MethodMatcher;
 import org.openrewrite.java.search.UsesMethod;
 import org.openrewrite.java.tree.J;
 import org.openrewrite.staticanalysis.RemoveUnneededBlock;
@@ -49,66 +52,48 @@ public class ReplaceWSPrincipalGetCredential extends Recipe {
         return Preconditions.check(new UsesMethod<>(GET_CREDENTIAL), new JavaVisitor<ExecutionContext>() {
                     @Override
                     public J visitVariableDeclarations(J.VariableDeclarations multi, ExecutionContext ctx) {
-                        J after = super.visitVariableDeclarations(multi, ctx);
-                        if (!(after instanceof J.VariableDeclarations)) {
-                            return after;
-                        }
-                        J.VariableDeclarations vd = (J.VariableDeclarations) after;
-                        if (vd.getVariables().size() != 1) {
+                        J.VariableDeclarations vd = (J.VariableDeclarations) super.visitVariableDeclarations(multi, ctx);
+                        if (vd.getVariables().size() != 1 || !GET_CREDENTIAL.matches(vd.getVariables().get(0).getInitializer())) {
                             return vd;
                         }
-                        J.VariableDeclarations.NamedVariable nv = vd.getVariables().get(0);
-                        if (!(nv.getInitializer() instanceof J.MethodInvocation)) {
-                            return vd;
-                        }
-                        J.MethodInvocation mi = (J.MethodInvocation) nv.getInitializer();
-                        if (!GET_CREDENTIAL.matches(mi)) {
-                            return vd;
-                        }
-                        String credential = nv.getSimpleName();
-                        // 1) Replace the one declaration with our single-block template
-                        J replaced = JavaTemplate.builder("{\n" +
-                                                          "    WSCredential " + credential + " = null;\n" +
-                                                          "    try {\n" +
-                                                          "        Subject subject = WSSubject.getCallerSubject();\n" +
-                                                          "        if (subject != null) {\n" +
-                                                          "            " + credential + " = subject.getPublicCredentials(WSCredential.class)\n" +
-                                                          "                                 .iterator().next();\n" +
-                                                          "        }\n" +
-                                                          "    } catch (Exception e) {\n" +
-                                                          "        e.printStackTrace();\n" +
-                                                          "    }\n" +
-                                                          "}")
-                                .imports(
-                                        "com.ibm.websphere.security.cred.WSCredential",
-                                        "com.ibm.websphere.security.auth.WSSubject",
-                                        "javax.security.auth.Subject")
-                                .javaParser(JavaParser.fromJavaVersion().dependsOn(
-                                        // Define the WSSubject class
-                                        "package com.ibm.websphere.security.auth;\n" +
-                                        "import javax.security.auth.Subject;\n" +
-                                        "public class WSSubject {\n" +
-                                        "    public static Subject getCallerSubject() { return null; }\n" +
-                                        "}",
-                                        // Define the WSCredential class
-                                        "package com.ibm.websphere.security.cred;\n" +
-                                        "public class WSCredential {}",
-                                        // Define the Subject class
-                                        "package javax.security.auth;\n" +
-                                        "public class Subject {\n" +
-                                        "    public <T> Set<T> getPublicCredentials(Class<T> c){ return null;}\n" +
-                                        "}"
-
-                                ))
-                                .build()
-                                .apply(getCursor(), vd.getCoordinates().replace());
-
                         doAfterVisit(new RemoveUnneededBlock().getVisitor());
                         maybeRemoveImport("com.ibm.websphere.security.auth.WSPrincipal");
                         maybeAddImport("com.ibm.websphere.security.auth.WSSubject");
                         maybeAddImport("javax.security.auth.Subject");
-                        doAfterVisit(ShortenFullyQualifiedTypeReferences.modifyOnly(replaced));
-                        return replaced;
+                        String variableName = vd.getVariables().get(0).getSimpleName();
+                        return JavaTemplate.builder("{\n" +
+                                        "    WSCredential " + variableName + " = null;\n" +
+                                        "    try {\n" +
+                                        "        Subject subject = WSSubject.getCallerSubject();\n" +
+                                        "        if (subject != null) {\n" +
+                                        "            " + variableName + " = subject.getPublicCredentials(WSCredential.class)\n" +
+                                        "                                 .iterator().next();\n" +
+                                        "        }\n" +
+                                        "    } catch (Exception e) {\n" +
+                                        "        e.printStackTrace();\n" +
+                                        "    }\n" +
+                                        "}")
+                                .imports(
+                                        "com.ibm.websphere.security.cred.WSCredential",
+                                        "com.ibm.websphere.security.auth.WSSubject",
+                                        "javax.security.auth.Subject")
+                                .javaParser(JavaParser.fromJavaVersion()
+                                        //language=java
+                                        .dependsOn(
+                                                "package com.ibm.websphere.security.auth;\n" +
+                                                        "public class WSSubject {\n" +
+                                                        "    public static javax.security.auth.Subject getCallerSubject() { return null; }\n" +
+                                                        "}",
+                                                "package com.ibm.websphere.security.cred;\n" +
+                                                        "public class WSCredential {}",
+                                                "package javax.security.auth;\n" +
+                                                        "public class Subject {\n" +
+                                                        "    public <T> java.util.Set<T> getPublicCredentials(Class<T> c){ return null;}\n" +
+                                                        "}"
+
+                                        ))
+                                .build()
+                                .apply(getCursor(), vd.getCoordinates().replace());
                     }
                 }
         );
