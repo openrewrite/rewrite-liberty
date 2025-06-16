@@ -29,8 +29,8 @@ import org.openrewrite.java.search.UsesMethod;
 import org.openrewrite.java.tree.J;
 import org.openrewrite.staticanalysis.RemoveUnneededBlock;
 
-@Value
 @EqualsAndHashCode(callSuper = false)
+@Value
 public class ReplaceWSPrincipalGetCredential extends Recipe {
 
     private static final MethodMatcher GET_CREDENTIAL = new MethodMatcher("com.ibm.websphere.security.auth.WSPrincipal getCredential()", true);
