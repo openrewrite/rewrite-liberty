@@ -34,6 +34,7 @@ recipeList:
   - org.openrewrite.xml.liberty.WebDDNamespaceRule
   - org.openrewrite.xml.liberty.DetectUnsupportedJSF
   - org.openrewrite.maven.liberty.AddOpenLibertyPlugin
+  - org.openrewrite.maven.liberty.WasDevMvnChangeParentArtifactId
 ---
 type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.java.liberty.WebSphereUnavailableSSOMethods
@@ -164,4 +165,3 @@ recipeList:
       groupId: io.openliberty.tools
       artifactId: liberty-maven-plugin
       version: 3.10.3
-
