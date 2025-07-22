@@ -118,13 +118,12 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<J
                     }
                 } else if (firstArgument instanceof J.Identifier) {
                     // Return if the first argument is a variable and does not match the type of any collected variables
-                    if (!acc.contains(((J.Identifier) firstArgument).getFieldType())) {
+                    if (!acc.contains( ((J.Identifier) firstArgument).getFieldType() )) {
                         return mi;
-                    } else {
-                        // Remove the variable if this was the only use
-                        doAfterVisit(new RemoveUnusedLocalVariables(null, null).getVisitor());
-                        doAfterVisit(new RemoveUnusedPrivateFields().getVisitor());
                     }
+                    // Remove the variable if this was the only use
+                    doAfterVisit( new RemoveUnusedLocalVariables(null, null).getVisitor() );
+                    doAfterVisit( new RemoveUnusedPrivateFields().getVisitor() );
                 }
 
                 return null;

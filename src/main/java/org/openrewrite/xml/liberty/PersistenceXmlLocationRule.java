@@ -82,18 +82,18 @@ public class PersistenceXmlLocationRule extends Recipe {
                     Path sourcePath = ((SourceFile) tree).getSourcePath();
                     if ("persistence.xml".equals(sourcePath.getFileName().toString())) {
                         String projectName = sourceFile.getMarkers()
-                                .findFirst(JavaProject.class)
-                                .map(JavaProject::getProjectName)
-                                .orElse("");
+                                .findFirst( JavaProject.class )
+                                .map( JavaProject::getProjectName )
+                                .orElse( "" );
 
-                        List<File> srcDirs = getSrcDirectories(sourceFile);
+                        List<File> srcDirs = getSrcDirectories( sourceFile );
                         boolean isValidPath = false;
                         boolean correctFileExists = false;
                         Path correctPath = null;
                         if (!srcDirs.isEmpty()) {
                             for (File srcDir : srcDirs) {
-                                correctPath = srcDir.toPath().resolve("META-INF").resolve("persistence.xml");
-                                if (sourcePath.toAbsolutePath().equals(correctPath.toAbsolutePath())) {
+                                correctPath = srcDir.toPath().resolve( "META-INF" ).resolve( "persistence.xml" );
+                                if (sourcePath.toAbsolutePath().equals( correctPath.toAbsolutePath() )) {
                                     isValidPath = true;
                                     break;
                                 }
@@ -103,18 +103,17 @@ public class PersistenceXmlLocationRule extends Recipe {
                                 }
                             }
                         } else {
-                            if (!sourcePath.toAbsolutePath().endsWith("src" + File.separator + "META-INF" + File.separator + "persistence.xml")) {
-                                File projectFile = getProjectDirectory(new File(sourcePath.toAbsolutePath().toString()), projectName);
-                                correctPath = projectFile.toPath().resolve("src").resolve("META-INF").resolve("persistence.xml");
-                                return ((SourceFile) tree).withSourcePath(correctPath);
+                            if (!sourcePath.toAbsolutePath().endsWith( "src" + File.separator + "META-INF" + File.separator + "persistence.xml" )) {
+                                File projectFile = getProjectDirectory( new File(sourcePath.toAbsolutePath().toString()), projectName );
+                                correctPath = projectFile.toPath().resolve( "src" ).resolve( "META-INF" ).resolve( "persistence.xml" );
+                                return ((SourceFile) tree).withSourcePath( correctPath );
                             }
                         }
 
                         if (!isValidPath && !correctFileExists && correctPath != null) {
-                            return ((SourceFile) tree).withSourcePath(correctPath);
-                        } else {
-                            return sourceFile;
+                            return ((SourceFile) tree).withSourcePath( correctPath );
                         }
+                        return sourceFile;
                     }
                 }
                 return super.visit(tree, ctx);
