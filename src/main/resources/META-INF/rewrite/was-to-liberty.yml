@@ -137,25 +137,6 @@ recipeList:
       searchAllNamespaces: false
 ---
 type: specs.openrewrite.org/v1beta/recipe
-name: org.openrewrite.xml.liberty.WebBeansXmlRule
-displayName: Replace OpenWebBeans schema in beans.xml
-description: The OpenWebBeans schema for beans.xml files is not supported in the Liberty CDI 1.2 implementation. This recipe updates beans.xml files using the OpenWebBeans schema to instead use the Weld implementation supported in Liberty CDI 1.2.
-recipeList:
-  - org.openrewrite.xml.ChangeTagName:
-      elementName: WebBeans
-      newTagName: beans
-  - org.openrewrite.xml.ChangeTagAttribute:
-      elementName: beans
-      attributeName: xmlns
-      newValue: http://xmlns.jcp.org/xml/ns/javaee
-  - org.openrewrite.xml.ChangeTagAttribute:
-      elementName: beans
-      attributeName: xsi:schemaLocation
-      newValue: >-
-        http://xmlns.jcp.org/xml/ns/javaee
-        http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd
----
-type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.maven.liberty.AddOpenLibertyPlugin
 displayName: Add Liberty Maven plugin
 description: This recipe adds the Liberty Maven plugin, which provides several goals for managing a Liberty server and applications.

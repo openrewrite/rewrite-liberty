@@ -71,10 +71,7 @@ public class WebBeansXmlRule extends Recipe {
 
                             if ("urn:java:ee".equalsIgnoreCase(xmlns)) {
 
-                                doAfterVisit(new ChangeTagName(
-                                        "WebBeans",
-                                        "beans"
-                                ).getVisitor());
+                                doAfterVisit(new ChangeTagName("WebBeans", "beans").getVisitor());
 
                                 doAfterVisit(new ChangeTagAttribute(
                                         "beans",
@@ -98,5 +95,4 @@ public class WebBeansXmlRule extends Recipe {
                 }
         );
     }
-
 }
