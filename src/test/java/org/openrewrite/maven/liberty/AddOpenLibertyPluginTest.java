@@ -24,11 +24,17 @@ import static org.openrewrite.maven.Assertions.pomXml;
 
 class AddOpenLibertyPluginTest implements RewriteTest {
 
+
+    @Override
+    public void defaults(RecipeSpec spec) {
+        spec.recipeFromResources( "org.openrewrite.maven.liberty.AddOpenLibertyPlugin" );
+    }
+
+
     @DocumentExample
     @Test
     void addLibertyPlugin() {
         rewriteRun(
-          spec -> spec.recipeFromResources("org.openrewrite.maven.liberty.AddOpenLibertyPlugin"),
           //language=XML
           pomXml(
             """
@@ -107,7 +113,6 @@ class AddOpenLibertyPluginTest implements RewriteTest {
     @Test
     void existingLibertyPlugin() {
         rewriteRun(
-          spec -> spec.recipeFromResources("org.openrewrite.maven.liberty.AddOpenLibertyPlugin"),
           //language=XML
           pomXml(
             """
@@ -154,7 +159,6 @@ class AddOpenLibertyPluginTest implements RewriteTest {
     @Test
     void multiModuleProject() {
         rewriteRun(
-          spec -> spec.recipeFromResources("org.openrewrite.maven.liberty.AddOpenLibertyPlugin"),
           mavenProject(
             "parent",
             //language=XML
