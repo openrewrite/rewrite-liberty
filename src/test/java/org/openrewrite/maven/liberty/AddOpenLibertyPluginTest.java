@@ -17,6 +17,7 @@ package org.openrewrite.maven.liberty;
 
 import org.junit.jupiter.api.Test;
 import org.openrewrite.DocumentExample;
+import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
 import static org.openrewrite.java.Assertions.mavenProject;
@@ -24,12 +25,10 @@ import static org.openrewrite.maven.Assertions.pomXml;
 
 class AddOpenLibertyPluginTest implements RewriteTest {
 
-
     @Override
     public void defaults(RecipeSpec spec) {
         spec.recipeFromResources( "org.openrewrite.maven.liberty.AddOpenLibertyPlugin" );
     }
-
 
     @DocumentExample
     @Test
