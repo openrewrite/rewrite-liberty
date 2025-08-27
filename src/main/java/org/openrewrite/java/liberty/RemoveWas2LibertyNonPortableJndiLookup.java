@@ -122,7 +122,7 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<J
                         return mi;
                     }
                     // Remove the variable if this was the only use
-                    doAfterVisit( new RemoveUnusedLocalVariables(null, null).getVisitor() );
+                    doAfterVisit( new RemoveUnusedLocalVariables(null, null, null).getVisitor() );
                     doAfterVisit( new RemoveUnusedPrivateFields().getVisitor() );
                 }
 
