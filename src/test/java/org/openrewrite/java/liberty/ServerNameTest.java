@@ -17,6 +17,7 @@
 package org.openrewrite.java.liberty;
 
 import org.junit.jupiter.api.Test;
+import org.openrewrite.DocumentExample;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
@@ -62,6 +63,7 @@ class ServerNameTest implements RewriteTest {
       }
       """;
 
+    @DocumentExample
     @Test
     void replaceGetFullNameTest() {
         rewriteRun(
