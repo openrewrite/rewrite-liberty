@@ -15,7 +15,7 @@
 type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
 examples:
-- description: ''
+- description: '`RemoveWas2LibertyNonPortableJndiLookupTest#literalTest`'
   sources:
   - before: |
       package com.ibm;
@@ -56,7 +56,7 @@ examples:
 type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.java.liberty.ReplaceWSPrincipalGetCredential
 examples:
-- description: ''
+- description: '`ReplaceWSPrincipalGetCredentialTest#assignmentRewrite`'
   sources:
   - before: |
       package com.acme;
@@ -96,7 +96,7 @@ examples:
 type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.java.liberty.WebSphereUnavailableSSOMethods
 examples:
-- description: ''
+- description: '`WebSphereUnavailableSSOMethodsTest#updatesLPTACookieTokenSSO`'
   sources:
   - before: |
       import com.ibm.websphere.security.WSSecurityHelper;
@@ -133,7 +133,7 @@ examples:
 type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.maven.liberty.AddOpenLibertyPlugin
 examples:
-- description: ''
+- description: '`AddOpenLibertyPluginTest#addLibertyPlugin`'
   sources:
   - before: |
       <project>
@@ -208,7 +208,7 @@ examples:
 type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.xml.liberty.AppDDNamespaceRule
 examples:
-- description: ''
+- description: '`AppDDNamespaceTest#replaceVersion14Test`'
   sources:
   - before: |
       <application xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.4">
@@ -255,7 +255,7 @@ examples:
 type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
 examples:
-- description: ''
+- description: '`ConnectorDDNamespaceTest#replaceVersion15Test`'
   sources:
   - before: |
       <connector xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.5">
@@ -310,7 +310,7 @@ examples:
 type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.xml.liberty.EJBDDNamespaceRule
 examples:
-- description: ''
+- description: '`EJBDDNamespaceTest#replaceVersion21Test`'
   sources:
   - before: |
       <ejb-jar xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/ejb-jar_2_1.xsd">
@@ -349,7 +349,7 @@ examples:
 type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.xml.liberty.PersistenceXmlLocationRule
 examples:
-- description: ''
+- description: '`PersistenceXmlLocationRuleTest#movePersistenceXMLFileTest`'
   sources:
   - after: testEjbWithJpa
     language: project
@@ -357,7 +357,7 @@ examples:
 type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.xml.liberty.WebBeansXmlRule
 examples:
-- description: ''
+- description: '`WebBeansXmlRuleTest#replaceWebBeansRootAndAttributes`'
   sources:
   - before: |
       <WebBeans xmlns="urn:java:ee"
@@ -372,12 +372,13 @@ examples:
                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd">
         <!-- some beans here -->
       </beans>
+    path: src/main/resources/META-INF/beans.xml
     language: xml
 ---
 type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.xml.liberty.WebDDNamespaceRule
 examples:
-- description: ''
+- description: '`WebDDNamespaceTest#replaceVersion24Test`'
   sources:
   - before: |
       <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.4" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" id="WebApp_ID">
