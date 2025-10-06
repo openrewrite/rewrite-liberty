@@ -94,6 +94,27 @@ examples:
     language: java
 ---
 type: specs.openrewrite.org/v1beta/example
+recipeName: org.openrewrite.java.liberty.ServerName
+examples:
+- description: '`ServerNameTest#replaceGetFullNameTest`'
+  sources:
+  - before: |
+      import com.ibm.websphere.runtime.ServerName;
+
+      class ServerNameUsage {
+          void doX() {
+              ServerName.getFullName();
+          }
+      }
+    after: |
+      class ServerNameUsage {
+          void doX() {
+              System.getProperty("wlp.server.name");
+          }
+      }
+    language: java
+---
+type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.java.liberty.WebSphereUnavailableSSOMethods
 examples:
 - description: '`WebSphereUnavailableSSOMethodsTest#updatesLPTACookieTokenSSO`'
