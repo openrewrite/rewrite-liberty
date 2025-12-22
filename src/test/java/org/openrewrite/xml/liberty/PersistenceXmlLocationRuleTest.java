@@ -46,8 +46,12 @@ class PersistenceXmlLocationRuleTest implements RewriteTest {
                 </persistence-unit>
               </persistence>
               """,
-            spec -> project(spec, "testEjbWithJpa").path("testEjbWithJpa/notsrc/META-INF/persistence.xml")
-              .afterRecipe(pt -> assertThat(pt.getSourcePath()).isEqualTo(Path.of(System.getProperty("user.dir"), "testEjbWithJpa/src/META-INF/persistence.xml")))
+            spec ->
+              project(spec, "testEjbWithJpa")
+                .path("testEjbWithJpa/notsrc/META-INF/persistence.xml")
+                .afterRecipe(pt ->
+                  assertThat(pt.getSourcePath())
+                    .isEqualTo(Path.of(System.getProperty("user.dir"), "testEjbWithJpa/src/META-INF/persistence.xml")))
           )
         );
     }

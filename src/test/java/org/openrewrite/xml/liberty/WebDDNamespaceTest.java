@@ -27,12 +27,9 @@ import static org.openrewrite.xml.Assertions.xml;
 class WebDDNamespaceTest implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
-        spec.recipe(
-          Environment.builder()
-            .scanRuntimeClasspath("org.openrewrite.java.liberty")
-            .build()
-            .activateRecipes("org.openrewrite.xml.liberty.WebDDNamespaceRule"));
-        spec.expectedCyclesThatMakeChanges(2);
+        spec
+          .recipeFromResources("org.openrewrite.xml.liberty.WebDDNamespaceRule")
+          .expectedCyclesThatMakeChanges(2);
     }
 
     @DocumentExample

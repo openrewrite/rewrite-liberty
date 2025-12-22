@@ -27,12 +27,9 @@ import static org.openrewrite.xml.Assertions.xml;
 class EJBDDNamespaceTest implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
-        spec.recipe(
-          Environment.builder()
-            .scanRuntimeClasspath("org.openrewrite.java.liberty")
-            .build()
-            .activateRecipes("org.openrewrite.xml.liberty.EJBDDNamespaceRule"));
-        spec.expectedCyclesThatMakeChanges(2);
+        spec
+          .recipeFromResources("org.openrewrite.xml.liberty.EJBDDNamespaceRule")
+          .expectedCyclesThatMakeChanges(2);
     }
 
     @DocumentExample
