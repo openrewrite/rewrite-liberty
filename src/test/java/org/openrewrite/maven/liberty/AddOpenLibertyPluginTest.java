@@ -27,7 +27,7 @@ class AddOpenLibertyPluginTest implements RewriteTest {
 
     @Override
     public void defaults(RecipeSpec spec) {
-        spec.recipeFromResources( "org.openrewrite.maven.liberty.AddOpenLibertyPlugin" );
+        spec.recipeFromResources("org.openrewrite.maven.liberty.AddOpenLibertyPlugin");
     }
 
     @DocumentExample
@@ -216,10 +216,8 @@ class AddOpenLibertyPluginTest implements RewriteTest {
                           <artifactId>app-name</artifactId>
                           <version>1.0-SNAPSHOT</version>
                       </parent>
+                      <artifactId>child-name</artifactId>
                       <packaging>war</packaging>
-                      <modules>
-                          <module>child</module>
-                      </modules>
                       <properties>
                           <maven.compiler.source>21</maven.compiler.source>
                           <maven.compiler.target>21</maven.compiler.target>
