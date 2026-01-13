@@ -30,15 +30,9 @@ import org.openrewrite.java.tree.J;
 @Value
 public class WebSphereUnavailableSSOCookieMethod extends Recipe {
 
-    @Override
-    public String getDisplayName() {
-        return "Replace `revokeSSOCookies` with `logout`";
-    }
+    String displayName = "Replace `revokeSSOCookies` with `logout`";
 
-    @Override
-    public String getDescription() {
-        return "Replace `WSSecurityHelper.revokeSSOCookies(request, response)` with `request.logout()`.";
-    }
+    String description = "Replace `WSSecurityHelper.revokeSSOCookies(request, response)` with `request.logout()`.";
 
     private static final String WSSECURITY_HELPER = "com.ibm.websphere.security.WSSecurityHelper";
     private static final MethodMatcher METHOD_PATTERN = new MethodMatcher(WSSECURITY_HELPER + " revokeSSOCookies(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)");

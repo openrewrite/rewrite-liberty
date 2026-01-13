@@ -35,15 +35,9 @@ public class ReplaceWSPrincipalGetCredential extends Recipe {
 
     private static final MethodMatcher GET_CREDENTIAL = new MethodMatcher("com.ibm.websphere.security.auth.WSPrincipal getCredential()", true);
 
-    @Override
-    public String getDisplayName() {
-        return "Replace `WSPrincipal.getCredential()` with `WSSubject` lookup";
-    }
+    String displayName = "Replace `WSPrincipal.getCredential()` with `WSSubject` lookup";
 
-    @Override
-    public String getDescription() {
-        return "Replaces `WSCredential credential = WSPrincipal.getCredential();` with a `null` initializer + `try/catch` lookup.";
-    }
+    String description = "Replaces `WSCredential credential = WSPrincipal.getCredential();` with a `null` initializer + `try/catch` lookup.";
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
