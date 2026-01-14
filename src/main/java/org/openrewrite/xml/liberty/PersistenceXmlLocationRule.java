@@ -15,6 +15,7 @@
  */
 package org.openrewrite.xml.liberty;
 
+import lombok.Getter;
 import org.jspecify.annotations.Nullable;
 import org.openrewrite.*;
 import org.openrewrite.java.marker.JavaProject;
@@ -26,15 +27,11 @@ import java.util.List;
 
 public class PersistenceXmlLocationRule extends Recipe {
 
-    @Override
-    public String getDisplayName() {
-        return "Move persistence.xml file";
-    }
+    @Getter
+    final String displayName = "Move persistence.xml file";
 
-    @Override
-    public String getDescription() {
-        return "This recipes moves persistence.xml files into the root META-INF directory in source folder.";
-    }
+    @Getter
+    final String description = "This recipes moves persistence.xml files into the root META-INF directory in source folder.";
 
     private @Nullable File getProjectDirectory(File sourceFile, String projectName) {
         File parent = sourceFile.getParentFile();

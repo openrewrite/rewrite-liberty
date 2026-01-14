@@ -30,6 +30,7 @@
  */
 package org.openrewrite.xml.liberty;
 
+import lombok.Getter;
 import org.openrewrite.*;
 import org.openrewrite.xml.ChangeTagAttribute;
 import org.openrewrite.xml.ChangeTagName;
@@ -42,15 +43,11 @@ import static java.util.stream.Collectors.toMap;
 
 public class WebBeansXmlRule extends Recipe {
 
-    @Override
-    public String getDisplayName() {
-        return "Replace beans.xml file";
-    }
+    @Getter
+    final String displayName = "Replace beans.xml file";
 
-    @Override
-    public String getDescription() {
-        return "This Recipe replaces OpenWebBeans schema in every beans.xml with the standard CDI schema.";
-    }
+    @Getter
+    final String description = "This Recipe replaces OpenWebBeans schema in every beans.xml with the standard CDI schema.";
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {

@@ -15,6 +15,7 @@
  */
 package org.openrewrite.java.liberty;
 
+import lombok.Getter;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
@@ -25,15 +26,11 @@ import org.openrewrite.java.tree.J;
 
 public class ServerName extends Recipe {
 
-    @Override
-    public String getDisplayName() {
-        return "Use `getProperty(\"wlp.server.name\")`";
-    }
+    @Getter
+    final String displayName = "Use `getProperty(\"wlp.server.name\")`";
 
-    @Override
-    public String getDescription() {
-        return "`ServerName.getDisplayName()` is not available in Liberty.";
-    }
+    @Getter
+    final String description = "`ServerName.getDisplayName()` is not available in Liberty.";
 
     private static final String SERVER_NAME = "com.ibm.websphere.runtime.ServerName";
     private static final MethodMatcher GET_DISPLAY_NAME = new MethodMatcher(SERVER_NAME + " getDisplayName()");

@@ -16,6 +16,7 @@
 package org.openrewrite.java.liberty;
 
 
+import lombok.Getter;
 import org.jspecify.annotations.Nullable;
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.ScanningRecipe;
@@ -35,15 +36,11 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<J
     final private String INITIAL_PROPERTY = "java.naming.factory.initial";
     final private String URL_PROPERTY = "java.naming.provider.url";
 
-    @Override
-    public String getDisplayName() {
-        return "Removes invalid JNDI properties";
-    }
+    @Getter
+    final String displayName = "Removes invalid JNDI properties";
 
-    @Override
-    public String getDescription() {
-        return "Remove the use of invalid JNDI properties from Hashtable.";
-    }
+    @Getter
+    final String description = "Remove the use of invalid JNDI properties from Hashtable.";
 
     @Override
     public Set<JavaType.Variable> getInitialValue(ExecutionContext ctx) {
