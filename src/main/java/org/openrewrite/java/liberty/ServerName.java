@@ -51,8 +51,7 @@ public class ServerName extends Recipe {
                     maybeRemoveImport(SERVER_NAME);
                     maybeRemoveImport(ADMIN_SERVICE);
                     maybeRemoveImport(RAS_HELPER);
-                    return JavaTemplate.builder("System.getProperty(\"wlp.server.name\")").build()
-                            .apply(getCursor(), elem.getCoordinates().replace());
+                    return JavaTemplate.apply( "System.getProperty(\"wlp.server.name\")", getCursor(), elem.getCoordinates().replace() );
                 }
                 return super.visitMethodInvocation(elem, ctx);
             }
