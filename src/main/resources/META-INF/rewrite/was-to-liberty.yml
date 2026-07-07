@@ -25,6 +25,7 @@ description: >-
   from WebSphere Application Server traditional to Liberty.
 recipeList:
   - org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
+  - org.openrewrite.java.liberty.ReplaceWSPrincipalGetCredential
   - org.openrewrite.java.liberty.ServerName
   - org.openrewrite.java.liberty.WebSphereUnavailableSSOMethods
   - org.openrewrite.xml.liberty.AppDDNamespaceRule
