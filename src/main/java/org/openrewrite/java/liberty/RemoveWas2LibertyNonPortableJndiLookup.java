@@ -33,8 +33,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<JavaType.Variable>> {
-    final private String INITIAL_PROPERTY = "java.naming.factory.initial";
-    final private String URL_PROPERTY = "java.naming.provider.url";
+    private final String INITIAL_PROPERTY = "java.naming.factory.initial";
+    private final String URL_PROPERTY = "java.naming.provider.url";
 
     @Getter
     final String displayName = "Removes invalid JNDI properties";
