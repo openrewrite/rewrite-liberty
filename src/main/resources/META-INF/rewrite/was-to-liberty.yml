@@ -35,6 +35,7 @@ recipeList:
   - org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
   - org.openrewrite.xml.liberty.EJBDDNamespaceRule
   - org.openrewrite.xml.liberty.PersistenceXmlLocationRule
+  - org.openrewrite.xml.liberty.WebBeansXmlRule
   - org.openrewrite.xml.liberty.WebDDNamespaceRule
   - org.openrewrite.maven.liberty.AddOpenLibertyPlugin
 ---
