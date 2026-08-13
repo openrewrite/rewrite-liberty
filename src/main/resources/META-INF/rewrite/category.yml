@@ -17,5 +17,21 @@
 ---
 type: specs.openrewrite.org/v1beta/category
 name: Open Liberty
-packageName: org.openrewrite.liberty
+packageName: org.openrewrite.java.liberty
 description: Recipes to perform [Open Liberty](https://openliberty.io/) migration tasks.
+tags:
+  - liberty
+---
+type: specs.openrewrite.org/v1beta/category
+name: Open Liberty
+packageName: org.openrewrite.xml.liberty
+description: Recipes to perform [Open Liberty](https://openliberty.io/) migration tasks.
+tags:
+  - liberty
+---
+type: specs.openrewrite.org/v1beta/category
+name: Open Liberty
+packageName: org.openrewrite.maven.liberty
+description: Recipes to perform [Open Liberty](https://openliberty.io/) migration tasks.
+tags:
+  - liberty
