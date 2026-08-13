@@ -43,10 +43,7 @@ public class ReplaceWSPrincipalGetCredential extends Recipe {
 
     String description = "Replaces `WSCredential credential = WSPrincipal.getCredential();` with a `null` initializer + `try/catch` lookup.";
 
-    @Override
-    public Set<String> getTags() {
-        return new HashSet<>(Arrays.asList("liberty", "websphere"));
-    }
+    Set<String> tags = new HashSet<>(Arrays.asList("liberty", "websphere"));
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {

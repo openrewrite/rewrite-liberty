@@ -22,11 +22,7 @@ import org.openrewrite.java.marker.JavaProject;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class PersistenceXmlLocationRule extends Recipe {
 
@@ -36,10 +32,8 @@ public class PersistenceXmlLocationRule extends Recipe {
     @Getter
     final String description = "This recipes moves persistence.xml files into the root META-INF directory in source folder.";
 
-    @Override
-    public Set<String> getTags() {
-        return new HashSet<>(Arrays.asList("liberty", "websphere"));
-    }
+    @Getter
+    final Set<String> tags = new HashSet<>(Arrays.asList("liberty", "websphere"));
 
     private @Nullable File getProjectDirectory(File sourceFile, String projectName) {
         File parent = sourceFile.getParentFile();

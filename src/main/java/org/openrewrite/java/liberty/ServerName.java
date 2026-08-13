@@ -36,10 +36,8 @@ public class ServerName extends Recipe {
     @Getter
     final String description = "`ServerName.getDisplayName()` is not available in Liberty.";
 
-    @Override
-    public Set<String> getTags() {
-        return new HashSet<>(Arrays.asList("liberty", "websphere"));
-    }
+    @Getter
+    final Set<String> tags = new HashSet<>(Arrays.asList("liberty", "websphere"));
 
     private static final String SERVER_NAME = "com.ibm.websphere.runtime.ServerName";
     private static final MethodMatcher GET_DISPLAY_NAME = new MethodMatcher(SERVER_NAME + " getDisplayName()");

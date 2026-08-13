@@ -41,10 +41,7 @@ public class WebSphereUnavailableSSOCookieMethod extends Recipe {
     private static final String WSSECURITY_HELPER = "com.ibm.websphere.security.WSSecurityHelper";
     private static final MethodMatcher METHOD_PATTERN = new MethodMatcher(WSSECURITY_HELPER + " revokeSSOCookies(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)");
 
-    @Override
-    public Set<String> getTags() {
-        return new HashSet<>(Arrays.asList("liberty", "websphere"));
-    }
+    Set<String> tags = new HashSet<>(Arrays.asList("liberty", "websphere"));
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {

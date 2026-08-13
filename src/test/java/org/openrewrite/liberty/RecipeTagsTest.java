@@ -22,8 +22,8 @@ import org.openrewrite.Recipe;
 import org.openrewrite.config.Environment;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class RecipeTagsTest {
@@ -40,7 +40,7 @@ class RecipeTagsTest {
           .build()
           .listRecipes().stream()
           .filter(recipe -> recipe.getName().startsWith(packageName))
-          .collect(Collectors.toList());
+          .collect(toList());
         assertThat(recipes).as("No recipes found in %s", packageName).isNotEmpty();
         assertThat(recipes).allSatisfy(recipe -> assertThat(recipe.getTags())
           .as(recipe.getName())

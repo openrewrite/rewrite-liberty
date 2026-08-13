@@ -43,10 +43,8 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<J
     @Getter
     final String description = "Remove the use of invalid JNDI properties from Hashtable.";
 
-    @Override
-    public Set<String> getTags() {
-        return new HashSet<>(Arrays.asList("liberty", "websphere"));
-    }
+    @Getter
+    final Set<String> tags = new HashSet<>(Arrays.asList("liberty", "websphere"));
 
     @Override
     public Set<JavaType.Variable> getInitialValue(ExecutionContext ctx) {
