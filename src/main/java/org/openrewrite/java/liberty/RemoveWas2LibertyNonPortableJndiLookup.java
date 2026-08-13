@@ -29,6 +29,7 @@ import org.openrewrite.java.tree.JavaType;
 import org.openrewrite.staticanalysis.RemoveUnusedLocalVariables;
 import org.openrewrite.staticanalysis.RemoveUnusedPrivateFields;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,6 +42,9 @@ public class RemoveWas2LibertyNonPortableJndiLookup extends ScanningRecipe<Set<J
 
     @Getter
     final String description = "Remove the use of invalid JNDI properties from Hashtable.";
+
+    @Getter
+    final Set<String> tags = new HashSet<>(Arrays.asList("liberty", "websphere"));
 
     @Override
     public Set<JavaType.Variable> getInitialValue(ExecutionContext ctx) {

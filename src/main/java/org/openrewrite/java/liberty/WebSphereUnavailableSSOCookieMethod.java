@@ -26,6 +26,10 @@ import org.openrewrite.java.JavaVisitor;
 import org.openrewrite.java.MethodMatcher;
 import org.openrewrite.java.tree.J;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 @EqualsAndHashCode(callSuper = false)
 @Value
 public class WebSphereUnavailableSSOCookieMethod extends Recipe {
@@ -36,6 +40,8 @@ public class WebSphereUnavailableSSOCookieMethod extends Recipe {
 
     private static final String WSSECURITY_HELPER = "com.ibm.websphere.security.WSSecurityHelper";
     private static final MethodMatcher METHOD_PATTERN = new MethodMatcher(WSSECURITY_HELPER + " revokeSSOCookies(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)");
+
+    Set<String> tags = new HashSet<>(Arrays.asList("liberty", "websphere"));
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {
