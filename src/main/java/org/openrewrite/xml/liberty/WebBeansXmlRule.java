@@ -37,7 +37,9 @@ import org.openrewrite.xml.ChangeTagName;
 import org.openrewrite.xml.XmlVisitor;
 import org.openrewrite.xml.tree.Xml;
 
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toMap;
 
@@ -48,6 +50,11 @@ public class WebBeansXmlRule extends Recipe {
 
     @Getter
     final String description = "This Recipe replaces OpenWebBeans schema in every beans.xml with the standard CDI schema.";
+
+    @Override
+    public Set<String> getTags() {
+        return Collections.singleton("liberty");
+    }
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {

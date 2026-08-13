@@ -24,6 +24,10 @@ import org.openrewrite.java.JavaTemplate;
 import org.openrewrite.java.MethodMatcher;
 import org.openrewrite.java.tree.J;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class ServerName extends Recipe {
 
     @Getter
@@ -31,6 +35,11 @@ public class ServerName extends Recipe {
 
     @Getter
     final String description = "`ServerName.getDisplayName()` is not available in Liberty.";
+
+    @Override
+    public Set<String> getTags() {
+        return new HashSet<>(Arrays.asList("liberty", "websphere"));
+    }
 
     private static final String SERVER_NAME = "com.ibm.websphere.runtime.ServerName";
     private static final MethodMatcher GET_DISPLAY_NAME = new MethodMatcher(SERVER_NAME + " getDisplayName()");

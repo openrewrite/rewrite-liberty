@@ -29,6 +29,10 @@ import org.openrewrite.java.search.UsesMethod;
 import org.openrewrite.java.tree.J;
 import org.openrewrite.staticanalysis.RemoveUnneededBlock;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 @EqualsAndHashCode(callSuper = false)
 @Value
 public class ReplaceWSPrincipalGetCredential extends Recipe {
@@ -38,6 +42,11 @@ public class ReplaceWSPrincipalGetCredential extends Recipe {
     String displayName = "Replace `WSPrincipal.getCredential()` with `WSSubject` lookup";
 
     String description = "Replaces `WSCredential credential = WSPrincipal.getCredential();` with a `null` initializer + `try/catch` lookup.";
+
+    @Override
+    public Set<String> getTags() {
+        return new HashSet<>(Arrays.asList("liberty", "websphere"));
+    }
 
     @Override
     public TreeVisitor<?, ExecutionContext> getVisitor() {

@@ -23,6 +23,9 @@ displayName: Migrate from WebSphere traditional to Liberty
 description: >-
   Use this category of rules to identify code changes needed when migrating
   from WebSphere Application Server traditional to Liberty.
+tags:
+  - liberty
+  - websphere
 recipeList:
   - org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
   - org.openrewrite.java.liberty.ReplaceWSPrincipalGetCredential
@@ -41,6 +44,9 @@ displayName: Use `getSSOCookieFromSSOToken` and `logout`
 description: >-
   This recipe replaces `LTPACookieFromSSOToken()` with  `getSSOCookieFromSSOToken`  and `revokeSSOCookies` with `logout`. The two methods are  deprecated in traditional WebSphere Application
   Server Version 8.5 and might be removed in a future release. They are not available on Liberty.
+tags:
+  - liberty
+  - websphere
 recipeList:
   - org.openrewrite.java.liberty.WebSphereUnavailableSSOCookieMethod
   - org.openrewrite.java.ChangeMethodName:
@@ -56,6 +62,8 @@ type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.AppDDNamespaceRule
 displayName: Use correct application namespace values
 description: Namespace values in application.xml must be consistent with the descriptor version.
+tags:
+  - liberty
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: application
@@ -77,6 +85,8 @@ type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.ConnectorDDNamespaceRule
 displayName: Use correct connector namespace values
 description: Namespace values in ra.xml must be consistent with the descriptor version.
+tags:
+  - liberty
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: connector
@@ -98,6 +108,8 @@ type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.EJBDDNamespaceRule
 displayName: Use correct ejb-jar namespace values
 description: Namespace values in ejb-jar.xml must be consistent with the descriptor version.
+tags:
+  - liberty
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: ejb-jar
@@ -119,6 +131,8 @@ type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.xml.liberty.WebDDNamespaceRule
 displayName: Use correct web-app namespace values
 description: Namespace values in web.xml must be consistent with the descriptor version.
+tags:
+  - liberty
 recipeList:
   - org.openrewrite.xml.ChangeNamespaceValue:
       elementName: web-app
@@ -140,6 +154,8 @@ type: specs.openrewrite.org/v1beta/recipe
 name: org.openrewrite.maven.liberty.AddOpenLibertyPlugin
 displayName: Add Liberty Maven plugin
 description: This recipe adds the Liberty Maven plugin, which provides several goals for managing a Liberty server and applications.
+tags:
+  - liberty
 recipeList:
   - org.openrewrite.maven.AddPlugin:
       groupId: io.openliberty.tools
