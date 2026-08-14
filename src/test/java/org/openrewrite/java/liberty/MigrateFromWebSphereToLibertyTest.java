@@ -17,6 +17,7 @@
 package org.openrewrite.java.liberty;
 
 import org.junit.jupiter.api.Test;
+import org.openrewrite.DocumentExample;
 import org.openrewrite.test.RecipeSpec;
 import org.openrewrite.test.RewriteTest;
 
@@ -29,6 +30,7 @@ class MigrateFromWebSphereToLibertyTest implements RewriteTest {
         spec.recipeFromResources("org.openrewrite.java.liberty.MigrateFromWebSphereToLiberty");
     }
 
+    @DocumentExample
     @Test
     void replacesOpenWebBeansSchema() {
         rewriteRun(
