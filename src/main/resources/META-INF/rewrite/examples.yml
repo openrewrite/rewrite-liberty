@@ -13,6 +13,27 @@
 # limitations under the License.
 ---
 type: specs.openrewrite.org/v1beta/example
+recipeName: org.openrewrite.java.liberty.MigrateFromWebSphereToLiberty
+examples:
+- description: '`MigrateFromWebSphereToLibertyTest#replacesOpenWebBeansSchema`'
+  sources:
+  - before: |
+      <WebBeans xmlns="urn:java:ee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="
+                    urn:java:ee http://java.sun.com/jee/beans-1.0.xsd">
+        <!-- some beans here -->
+      </WebBeans>
+    after: |
+      <beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_1_1.xsd">
+        <!-- some beans here -->
+      </beans>
+    path: src/main/resources/META-INF/beans.xml
+    language: xml
+---
+type: specs.openrewrite.org/v1beta/example
 recipeName: org.openrewrite.java.liberty.RemoveWas2LibertyNonPortableJndiLookup
 examples:
 - description: '`RemoveWas2LibertyNonPortableJndiLookupTest#literalTest`'
