@@ -27,8 +27,7 @@ class AppDDNamespaceTest implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
         spec
-          .recipeFromResources("org.openrewrite.xml.liberty.AppDDNamespaceRule")
-          .expectedCyclesThatMakeChanges(2);
+          .recipeFromResources("org.openrewrite.xml.liberty.AppDDNamespaceRule");
     }
 
     @DocumentExample
