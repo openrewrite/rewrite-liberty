@@ -27,8 +27,7 @@ class EJBDDNamespaceTest implements RewriteTest {
     @Override
     public void defaults(RecipeSpec spec) {
         spec
-          .recipeFromResources("org.openrewrite.xml.liberty.EJBDDNamespaceRule")
-          .expectedCyclesThatMakeChanges(2);
+          .recipeFromResources("org.openrewrite.xml.liberty.EJBDDNamespaceRule");
     }
 
     @DocumentExample
